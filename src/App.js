@@ -1,27 +1,54 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Login from './pages/login';
+import {
+  HashRouter,
+  Route,
+  Switch
+} from 'react-router-dom';
+import Forms from './pages/Forms';
+import Leaves from './pages/Leaves';
+
+const Login = React.lazy(()=>import('./pages/Login'));
+const HomePage = React.lazy(()=>import('./pages/HomePage'))
 
 function App() {
+  const loading = () => {
+    return(
+      <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+          Loading...
+      </div>
+    )
+  }
   return (
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
-    <Login />
+    <HashRouter>
+      <React.Suspense fallback={loading()}>
+        <Switch>
+          <Route 
+            path="/login"
+            exact
+            name="Login"
+            render={props => <Login {...props}/>}
+          />
+          <Route 
+            path="/"
+            exact
+            name="Home"
+            render={props => <HomePage {...props}/>}
+          />
+          <Route 
+            path="/forms"
+            exact
+            name="Forms"
+            render={props => <Forms {...props}/>}
+          />
+          <Route 
+            path="/leaves"
+            exact
+            name="Forms"
+            render={props => <Leaves {...props}/>}
+          />
+        </Switch>
+      </React.Suspense>
+    </HashRouter>
   );
 }
 
