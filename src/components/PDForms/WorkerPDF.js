@@ -211,7 +211,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
           <Row style={{paddingTop: "20px", paddingBottom: "15px", justifyContent: "center"}}>
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220}}>
-                asdasd
+                Placeholder
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220,paddingTop: "2px"}}>
                 Immediate Supervisor/Signature and Date
@@ -219,7 +219,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
             </View>
             <View style={{paddingLeft: "20px"}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220}}>
-                asdfad
+                Placeholder
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220,paddingTop: "2px"}}>
                 Accounting Department's Signature and Date
