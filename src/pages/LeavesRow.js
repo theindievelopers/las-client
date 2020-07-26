@@ -1,13 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import WorkerPDF from '../components/PDForms/WorkerPDF';
+import moment from 'moment';
 
 const LeavesRow = ({ leave }) => {
+  const [additionPdfName, setAdditionalPdfName] = useState(moment(new Date()).format('x'))
   console.log(leave)
 
   return (
-    <Fragment>
+    <React.Fragment>
       <tr>
         <td>{leave.i}</td>
         <td>{leave.employeeNum}</td>
@@ -21,7 +23,8 @@ const LeavesRow = ({ leave }) => {
           <div className="d-flex">
             <Button
               className="mr-3"
-              color="info"
+              // color="info"
+              style={{border: "1px solid black", backgroundColor:"white"}}
             >
               <PDFDownloadLink document={
                 <WorkerPDF 
@@ -35,14 +38,14 @@ const LeavesRow = ({ leave }) => {
                   contactNum={leave.contactNum}
                   itemIssued={leave.itemIssued}
                 />
-                } fileName="workerleave.pdf">
-                {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download Form')}
+                } fileName = {`${leave.name}-${additionPdfName}-workerleave.pdf`}>
+                {({ blob, url, loading, error }) => (loading ? 'Loading document...' : <i class="far fa-file-pdf"></i>)}
               </PDFDownloadLink>
             </Button>
           </div>
         </td>
       </tr>
-    </Fragment>
+    </React.Fragment>
   )
 }
 
