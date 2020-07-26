@@ -10,12 +10,13 @@ import Topbar from '../Layout/Topbar';
 
 const Forms = () => {
   const [showPDF, setShowPDF] = useState(false);
-  const [name, setName] = useState("ako nga");
-  const [department, setDepartment] = useState("JanLang Dept");
-  const [departureDate, setDepartureDate] = useState(moment(new Date()).format('L'));
-  const [employeeNum, setEmployeeNum] = useState(12345);
-  const [position, setPosition] = useState("Standby");
-  const [returnDate, setReturnDate] = useState(moment(new Date()).format('L'));
+  const [name, setName] = useState(" ");
+  const [department, setDepartment] = useState(" ");
+  const [departureDate, setDepartureDate] = useState(" ");
+  const [contactNum, setContactNum] = useState(" ")
+  const [employeeNum, setEmployeeNum] = useState(" ");
+  const [position, setPosition] = useState(" ");
+  const [returnDate, setReturnDate] = useState(" ");
 
   useEffect(() => {
     if (!sessionStorage.isLoggedIn) {
@@ -48,6 +49,7 @@ const Forms = () => {
                     employeeNum={employeeNum}
                     position={position}
                     returnDate={returnDate}
+                    contactNum={contactNum}
                   />
                 </PDFViewer>
               </div>
@@ -65,6 +67,7 @@ const Forms = () => {
                     employeeNum={employeeNum}
                     position={position}
                     returnDate={returnDate}
+                    contactNum={contactNum}
                   />
                 </PDFViewer>
               </div>
