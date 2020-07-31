@@ -211,7 +211,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
           <Row style={{ alignItems: "center", justifyContent: "center", paddingTop: "50px", paddingBottom: "10px" }}>
             <View>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                {/* <Image source={ {uri: employeeSignature} } style={{width: 50,height: 20,position: 'absolute'}}/> */}{props.employeeSignDate}
+                <Image source={ {uri: employeeSignature} } style={{width: 50,height: 20,position: 'absolute'}}/>{props.employeeSignDate}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 230, paddingTop: "2px" }}>
                 Signature and Date

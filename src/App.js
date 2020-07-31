@@ -7,7 +7,7 @@ import {
 // import Forms from './pages/Forms';
 // import Leaves from './pages/Leaves';
 
-const Login = React.lazy(()=>import('./pages/Login'));
+const Login = React.lazy(()=>import('./pages/login'));
 const HomePage = React.lazy(()=>import('./pages/HomePage'))
 const Employees = React.lazy(()=>import('./pages/Employees/Employees'))
 const Forms = React.lazy(()=>import('./pages/Forms'))
