@@ -1,6 +1,12 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import styled from '@react-pdf/styled-components';
+import Logo from '../../img/logo.jpg';
+import FooterImg from '../../img/footerimg.png'
+
+const styles = StyleSheet.create({
+  image: {width: 130, height: 27}
+});
 
 const Body = styled.Page`
   padding-top: 35px;
@@ -116,8 +122,11 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
     <Body size="A4" wrap>
       <Border>
         <Header fixed>
-          BOOM GENERAL CONTRACTORS
-      </Header>
+          <Image 
+            src={Logo}
+            style={styles.image}
+          />
+        </Header>
         <Title style={{ borderTop: 1, borderBottom: 1, }}>Staff Leave Clearance</Title>
         <Section>
           <Row>
@@ -493,9 +502,10 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
           </Row>
         </Section>
       </Border>
-      <Footer render={({ pageNumber, totalPages }) => (
-        `BGC-F-HRM14B V2.0, 21/12/2019                       Page ${pageNumber} / ${totalPages}`
-      )} fixed />
+      <Footer 
+        fixed>
+            BGC-F-HRM14B V2.0, 21/12/2019                        Page 1/1                                                    <Image src={FooterImg} style={{width: 100, height: 20}} fixed/>
+      </Footer>
     </Body>
   </Document>
 );

@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Collapse } from 'reactstrap';
+import logo from '../img/logo.jpg'
 
 const Sidebar = () => {
 
@@ -15,11 +16,16 @@ const Sidebar = () => {
           <a
             className='navbar-brand d-flex align-items-center py-0'
             href='#/'>
-            <span className='logo-text-admin ml-3 mt-3'>Boom</span><br />
+              <img src={logo} alt="boom general contractors" className="logo-img ml-3 mt-3" />
           </a>
         </div>
 
         <ul className='list-unstyled components'>
+          <li>
+            <a href='#/employees'>
+              Employees
+            </a>
+          </li>
           <li>
             <a href='#/leaves'>
               Leaves

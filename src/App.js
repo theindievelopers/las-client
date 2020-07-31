@@ -4,11 +4,14 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import Forms from './pages/Forms';
-import Leaves from './pages/Leaves';
+// import Forms from './pages/Forms';
+// import Leaves from './pages/Leaves';
 
 const Login = React.lazy(()=>import('./pages/Login'));
 const HomePage = React.lazy(()=>import('./pages/HomePage'))
+const Employees = React.lazy(()=>import('./pages/Employees/Employees'))
+const Forms = React.lazy(()=>import('./pages/Forms'))
+const Leaves = React.lazy(()=>import('./pages/Leaves/Leaves'))
 
 function App() {
   const loading = () => {
@@ -43,8 +46,14 @@ function App() {
           <Route 
             path="/leaves"
             exact
-            name="Forms"
+            name="Leaves"
             render={props => <Leaves {...props}/>}
+          />
+          <Route 
+            path="/employees"
+            exact
+            name="Employees"
+            render={props => <Employees {...props}/>}
           />
         </Switch>
       </React.Suspense>
