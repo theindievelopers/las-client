@@ -146,3 +146,59 @@
       }
       
       export default LeavesRow;
+
+
+
+
+
+
+
+
+
+
+      code: employeeCode,
+        fname,
+        mname,
+        lname,
+        cost_allocation_site: costAllocationSite,
+        cost_allocation_actual_job_title: costAllocationJT,
+        nationality: nationality,
+        sponsorship: sponsorship,
+        dob: dob,
+        passport_number: passportNum,
+        passport_date_of_issue: passportDateIssued,
+        passport_expiry_date: passportExpiry,
+        residence_permit_number: residencePermit,
+        residence_permit_expiry_date: residenceExpiryDate,
+        residence_permit_blood_group: residencePermitBloodGroup,
+        job_offer_doha_entry: jobOfferDohaEntry,
+        joining_date: joiningDate,
+        increment_month: incrementMonth,
+        increment_amount: incrementAmount,
+        basic: basic,
+        general_allowance: generalAllowance,
+        hra: hra,
+        transportation_allowance: transportationAllowance,
+        tel_allow: telAllowance,
+        ticket_allowance: ticketAllowance,
+        food_allowance: foodAllowance,
+        medical_allowance: medicalAllowance,
+        total: total,
+        leave_ticket_entitlement: leaveTicketEntitlement,
+        leave_ticket_days_per_year: leaveTicketDaysPerYear,
+        driving_license_issue_date: drivingLicenseIssueDate,
+        driving_license_expiry_date: driverLicenseExpiry,
+        health_card_number: healthCardNum,
+        health_card_issue_date: healthCardIssueDate,
+        health_card_expiry_date: healthCardExpiry,
+        bank_name: bankName,
+        card_number: cardNum,
+        recruited_by: recruitedBy,
+        accommodation: accommodation,
+        employee_type: employeeType,
+        employment_status: employmentStatus,
+        signature: signature,
+        createdBy: sessionStorage.user,
+        createdAt: moment(new Date()).format("MM-DD-YYYY"),
+        updatedBy: sessionStorage.user,
+        updatedAt: moment(new Date()).format("MM-DD-YYYY")

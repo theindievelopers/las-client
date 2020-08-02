@@ -60,6 +60,7 @@ class LeavesTable extends Component {
             tooltip: 'Show PDF',
             render: rowData => {
               let appData = rowData.application_data
+              // let employeeSign = appData.employee_signature.replace('data:image/jpeg;base64,', '')
               return (
                 <PDFViewer
                   width="500px" height="850px"
@@ -137,11 +138,11 @@ class LeavesTable extends Component {
             isFreeAction: true,
             onClick: () => this.props.handleShowForm()
           },
-          // {
-          //   icon: props => <i className="far fa-file-pdf"></i>,
-          //   tooltip: "Custom",
-          //   onClick: (event,  rowData) => console.log(event, rowData.application_data)
-          // },
+          {
+            icon: props => <i className="far fa-file-pdf"></i>,
+            tooltip: "Custom",
+            onClick: (event,  rowData) => console.log(rowData.application_data.employee_signature.replace('data:image/png;base64,', ''))
+          },
           // {
           //   icon: 'file',
           //   tooltip: 'Download File',

@@ -5,7 +5,15 @@ import Logo from '../../img/logo.jpg';
 import FooterImg from '../../img/footerimg.png'
 
 const styles = StyleSheet.create({
-  image: {width: 130, height: 27}
+  image: {width: 130, height: 27},
+  pageBackground: {
+    position: 'absolute',
+    minWidth: '100%',
+    minHeight: '100%',
+    display: 'block',
+    height: '100%',
+    width: '100%',
+  },
 });
 
 const Body = styled.Page`
@@ -211,7 +219,8 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
           <Row style={{ alignItems: "center", justifyContent: "center", paddingTop: "50px", paddingBottom: "10px" }}>
             <View>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                <Image source={ {uri: employeeSignature} } style={{width: 50,height: 20,position: 'absolute'}}/>{props.employeeSignDate}
+                <Image source={"http://localhost:3000/" + employeeSignature} style={{width: 50,}}/>
+                {props.employeeSignDate}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 230, paddingTop: "2px" }}>
                 Signature and Date

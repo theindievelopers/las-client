@@ -140,4 +140,4 @@ const LeaveWorker = (props) => {
   )
 }
 
-export default LeaveWorker
+export default LeaveWorker;

@@ -16,11 +16,7 @@ import LeaveWorker from './LeaveWorker';
 import LeaveStaff from './LeaveStaff';
 
 const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, selectedEmployee, ...props }) => {
-  const handleSelectedEmployee = (e) => {
-    console.log(e)
-  }
-
-
+  const [selected, setSelected] = useState(selectedEmployee[0])
 
   const employeeList = employees.map((employee, i) => {
     return (
@@ -74,7 +70,10 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                 handleRecievedOthers={props.handleRecievedOthers}
                 />
                 : selectedEmployee[0].employee_type == "staff"
-                  ? <LeaveStaff />
+                  ? 
+                  <LeaveStaff 
+                  selectedEmployee={selectedEmployee[0]}
+                  />
                   : ""
             }
           </FormGroup>

@@ -34,7 +34,7 @@ const HomePage = () => {
         // setImg64(data[12].signature.data)
         // console.log(image)
         // console.log(data[0].signature)
-        setImg64(data[13].signature)
+        setImg64(data[17].signature)
         console.log(data)
       })
       .catch((err) => {
@@ -163,10 +163,10 @@ const HomePage = () => {
                 accept="image/*"
                 onChange={(e) => handleImage(e)}
               />
-              <img src={img64} alt="Red dot"  width="50px"/>
+              <img src="http://localhost:4000/images/uploads/1578205630294-minh-ng-c-GE7HTyEOVb4-unsplash.jpg" alt="Red dot"  width="50px"/>
               <Col lg={4} md={6}>
                 <Card className="mb-4">
-                  <CardImg top width="20px" src={img64} alt="Red dot" />
+                  <CardImg top width="20px" src={"http://localhost:3000/" + img64} alt="Red dot" />
                   <CardBody>
                     <h1 className="text-center">Image</h1>
                   </CardBody>

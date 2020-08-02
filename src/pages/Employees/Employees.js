@@ -252,23 +252,24 @@ const Employees = () => {
     setEmployementStatus(e.target.value)
   }
   const handleSignature = e => {
-    let file = e.target.files[0];
-    if (file.type !== "image/png") {
-      alert("Please Upload PNG file!")
-      e.target.value = ""
-    } else if (file.size > 48999) {
-      alert("File too large")
-      e.target.value = ""
-    } else {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function (e) {
-        // The file's text will be printed here
-        let imgBase64 = e.target.result
-        console.log(imgBase64)
-        setSignature(imgBase64)
-      }
-    };
+    // let file = e.target.files[0];
+    // if (file.type !== "image/png") {
+    //   alert("Please Upload PNG file!")
+    //   e.target.value = ""
+    // } else if (file.size > 48999) {
+    //   alert("File too large")
+    //   e.target.value = ""
+    // } else {
+    //   let reader = new FileReader();
+    //   reader.readAsDataURL(file);
+    //   reader.onload = function (e) {
+    //     // The file's text will be printed here
+    //     let imgBase64 = e.target.result
+    //     console.log(imgBase64)
+    //     setSignature(imgBase64)
+    //   }
+    // };
+    setSignature(e.target.files[0])
   }
 
   const handleSubmit = () => {
@@ -276,64 +277,63 @@ const Employees = () => {
     let calc = [basic, generalAllowance, hra, transportationAllowance, telAllowance, ticketAllowance, foodAllowance, medicalAllowance]
     const total = calc.reduce((accumulator, currentValue) => accumulator + currentValue);
 
+    const formData = new FormData();
+    formData.append('code', employeeCode)
+    formData.append('fname', fname)
+    formData.append('mname', mname)
+    formData.append('lname', lname)
+    formData.append('cost_allocation_site', costAllocationSite)
+    formData.append('cost_allocation_actual_job_title', costAllocationJT)
+    formData.append('nationality', nationality)
+    formData.append('sponsorship', sponsorship)
+    formData.append('dob', dob)
+    formData.append('passport_number', passportNum)
+    formData.append('passport_date_of_issue', passportDateIssued)
+    formData.append('passport_expiry_date', passportExpiry)
+    formData.append('residence_permit_number', residencePermit)
+    formData.append('residence_permit_expiry_date', residenceExpiryDate)
+    formData.append('residence_permit_blood_group', residencePermitBloodGroup)
+    formData.append('job_offer_doha_entry', jobOfferDohaEntry)
+    formData.append('joining_date', joiningDate)
+    formData.append('increment_month', incrementMonth)
+    formData.append('increment_amount', incrementAmount)
+    formData.append('basic', basic)
+    formData.append('general_allowance', generalAllowance)
+    formData.append('hra', hra)
+    formData.append('transportation_allowance', transportationAllowance)
+    formData.append('tel_allow', telAllowance)
+    formData.append('ticket_allowance', ticketAllowance)
+    formData.append('food_allowance', foodAllowance)
+    formData.append('medical_allowance', medicalAllowance)
+    formData.append('total', total)
+    formData.append('leave_ticket_entitlement', leaveTicketEntitlement)
+    formData.append('leave_ticket_days_per_year', leaveTicketDaysPerYear)
+    formData.append('driving_license_issue_date', drivingLicenseIssueDate)
+    formData.append('driving_license_expiry_date', driverLicenseExpiry)
+    formData.append('health_card_number', healthCardNum)
+    formData.append('health_card_issue_date', healthCardIssueDate)
+    formData.append('health_card_expiry_date', healthCardExpiry)
+    formData.append('bank_name', bankName)
+    formData.append('card_number', cardNum)
+    formData.append('recruited_by', recruitedBy)
+    formData.append('accommodation', accommodation)
+    formData.append('employee_type', employeeType)
+    formData.append('employment_status', employmentStatus)
+    formData.append('signature', signature, signature.name)
+    formData.append('createdBy', sessionStorage.user)
+    formData.append('createdAt', moment(new Date()).format("YYYY-MM-DD"))
+    formData.append('updatedBy', sessionStorage.user)
+    formData.append('updatedAt', moment(new Date()).format("YYYY-MM-DD"))
     const config = {
       headers: {
-        'Access-Control-Allow-Origin-type': 'true'
+        // 'Access-Control-Allow-Origin-type': 'true',
+        'content-type': 'multipart/form-data'
       }
     }
-
     if(employeeCode === "" || fname === "" || lname === "" || nationality === "" || dob === "" || employeeType === "" || employmentStatus === "") {
       return console.log("Please Input Required Feild")
     } else {
-
-      Axios.post('http://localhost:3000/employees',{
-        code: employeeCode,
-        fname,
-        mname,
-        lname,
-        cost_allocation_site: costAllocationSite,
-        cost_allocation_actual_job_title: costAllocationJT,
-        nationality: nationality,
-        sponsorship: sponsorship,
-        dob: dob,
-        passport_number: passportNum,
-        passport_date_of_issue: passportDateIssued,
-        passport_expiry_date: passportExpiry,
-        residence_permit_number: residencePermit,
-        residence_permit_expiry_date: residenceExpiryDate,
-        residence_permit_blood_group: residencePermitBloodGroup,
-        job_offer_doha_entry: jobOfferDohaEntry,
-        joining_date: joiningDate,
-        increment_month: incrementMonth,
-        increment_amount: incrementAmount,
-        basic: basic,
-        general_allowance: generalAllowance,
-        hra: hra,
-        transportation_allowance: transportationAllowance,
-        tel_allow: telAllowance,
-        ticket_allowance: ticketAllowance,
-        food_allowance: foodAllowance,
-        medical_allowance: medicalAllowance,
-        total: total,
-        leave_ticket_entitlement: leaveTicketEntitlement,
-        leave_ticket_days_per_year: leaveTicketDaysPerYear,
-        driving_license_issue_date: drivingLicenseIssueDate,
-        driving_license_expiry_date: driverLicenseExpiry,
-        health_card_number: healthCardNum,
-        health_card_issue_date: healthCardIssueDate,
-        health_card_expiry_date: healthCardExpiry,
-        bank_name: bankName,
-        card_number: cardNum,
-        recruited_by: recruitedBy,
-        accommodation: accommodation,
-        employee_type: employeeType,
-        employment_status: employmentStatus,
-        signature: signature,
-        createdBy: sessionStorage.user,
-        createdAt: moment(new Date()).format("MM-DD-YYYY"),
-        updatedBy: sessionStorage.user,
-        updatedAt: moment(new Date()).format("MM-DD-YYYY")
-      },config)
+      Axios.post('http://localhost:3000/employees',formData, config)
         .then(res => {
           console.log(res)
           setIsLoading(true)
