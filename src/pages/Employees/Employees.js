@@ -6,10 +6,13 @@ import EmployeeForm from './EmployeeForm'
 import Axios from 'axios'
 import moment from 'moment'
 import Swal from 'sweetalert2'
+import { Card,CardBody } from 'reactstrap'
 
 const Employees = () => {
+  const [signatureUpload, setSignatureUpload] = useState({})
   const [employess, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isEdit, setIsedit] = useState(false)
   const [showForm, setShowFrom] = useState(false)
   const [employeeCode, setEmployeeCode] = useState("")
   const [fname, setFname] = useState("")
@@ -52,6 +55,10 @@ const Employees = () => {
   const [employeeType, setEmployeeType] = useState("")
   const [employmentStatus, setEmployementStatus] = useState("")
   const [signature, setSignature] = useState("")
+  const [createdBy, setCreatedBy] = useState("")
+  const [createdAt, setCreatedAt] = useState("")
+  const [empSign, setEmpSign] = useState()
+  const [selectedEmployee, setSelectedEmployee] = useState([])
 
   useEffect(() => {
     fetch('http://localhost:3000/employee')
@@ -64,7 +71,7 @@ const Employees = () => {
         }
       })
   }, [])
-  
+
   const refetch = () => {
     setIsLoading(true)
     fetch('http://localhost:3000/employee')
@@ -124,11 +131,62 @@ const Employees = () => {
     setSignature("")
   }
 
-  const handleShowForm = () => {
+  const handleShowForm = (employee) => {
     setShowFrom(!showForm)
+    setIsedit(false)
   }
 
-  const handleEmployeeCodeChange = e => {
+  const handleEdit = (employee) => {
+    setShowFrom(!showForm)
+    setIsedit(true)
+    setSelectedEmployee(employee)
+    setEmployeeCode(employee.code)
+    setFname(employee.fname)
+    setMname(employee.mname)
+    setLname(employee.lname)
+    setCostAllocationSite(employee.cost_allocation_site)
+    setCostAllocationJT(employee.cost_allocation_actual_job_title)
+    setNationality(employee.nationality)
+    setSponsorship(employee.sponsorship)
+    setDOB(employee.dob)
+    setPassportNum(employee.passport_number)
+    setPassportDateIssued(employee.passport_date_of_issue)
+    setPassportExpiry(employee.passport_expiry_date)
+    setResidencePermit(employee.residence_permit_number)
+    setResidenceExpiryDate(employee.residence_permit_expiry_date)
+    setResidencePermitBloodGroup(employee.residence_permit_blood_group)
+    setJobOfferDohaEntry(employee.job_offer_doha_entry)
+    setJoiningDate(employee.joining_date)
+    setIncrementMonth(employee.increment_month)
+    setBasic(employee.basic)
+    setIncrementAmount(employee.increment_amount)
+    setGeneralAllowance(employee.general_allowance)
+    setHRA(employee.hra)
+    setTransportationAllowance(employee.transportation_allowance)
+    setTelAllowance(employee.tel_allow)
+    setTicketAllowance(employee.ticket_allowance)
+    setFoodAllowance(employee.food_allowance)
+    setMedicalAllowance(employee.medical_allowance)
+    setLeaveTicketEntitlement(employee.leave_ticket_entitlement)
+    setLeaveTicketDaysPerYear(employee.leave_ticket_days_per_year)
+    setDrivingLicenseIssueDate(employee.driving_license_issue_date)
+    setDriverLicenseExpiry(employee.driving_license_expiry_date)
+    setHealthCardNum(employee.health_card_number)
+    setHealthCardIssueDate(employee.health_card_issue_date)
+    setHealthCardExpiry(employee.health_card_expiry_date)
+    setBankName(employee.bank_name)
+    setCardNumber(employee.card_number)
+    setRecruitedBy(employee.recruited_by)
+    setAccommodation(employee.accommodation)
+    setEmployeeType(employee.employee_type)
+    setEmployementStatus(employee.employment_status)
+    setSignature(employee.signature)
+    setCreatedBy(employee.createdBy)
+    setCreatedAt(employee.createdAt)
+    console.log(employee)
+  }
+
+  const handleEmployeeCodeChange = (e) => {
     setEmployeeCode(e.target.value)
   }
 
@@ -183,7 +241,7 @@ const Employees = () => {
     setJoiningDate(e.target.value)
   }
   const handleIncrementMonthChange = e => {
-    setIncrementMonth(e.target.value)
+    setIncrementMonth(parseInt(e.target.value, 10))
   }
   const handleBasicChange = e => {
     setBasic(parseInt(e.target.value, 10))
@@ -243,6 +301,7 @@ const Employees = () => {
     setRecruitedBy(e.target.value)
   }
   const handleAccommodationChange = e => {
+    console.log(e.target.value)
     setAccommodation(e.target.value)
   }
   const handleEmployeeTypeChange = e => {
@@ -252,105 +311,193 @@ const Employees = () => {
     setEmployementStatus(e.target.value)
   }
   const handleSignature = e => {
-    // let file = e.target.files[0];
-    // if (file.type !== "image/png") {
-    //   alert("Please Upload PNG file!")
-    //   e.target.value = ""
-    // } else if (file.size > 48999) {
-    //   alert("File too large")
-    //   e.target.value = ""
-    // } else {
-    //   let reader = new FileReader();
-    //   reader.readAsDataURL(file);
-    //   reader.onload = function (e) {
-    //     // The file's text will be printed here
-    //     let imgBase64 = e.target.result
-    //     console.log(imgBase64)
-    //     setSignature(imgBase64)
-    //   }
-    // };
+    e.preventDefault();
     setSignature(e.target.files[0])
+    if(e.target.files[0] && e.target.files[0].size > 48999) {
+      e.target.value = ""
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'File is too big! Please upload 48kb or less.',
+      })
+    } else if(e.target.files[0] && e.target.files[0].type !== "image/png") {
+      e.target.value = ""
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please upload PNG file!',
+      })
+    } else {
+      const formData = new FormData()
+      formData.append('upload_image', e.target.files[0])
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }
+      Axios.post(`http://localhost:3000/upload/signature?id=${selectedEmployee.id}`, formData, config)
+        .then(res => setSignature(res.data.data.signature))
+
+    }
   }
 
   const handleSubmit = () => {
-    console.log(isLoading)
     let calc = [basic, generalAllowance, hra, transportationAllowance, telAllowance, ticketAllowance, foodAllowance, medicalAllowance]
     const total = calc.reduce((accumulator, currentValue) => accumulator + currentValue);
-
-    const formData = new FormData();
-    formData.append('code', employeeCode)
-    formData.append('fname', fname)
-    formData.append('mname', mname)
-    formData.append('lname', lname)
-    formData.append('cost_allocation_site', costAllocationSite)
-    formData.append('cost_allocation_actual_job_title', costAllocationJT)
-    formData.append('nationality', nationality)
-    formData.append('sponsorship', sponsorship)
-    formData.append('dob', dob)
-    formData.append('passport_number', passportNum)
-    formData.append('passport_date_of_issue', passportDateIssued)
-    formData.append('passport_expiry_date', passportExpiry)
-    formData.append('residence_permit_number', residencePermit)
-    formData.append('residence_permit_expiry_date', residenceExpiryDate)
-    formData.append('residence_permit_blood_group', residencePermitBloodGroup)
-    formData.append('job_offer_doha_entry', jobOfferDohaEntry)
-    formData.append('joining_date', joiningDate)
-    formData.append('increment_month', incrementMonth)
-    formData.append('increment_amount', incrementAmount)
-    formData.append('basic', basic)
-    formData.append('general_allowance', generalAllowance)
-    formData.append('hra', hra)
-    formData.append('transportation_allowance', transportationAllowance)
-    formData.append('tel_allow', telAllowance)
-    formData.append('ticket_allowance', ticketAllowance)
-    formData.append('food_allowance', foodAllowance)
-    formData.append('medical_allowance', medicalAllowance)
-    formData.append('total', total)
-    formData.append('leave_ticket_entitlement', leaveTicketEntitlement)
-    formData.append('leave_ticket_days_per_year', leaveTicketDaysPerYear)
-    formData.append('driving_license_issue_date', drivingLicenseIssueDate)
-    formData.append('driving_license_expiry_date', driverLicenseExpiry)
-    formData.append('health_card_number', healthCardNum)
-    formData.append('health_card_issue_date', healthCardIssueDate)
-    formData.append('health_card_expiry_date', healthCardExpiry)
-    formData.append('bank_name', bankName)
-    formData.append('card_number', cardNum)
-    formData.append('recruited_by', recruitedBy)
-    formData.append('accommodation', accommodation)
-    formData.append('employee_type', employeeType)
-    formData.append('employment_status', employmentStatus)
-    formData.append('signature', signature, signature.name)
-    formData.append('createdBy', sessionStorage.user)
-    formData.append('createdAt', moment(new Date()).format("YYYY-MM-DD"))
-    formData.append('updatedBy', sessionStorage.user)
-    formData.append('updatedAt', moment(new Date()).format("YYYY-MM-DD"))
-    const config = {
-      headers: {
-        // 'Access-Control-Allow-Origin-type': 'true',
-        'content-type': 'multipart/form-data'
-      }
+    if(fname === "" || lname === "" || employeeCode === "" || dob === "" || nationality === "" || passportNum === "" || residencePermit === "" || healthCardNum === "") {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please make sure to input all required fields!',
+      })
     }
-    if(employeeCode === "" || fname === "" || lname === "" || nationality === "" || dob === "" || employeeType === "" || employmentStatus === "") {
-      return console.log("Please Input Required Feild")
-    } else {
-      Axios.post('http://localhost:3000/employees',formData, config)
-        .then(res => {
-          console.log(res)
-          setIsLoading(true)
-          if(res.data.error) {
-            alert(res.data.error)
-            setIsLoading(false)
-          }else {
-            let newEmployees = [...employess]
-            newEmployees.push(res.data.data)
-            setEmployees(newEmployees)
-            // setShowFrom(false)
+    if (isEdit) {
+      fetch(`http://localhost:3000/employees?id=${selectedEmployee.id}`, {
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: employeeCode,
+          fname: fname,
+          mname: mname,
+          lname: lname,
+          cost_allocation_site:costAllocationSite,
+          cost_allocation_actual_job_title: costAllocationJT,
+          nationality:nationality,
+          sponsorship: sponsorship,
+          dob: dob,
+          passport_number: passportNum,
+          passport_date_of_issue: passportDateIssued,
+          passport_expiry_date: passportExpiry,
+          residence_permit_number: residencePermit,
+          residence_permit_expiry_date: residenceExpiryDate,
+          residence_permit_blood_group: residencePermitBloodGroup,
+          job_offer_doha_entry: jobOfferDohaEntry,
+          joining_date: joiningDate,
+          increment_month: incrementMonth,
+          increment_amount: incrementAmount,
+          basic: basic,
+          general_allowance: generalAllowance,
+          hra: hra,
+          transportation_allowance: transportationAllowance,
+          tel_allow: telAllowance,
+          ticket_allowance: ticketAllowance,
+          food_allowance: foodAllowance,
+          medical_allowance: medicalAllowance,
+          total: total,
+          leave_ticket_entitlement: leaveTicketEntitlement,
+          leave_ticket_days_per_year: leaveTicketDaysPerYear,
+          driving_license_issue_date: drivingLicenseIssueDate,
+          driving_license_expiry_date: driverLicenseExpiry,
+          health_card_number: healthCardNum,
+          health_card_issue_date: healthCardIssueDate,
+          health_card_expiry_date: healthCardExpiry,
+          bank_name: bankName,
+          card_number: cardNum,
+          recruited_by: recruitedBy,
+          accommodation: accommodation,
+          employee_type: employeeType,
+          signature: signature,
+          employment_status: employmentStatus,
+          createdBy: createdBy,
+          createdAt: createdAt,
+          updatedBy: sessionStorage.user,
+          updatedAt: moment(new Date()).format("YYYY-MM-DD")
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.success){
+            setIsedit(false)
             handleRefresh()
+            refetch()
+            setShowFrom(false)
+            Swal.fire(
+              'Success!',
+              'Employee has been updated successfully!',
+              'success'
+            )
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    } else {
+      fetch('http://localhost:3000/employees', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: employeeCode,
+          fname: fname,
+          mname: mname,
+          lname: lname,
+          cost_allocation_site: costAllocationSite,
+          cost_allocation_actual_job_title: costAllocationJT,
+          nationality:nationality,
+          sponsorship: sponsorship,
+          dob: dob,
+          passport_number: passportNum,
+          passport_date_of_issue: passportDateIssued,
+          passport_expiry_date: passportExpiry,
+          residence_permit_number: residencePermit,
+          residence_permit_expiry_date: residenceExpiryDate,
+          residence_permit_blood_group: residencePermitBloodGroup,
+          job_offer_doha_entry: jobOfferDohaEntry,
+          joining_date: joiningDate,
+          increment_month: incrementMonth,
+          increment_amount: incrementAmount,
+          basic: basic,
+          general_allowance: generalAllowance,
+          hra: hra,
+          transportation_allowance: transportationAllowance,
+          tel_allow: telAllowance,
+          ticket_allowance: ticketAllowance,
+          food_allowance: foodAllowance,
+          medical_allowance: medicalAllowance,
+          total: total,
+          leave_ticket_entitlement: leaveTicketEntitlement,
+          leave_ticket_days_per_year: leaveTicketDaysPerYear,
+          driving_license_issue_date: drivingLicenseIssueDate,
+          driving_license_expiry_date: driverLicenseExpiry,
+          health_card_number: healthCardNum,
+          health_card_issue_date: healthCardIssueDate,
+          health_card_expiry_date: healthCardExpiry,
+          bank_name: bankName,
+          card_number: cardNum,
+          recruited_by: recruitedBy,
+          accommodation: accommodation,
+          employee_type: employeeType,
+          signature: signature,
+          employment_status: employmentStatus,
+          createdBy: sessionStorage.user,
+          createdAt: moment(new Date()).format("YYYY-MM-DD"),
+          updatedBy: sessionStorage.user,
+          updatedAt: moment(new Date()).format("YYYY-MM-DD")
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          setIsLoading(true)
+          console.log(data)
+          if(data.error){
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Please make sure to input all required fields!',
+            })
+            setIsLoading(false)
+          } else {
+            setIsLoading(true)
+            let newEmployees = [...employess]
+            newEmployees.push(data.data)
+            setEmployees(newEmployees)
+            handleRefresh()
+            refetch()
             Swal.fire(
               'Success!',
               'Employee added successfully',
               'success'
             )
+            setIsLoading(false)
           }
         })
     }
@@ -359,77 +506,89 @@ const Employees = () => {
 
   return (
     <React.Fragment>
-      <div className='d-flex'>
+      <div className="row">
+        <div className="col-4 offset-8 text-right">
+          <EmployeeForm
+            isLoading={isLoading}
+            isEdit={isEdit}
+            selectedEmployee={selectedEmployee}
+            showForm={showForm}
+            handleShowForm={handleShowForm}
+            handleEmployeeCodeChange={handleEmployeeCodeChange}
+            handleFnameChange={handleFnameChange}
+            handleMnameChange={handleMnameChange}
+            handleLnameChange={handleLnameChange}
+            handleCostAllocationSiteChange={handleCostAllocationSiteChange}
+            handleCostAllocationJTChange={handleCostAllocationJTChange}
+            handleNationalityChange={handleNationalityChange}
+            handleSponsorshipChange={handleSponsorshipChange}
+            handleDOBSiteChange={handleDOBSiteChange}
+            handlePassportNumChange={handlePassportNumChange}
+            handlePassportDateIssuedChange={handlePassportDateIssuedChange}
+            handlePassportExpiryChange={handlePassportExpiryChange}
+            handleResidencePermitChange={handleResidencePermitChange}
+            handleResidenceExpiryDateChange={handleResidenceExpiryDateChange}
+            handleResidencePermitBloodGroupChange={handleResidencePermitBloodGroupChange}
+            handleJobOfferDohaEntryChange={handleJobOfferDohaEntryChange}
+            handleJoiningDateChange={handleJoiningDateChange}
+            handleIncrementMonthChange={handleIncrementMonthChange}
+            handleBasicChange={handleBasicChange}
+            handleIncrementAmountChange={handleIncrementAmountChange}
+            handleGeneralAllowanceChange={handleGeneralAllowanceChange}
+            handleHRAChange={handleHRAChange}
+            handleTransportationAllowanceChange={handleTransportationAllowanceChange}
+            handleTelAllowanceChange={handleTelAllowanceChange}
+            handleTicketAllowanceChange={handleTicketAllowanceChange}
+            handleFoodAllowanceChange={handleFoodAllowanceChange}
+            handleMedicalAllowanceChange={handleMedicalAllowanceChange}
+            handleLeaveTicketEntitlementChange={handleLeaveTicketEntitlementChange}
+            handleLeaveTicketDaysPerYearChange={handleLeaveTicketDaysPerYearChange}
+            handleDrivingLicenseIssueDateChange={handleDrivingLicenseIssueDateChange}
+            handleDriverLicenseExpiryChange={handleDriverLicenseExpiryChange}
+            handleHealthCardNumChange={handleHealthCardNumChange}
+            handleHealthCardIssueDateChange={handleHealthCardIssueDateChange}
+            handleHealthCardExpiryChange={handleHealthCardExpiryChange}
+            handleBankNameChange={handleBankNameChange}
+            handleCardNumberChange={handleCardNumberChange}
+            handleRecruitedByChange={handleRecruitedByChange}
+            handleAccommodationChange={handleAccommodationChange}
+            handleEmployeeTypeChange={handleEmployeeTypeChange}
+            handleEmployementStatusChange={handleEmployementStatusChange}
+            handleSignature={handleSignature}
+            handleSubmit={handleSubmit}
+          />
+        </div>
+      </div>
+      {/* <div className="row">
+        <div className="col-lg-1">
+        </div> */}
         <Sidebar />
-        <div className='d-flex flex-column w-100'>
+        <div className="main-panel">
           <Topbar />
-          <div className='content'>
-            <div className="row">
-              <div className="col-4 offset-8 text-right">
-                <EmployeeForm
-                  isLoading={isLoading}
-                  showForm={showForm}
-                  handleShowForm={handleShowForm}
-                  handleEmployeeCodeChange={handleEmployeeCodeChange}
-                  handleFnameChange={handleFnameChange}
-                  handleMnameChange={handleMnameChange}
-                  handleLnameChange={handleLnameChange}
-                  handleCostAllocationSiteChange={handleCostAllocationSiteChange}
-                  handleCostAllocationJTChange={handleCostAllocationJTChange}
-                  handleNationalityChange={handleNationalityChange}
-                  handleSponsorshipChange={handleSponsorshipChange}
-                  handleDOBSiteChange={handleDOBSiteChange}
-                  handlePassportNumChange={handlePassportNumChange}
-                  handlePassportDateIssuedChange={handlePassportDateIssuedChange}
-                  handlePassportExpiryChange={handlePassportExpiryChange}
-                  handleResidencePermitChange={handleResidencePermitChange}
-                  handleResidenceExpiryDateChange={handleResidenceExpiryDateChange}
-                  handleResidencePermitBloodGroupChange={handleResidencePermitBloodGroupChange}
-                  handleJobOfferDohaEntryChange={handleJobOfferDohaEntryChange}
-                  handleJoiningDateChange={handleJoiningDateChange}
-                  handleIncrementMonthChange={handleIncrementMonthChange}
-                  handleBasicChange={handleBasicChange}
-                  handleIncrementAmountChange={handleIncrementAmountChange}
-                  handleGeneralAllowanceChange={handleGeneralAllowanceChange}
-                  handleHRAChange={handleHRAChange}
-                  handleTransportationAllowanceChange={handleTransportationAllowanceChange}
-                  handleTelAllowanceChange={handleTelAllowanceChange}
-                  handleTicketAllowanceChange={handleTicketAllowanceChange}
-                  handleFoodAllowanceChange={handleFoodAllowanceChange}
-                  handleMedicalAllowanceChange={handleMedicalAllowanceChange}
-                  handleLeaveTicketEntitlementChange={handleLeaveTicketEntitlementChange}
-                  handleLeaveTicketDaysPerYearChange={handleLeaveTicketDaysPerYearChange}
-                  handleDrivingLicenseIssueDateChange={handleDrivingLicenseIssueDateChange}
-                  handleDriverLicenseExpiryChange={handleDriverLicenseExpiryChange}
-                  handleHealthCardNumChange={handleHealthCardNumChange}
-                  handleHealthCardIssueDateChange={handleHealthCardIssueDateChange}
-                  handleHealthCardExpiryChange={handleHealthCardExpiryChange}
-                  handleBankNameChange={handleBankNameChange}
-                  handleCardNumberChange={handleCardNumberChange}
-                  handleRecruitedByChange={handleRecruitedByChange}
-                  handleAccommodationChange={handleAccommodationChange}
-                  handleEmployeeTypeChange={handleEmployeeTypeChange}
-                  handleEmployementStatusChange={handleEmployementStatusChange}
-                  handleSignature={handleSignature}
-                  handleSignature={handleSignature}
-                  handleSubmit={handleSubmit}
-                />
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-md-12 ">
+                <div className="text-center">
+                  <h1 className='pt-5 pb-3'>Employees</h1>
+                </div>
+                <div className='col-lg-12 justify-content-center'>
+                  <Card>
+                    <CardBody>
+                      <EmployeesTable
+                        data={employess}
+                        handleShowForm={handleShowForm}
+                        handleEdit={handleEdit}
+                        isLoading={isLoading}
+                        refetch={refetch}
+                      />
+                    </CardBody>
+                  </Card>
+                </div>
               </div>
-            </div>
-            <div className="text-center">
-              <h1 className='col-lg-12 text-primary mt-5 py-3 ml-5'>Employees</h1>
-            </div>
-            <div className='col-lg-12 justify-content-center mb-3 ml-5 w-75'>
-              <EmployeesTable
-                data={employess}
-                handleShowForm={handleShowForm}
-                isLoading={isLoading}
-                refetch={refetch}
-              />
             </div>
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </React.Fragment>
   )
 }

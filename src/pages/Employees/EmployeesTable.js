@@ -4,6 +4,9 @@ import Employees from './Employees';
 
 
 class EmployeesTable extends Component {
+  state = {
+    selectedRow: null
+  }
   render() {
     return (
       <MaterialTable
@@ -12,7 +15,7 @@ class EmployeesTable extends Component {
           {
             title: 'Code',
             field: 'code',
-            width: 150
+            width: 100
           },
           {
             title: 'Name',
@@ -218,33 +221,37 @@ class EmployeesTable extends Component {
             isFreeAction: true,
             onClick: () => this.props.handleShowForm()
           },
-          // {
-          //   icon: 'edit',
-          //   tooltip: 'Edit User',
-          //   onClick: (event, rowData) => console.log(rowData)
-          // }
-          // {isLoading: this.props.isLoading}
+          {
+            icon: 'edit',
+            tooltip: 'Edit User',
+            width: '150px',
+            onClick: (event, rowData) => this.props.handleEdit(rowData)
+          }
         ]}
+        onRowClick={((evt, selectedRow) => this.setState({selectedRow : selectedRow.tableData.id}))}
         options={{
           search: true,
           cellStyle: {
             color: '#000000',
-            backgroundColor: '#ffffff'
+            // backgroundColor: '#ffffff'
           },
           headerStyle: {
-            backgroundColor: '#ffffff',
+            // backgroundColor: '#ffffff',
             color: '#000000'
           },
-          pageSize: 10,
-          pageSizeOptions: [10, 20, 50, 100],
-          fixedColumns: {
-            left: 1,
-          },
+          pageSize: 5,
+          pageSizeOptions: [5, 10, 20, 50, 100],
+          // fixedColumns: {
+          //   left: 1,
+          // },
           headerStyle: {
             backgroundColor: '#6787A9',
             color: '#FFF'
           },
-          tableLayout: "auto"
+          tableLayout: "auto",
+          rowStyle: rowData => ({
+            backgroundColor: (this.state.selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF'
+          })
         }}
         isLoading={this.props.isLoading}
       />

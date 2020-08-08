@@ -202,3 +202,7 @@
         createdAt: moment(new Date()).format("MM-DD-YYYY"),
         updatedBy: sessionStorage.user,
         updatedAt: moment(new Date()).format("MM-DD-YYYY")
+
+
+        C:\Users\Makati\Desktop\weew\s\las-client\src\img\gsas.jpg
+        src\img\gsas.jpg

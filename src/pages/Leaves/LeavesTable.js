@@ -5,8 +5,10 @@ import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import WorkerPDF from '../../components/PDForms/WorkerPDF';
 import StaffPDF from '../../components/PDForms/StaffPDF';
 
-
 class LeavesTable extends Component {
+  state = {
+    selectedRow: null
+  }
   render() {
     return (
       <MaterialTable
@@ -28,8 +30,13 @@ class LeavesTable extends Component {
             width: 130
           },
           {
-            title: 'Application Data',
+            title: 'Employee Code',
             field: 'application_data.employee_code',
+            width: 130
+          },
+          {
+            title: 'Employee Name',
+            field: 'application_data.name',
             width: 130
           },
           {
@@ -60,71 +67,76 @@ class LeavesTable extends Component {
             tooltip: 'Show PDF',
             render: rowData => {
               let appData = rowData.application_data
-              // let employeeSign = appData.employee_signature.replace('data:image/jpeg;base64,', '')
+              console.log(rowData)
+              if (rowData.application_form_code == "LEAVE_WORKER") {
+                return (
+                  <PDFViewer
+                    width="500px" height="850px"
+                  >
+                    <WorkerPDF
+                      name={appData.name}
+                      department={appData.project}
+                      employeeNum={appData.employee_code}
+                      position={appData.position}
+                      departureDate={appData.departure_date}
+                      returnDate={appData.return_date}
+                      contactNum={appData.contact_number}
+                      typeOfLeave={appData.leave_type}
+                      itemIssued={appData.items_issued_type}
+                      employeeSignature={appData.employee_signature}
+                      itemIssuedOthers={appData.items_issued_others_remarks}
+                      passport={appData.receive_passport}
+                      settlement={appData.receive_settlement}
+                      ticket={appData.receive_ticket}
+                      recievedOthers={appData.receive_others}
+                      recievedOthersRemarks={appData.receive_others_remarks}
+                      leaveFrom={appData.leave_from}
+                      leaveTo={appData.leave_to}
+                      backOn={appData.be_back_on}
+                      employeeSignDate={appData.employee_signature_date}
+
+                    />
+                  </PDFViewer>
+                )
+              }
               return (
                 <PDFViewer
                   width="500px" height="850px"
                 >
-                  <WorkerPDF
+                  <StaffPDF
                     name={appData.name}
                     department={appData.project}
                     employeeNum={appData.employee_code}
                     position={appData.position}
                     departureDate={appData.departure_date}
                     returnDate={appData.return_date}
-                    contactNum={appData.contace_number}
+                    contactNum={appData.contact_number}
                     typeOfLeave={appData.leave_type}
-                    itemIssued={appData.items_issued_type}
-                    employeeSignature={appData.employee_signature}
-                    itemIssuedOthers={appData.items_issued_others_remarks}
-                    passport={appData.receive_passport}
-                    settlement={appData.receive_settlement}
-                    ticket={appData.receive_ticket}
+                    handOverSuccessor={appData.handover_briefing_to_successor}
+                    handOverSuccessorName={appData.handover_briefing_to_successor_employee_name}
+                    handOverSuccessorCode={appData.handover_briefing_to_successor_employee_code}
+                    handOverDocsCode={appData.handover_documents_employee_code}
+                    handOverDocsName={appData.handover_documents_employee_name}
+                    itemIssued={appData.items_issued}
+                    itemRemarks={appData.remarks}
+                    recievedTicket={appData.receive_ticket}
+                    recievedSettlement={appData.receive_settlement}
                     recievedOthers={appData.receive_others}
-                    recievedOthersRemarks={appData.receive_others_remarks}
                     leaveFrom={appData.leave_from}
                     leaveTo={appData.leave_to}
                     backOn={appData.be_back_on}
+                    employeeSignature={appData.employee_signature}
                     employeeSignDate={appData.employee_signature_date}
-
+                    airportDepartureDate={appData.airport_transportation_departure_date}
+                    airportArrivalDate={appData.airport_transportation_arrival_date}
+                    airportAccommodation={appData.airport_transportation_accommodation}
+                    airportMobile={appData.airport_transportation_mobile_number}
                   />
                 </PDFViewer>
               )
             },
           },
         ]}
-        // detailPanel={rowData => {
-        //   let appData = rowData.application_data
-        //   return (
-        //     <PDFViewer 
-        //     width="500px" height="850px"
-        //     >
-        //       <WorkerPDF
-        //         name={appData.name}
-        //         department={appData.project}
-        //         employeeNum={appData.employee_code}
-        //         position={appData.position}
-        //         departureDate={appData.departure_date}
-        //         returnDate={appData.return_date}
-        //         contactNum={appData.contace_number}
-        //         typeOfLeave={appData.leave_type}
-        //         itemIssued={appData.items_issued_type}
-        //         employeeSignature={appData.employee_signature}
-        //         itemIssuedOthers={appData.items_issued_others_remarks}
-        //         passport={appData.receive_passport}
-        //         settlement={appData.receive_settlement}
-        //         ticket={appData.receive_ticket}
-        //         recievedOthers={appData.receive_others}
-        //         recievedOthersRemarks={appData.receive_others_remarks}
-        //         leaveFrom={appData.leave_from}
-        //         leaveTo={appData.leave_to}
-        //         backOn={appData.be_back_on}
-        //         employeeSignDate={appData.employee_signature_date}
-
-        //       />
-        //     </PDFViewer>
-        //   )
-        // }}
         actions={[
           {
             icon: 'refresh',
@@ -134,40 +146,40 @@ class LeavesTable extends Component {
           },
           {
             icon: 'add',
-            tooltip: 'Add User',
+            tooltip: 'Apply Leave',
             isFreeAction: true,
             onClick: () => this.props.handleShowForm()
           },
           {
-            icon: props => <i className="far fa-file-pdf"></i>,
-            tooltip: "Custom",
-            onClick: (event,  rowData) => console.log(rowData.application_data.employee_signature.replace('data:image/png;base64,', ''))
+            icon: 'edit',
+            tooltip: 'Edit User',
+            width: '150px',
+            onClick: (event, rowData) => this.props.handleEdit(rowData)
           },
-          // {
-          //   icon: 'file',
-          //   tooltip: 'Download File',
-
-          // }
-
           // {isLoading: this.props.isLoading}
         ]}
+        onRowClick={((evt, selectedRow) => this.setState({selectedRow : selectedRow.tableData.id}))}
         options={{
           search: true,
           cellStyle: {
             color: '#000000',
-            backgroundColor: '#ffffff'
+            // backgroundColor: '#ffffff'
           },
           headerStyle: {
-            backgroundColor: '#ffffff',
+            // backgroundColor: '#ffffff',
             color: '#000000'
           },
-          pageSize: 10,
-          pageSizeOptions: [10, 20, 50, 100],
+          pageSize: 5,
+          pageSizeOptions: [5, 10, 20, 50, 100],
           headerStyle: {
             backgroundColor: '#6787A9',
             color: '#FFF'
           },
-          tableLayout: "auto"
+          tableLayout: "auto",
+          tableLayout: "auto",
+          rowStyle: rowData => ({
+            backgroundColor: (this.state.selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF'
+          })
         }}
         isLoading={this.props.isLoading}
       />
