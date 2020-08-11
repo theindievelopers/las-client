@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 
 const Body = styled.Page`
   padding-top: 35px;
-  padding-bottom: 55px;
+  padding-bottom: 50px;
   padding-right: 35px;
   padding-left: 35px;
   border: 1px solid red;
@@ -21,7 +21,7 @@ const Border = styled.View`
 `
 
 const Section = styled.View`
-  padding: 8px;
+  padding: 5px 8px;
 `
 const Row = styled.View`
   display: flex;
@@ -110,14 +110,18 @@ const Paragraph = styled.Text`
 const Footer = styled.Text`
   left: 35px;
   right: 35px;
-  bottom: 30px;
+  bottom: 25px;
   font-size: 11px;
   position: absolute;
   // text-align: center;
 `;
 
 // Create Document Component
-const StaffPDF = ({ name, department, departureDate, employeeNum, position, returnDate, ...props }) => (
+const StaffPDF = ({ 
+    name, department, departureDate, employeeNum, position, returnDate,contactNum, typeOfLeave, handOverSuccessor,handOverSuccessorName,handOverSuccessorCode,
+    handOverDocsCode,handOverDocsName,itemIssued,itemRemarks,recievedTicket,recievedSettlement,recievedOthers,leaveFrom,leaveTo,backOn,employeeSignature,
+    employeeSignDate,airportDepartureDate,airportArrivalDate,airportAccommodation,airportMobile,...props 
+  }) => (
   <Document>
     <Body size="A4" wrap>
       <Border>
@@ -137,9 +141,9 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
               <Label1>Type of Leave:</Label1>
             </View>
             <View>
-              <Input1 style={{ borderBottom: 1, alignContent: 'center' }}> </Input1>
-              <Input1 style={{ borderBottom: 1 }}> </Input1>
-              <Input1 style={{ borderBottom: 1 }}> </Input1>
+              <Input1 style={{ borderBottom: 1, alignContent: 'center' }}>{name === "" ? " " : name}</Input1>
+              <Input1 style={{ borderBottom: 1 }}>{department === "" ? " " : department}</Input1>
+              <Input1 style={{ borderBottom: 1 }}>{departureDate === "" ? " " : departureDate}</Input1>
             </View>
             <View style={{ paddingLeft: "10px" }}>
               <Label2>Employee No.:</Label2>
@@ -148,35 +152,39 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
               <Label2>Contact No.:</Label2>
             </View>
             <View>
-              <Input2 style={{ borderBottom: 1 }}> </Input2>
-              <Input2 style={{ borderBottom: 1 }}> </Input2>
-              <Input2 style={{ borderBottom: 1 }}> </Input2>
-              <Input2 style={{ lineHeight: "0.8", borderBottom: 1 }}> </Input2>
+              <Input2 style={{ borderBottom: 1 }}>{employeeNum === "" ? " " : employeeNum}</Input2>
+              <Input2 style={{ borderBottom: 1 }}>{position === "" ? " " : position}</Input2>
+              <Input2 style={{ borderBottom: 1 }}>{returnDate === "" ? " " : returnDate}</Input2>
+              {contactNum === "" ? 
+                <Input2 style={{ borderBottom: 1, color: "white" }}>09201234567</Input2>
+                : 
+                <Input2 style={{ borderBottom: 1 }}>{contactNum}</Input2>
+              }
               <Span>(Designation)</Span>
             </View>
           </Row>
           <Row style={{ paddingLeft: "5px", paddingBottom: "0px", paddingTop: 0 }}>
             <View style={{ paddingLeft: "20px" }}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{typeOfLeave === 'Annual' ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Annual</CheckBoxLabel>
               </Row>
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{typeOfLeave === 'Unpaid' ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Unpaid</CheckBoxLabel>
               </Row>
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{typeOfLeave === 'Sick' ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Sick</CheckBoxLabel>
               </Row>
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{typeOfLeave === 'Emergency' ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Emergency</CheckBoxLabel>
               </Row>
             </View>
@@ -185,7 +193,7 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
           <Row style={{ paddingLeft: "5px", paddingTop: "0px" }}>
             <View style={{ paddingLeft: "0px" }}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{handOverSuccessor ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Handover briefing to successor</CheckBoxLabel>
               </Row>
             </View>
@@ -219,7 +227,7 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
             <View style={{ paddingLeft: "0px" }}>
               <Row>
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
-                  Placeholder
+                  {itemIssued ? itemIssued : " "}
                 </Text>
               </Row>
             </View>
@@ -252,7 +260,7 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
             <View style={{ paddingLeft: "0px" }}>
               <Row>
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
-                  Placeholder
+                  {itemRemarks ? itemRemarks : " "}
                 </Text>
               </Row>
             </View>
@@ -280,10 +288,10 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
               </Row>
             </View>
           </Row>
-          <Row style={{ paddingTop: "15px", paddingBottom: "0px", justifyContent: "center" }}>
+          <Row style={{ paddingTop: "10px", paddingBottom: "0px", justifyContent: "center" }}>
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                Placeholder
+                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Logistics Officer Signature & Date
@@ -291,7 +299,7 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                Placeholder
+                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/> */}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Immediate Supervisor/Manager Signature & Date
@@ -304,7 +312,7 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
           <Row style={{ paddingTop: "0px", paddingBottom: "0px", justifyContent: "center" }}>
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                Placeholder
+                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Immediate Supervisor/Signature and Date
@@ -312,7 +320,7 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                Placeholder
+                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Accounting Department's Signature and Date
@@ -329,19 +337,19 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
           <Row style={{ paddingTop: "4px" }}>
             <View>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{recievedTicket ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Ticket</CheckBoxLabel>
               </Row>
             </View>
             <View style={{ paddingLeft: "80px" }}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{recievedSettlement ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Settlement</CheckBoxLabel>
               </Row>
             </View>
             <View style={{ paddingLeft: "50px" }}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{recievedOthers ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Others:</CheckBoxLabel>
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 170, marginLeft: "5px" }}>
 
@@ -354,11 +362,11 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
               This is to confirm that I will be on leave from
             </Paragraph>
             <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 100, marginLeft: "5px" }}>
-
+              {airportDepartureDate}
             </Text>
             <Paragraph> to</Paragraph>
             <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 100, marginLeft: "5px" }}>
-
+              {airportArrivalDate}
             </Text>
             <Paragraph>
               and certify that I will be
@@ -367,7 +375,7 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
           <Row style={{ paddingTop: "2px" }}>
             <Paragraph> back on</Paragraph>
             <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 100, marginLeft: "5px" }}>
-
+              {backOn}
             </Text>
           </Row>
           <View style={{ paddingTop: "5px" }}>
@@ -377,18 +385,18 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
               will result to the termination of my services and disqualification for the end of service gratuity.
             </Paragraph>
           </View>
-          <RowEnd style={{ paddingBottom: "0px", paddingTop: "10px" }}>
+          <RowEnd style={{ paddingBottom: "0px", paddingTop: "0px" }}>
             <View style={{ marginRight: "30px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 100 }}>
-                Placeholder
+                <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/>
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 120, paddingTop: "2px" }}>
                 Employee Signature
               </Text>
             </View>
-            <View>
+            <View style={{ paddingTop: "10px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 100 }}>
-                Placeholder
+                {employeeSignDate === "" ? " " : employeeSignDate}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 80, paddingTop: "2px" }}>
                 Date
@@ -401,16 +409,19 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
           <Row>
             <View style={{width: 300, paddingLeft: "30px"}}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{airportDepartureDate === "" ? " " : "X"}</CheckBox>
                 <CheckBoxLabel>Departure Date:</CheckBoxLabel>
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 200, marginLeft: "5px", paddingTop: "3px" }}>
+                  {airportDepartureDate === "" ? " " : airportDepartureDate}
+                </Text>
               </Row>
             </View>
             <View style={{width: 100, paddingLeft: "30px"}}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{airportArrivalDate === "" ? " " : "X"}</CheckBox>
                 <CheckBoxLabel>Arrival Date:</CheckBoxLabel>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 90, marginLeft: "5px" }}>
-
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 90, marginLeft: "5px", paddingTop: "3px" }}>
+                  {airportArrivalDate === "" ? " " : airportArrivalDate}
                 </Text>
               </Row>
             </View>
@@ -419,15 +430,16 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
             <View>
               <Row>
                 <Label2>Accomodation:</Label2>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 280, marginLeft: "5px" }}>
-
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 280, marginLeft: "5px", paddingTop: "5px" }}>
+                 {airportAccommodation === "" ? " " : airportAccommodation}
                 </Text>
               </Row>
             </View>
             <View style={{paddingLeft: 6}}>
               <Row>
               <Label2 style={{width: 50}}>Mobile No.:</Label2>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 90, marginLeft: "5px" }}>
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 90, marginLeft: "5px", paddingTop: "5px" }}>
+                  {airportMobile === "" ? " " : airportMobile}
                 </Text>
               </Row>
             </View>
@@ -467,33 +479,33 @@ const StaffPDF = ({ name, department, departureDate, employeeNum, position, retu
         <Section>
           <Row style={{ paddingTop: "0px", paddingBottom: "0px" }}>
             <View>
-              <Text style={{ fontSize: 11,width: 150, textAlign: "center", paddingBottom: "11px"}}>
+              <Text style={{ fontSize: 11,width: 150, textAlign: "center", paddingBottom: "5px"}}>
                 HR Manager
               </Text>
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
-                Placeholder
+                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 150, paddingTop: "2px" }}>
                 Signature and Date
               </Text>
             </View>
             <View style={{paddingLeft: "25px"}}>
-              <Text style={{ fontSize: 11,width: 150, textAlign: "center", paddingBottom: "11px" }}>
+              <Text style={{ fontSize: 11,width: 150, textAlign: "center", paddingBottom: "5px" }}>
                 Chief Operating Officer
               </Text>
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
-                Placeholder
+                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 150, paddingTop: "2px" }}>
                 Signature and Date
               </Text>
             </View>
             <View style={{paddingLeft: "25px"}}>
-              <Text style={{ fontSize: 11,width: 150, textAlign: "center", paddingBottom: "11px" }}>
+              <Text style={{ fontSize: 11,width: 150, textAlign: "center", paddingBottom: "5px" }}>
                 Chief Executive Officer
               </Text>
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
-                Placeholder
+                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 150, paddingTop: "2px" }}>
                 Signature and Date

@@ -31,12 +31,6 @@ const Sidebar = () => {
               Leaves
             </a>
           </li>
-
-          <li>
-            <a href='#/forms'>
-              Forms
-            </a>
-          </li>
         </ul>
       </nav>
     </Fragment>

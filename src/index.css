@@ -10731,12 +10731,19 @@ code {
 }
 
 #sidebar {
-  min-width: 190px;
+  /* min-width: 190px;
   max-width: 250px;
   min-height: 100vh;
   background: #ffffff;
   color: #fff;
   transition: all 0.3s;
+   */
+  position: fixed !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 260px;
 }
 
 #sidebar.active {
@@ -10840,6 +10847,12 @@ a.article:hover {
   width: 100%;
   min-height: 90vh;
   transition: all 0.3s;
+}
+
+.main-panel {
+  position: relative !important;
+  float: right !important;
+  width: calc(100% - 260px) !important;
 }
 
 /* ---------------------------------------------------

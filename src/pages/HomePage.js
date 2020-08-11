@@ -117,6 +117,11 @@ const HomePage = () => {
   const handleImage = (e) => {
     // e.preventDefault();
     let file = e.target.files[0];
+    if(file.type !== "image/png" || file.size > 48000){
+      e.target.value = ""
+      return alert("Please Upload Acceted File")
+    }
+    console.log(file)
     // if (!file.name.match(/\.(jpg)$/)) {
     //   alert('Invalid File Type')
     //   return false;
@@ -127,7 +132,6 @@ const HomePage = () => {
       // The file's text will be printed here
       let imgBase64 = e.target.result
       // .replace('data:image/jpeg;base64,', '')
-      console.log(imgBase64)
       setImageInput(imgBase64)
       setImg64(imgBase64)
 
@@ -149,32 +153,13 @@ const HomePage = () => {
   }
   return (
     <React.Fragment>
-      <div className='d-flex'>
+      <div className=''>
         <Sidebar />
-        <div className='d-flex flex-column w-100'>
+        <div className='main-panel'>
           <Topbar />
           <div className='content'>
             <div className="text-center">
               <h1 className='col-lg-10 text-primary mt-5 py-3 ml-5'>HOMEPAGE</h1>
-              <button onClick={handleConvertImage}>Click Me!</button>
-              <input
-                className="form-control"
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImage(e)}
-              />
-              <img src="http://localhost:4000/images/uploads/1578205630294-minh-ng-c-GE7HTyEOVb4-unsplash.jpg" alt="Red dot"  width="50px"/>
-              <Col lg={4} md={6}>
-                <Card className="mb-4">
-                  <CardImg top width="20px" src={"http://localhost:3000/" + img64} alt="Red dot" />
-                  <CardBody>
-                    <h1 className="text-center">Image</h1>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg={12}>
-
-              </Col>
             </div>
           </div>
         </div>

@@ -37,12 +37,12 @@ function App() {
             name="Home"
             render={props => <HomePage {...props}/>}
           />
-          <Route 
+          {/* <Route 
             path="/forms"
             exact
             name="Forms"
             render={props => <Forms {...props}/>}
-          />
+          /> */}
           <Route 
             path="/leaves"
             exact
