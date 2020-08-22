@@ -219,6 +219,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
           <Row style={{ alignItems: "center", justifyContent: "center", paddingTop: "50px", paddingBottom: "10px" }}>
             <View>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
+                {/* <Image source={"http://128.199.121.153:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
                 <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/>
                 {props.employeeSignDate}
               </Text>

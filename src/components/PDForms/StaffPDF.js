@@ -117,10 +117,11 @@ const Footer = styled.Text`
 `;
 
 // Create Document Component
-const StaffPDF = ({ 
+const StaffPDF = React.memo(({ 
     name, department, departureDate, employeeNum, position, returnDate,contactNum, typeOfLeave, handOverSuccessor,handOverSuccessorName,handOverSuccessorCode,
     handOverDocsCode,handOverDocsName,itemIssued,itemRemarks,recievedTicket,recievedSettlement,recievedOthers,leaveFrom,leaveTo,backOn,employeeSignature,
-    employeeSignDate,airportDepartureDate,airportArrivalDate,airportAccommodation,airportMobile,...props 
+    employeeSignDate,airportDepartureDate,airportArrivalDate,airportAccommodation,airportMobile, accountingCode, ceoCode, cooCode, hraManagerCode, logisticsOfficerCode, 
+    ceoSign, cooSign, acctSign, hraSign, logisticsSign, immidiateSupSign, projectManagerSign,handOverDocs, ...props 
   }) => (
   <Document>
     <Body size="A4" wrap>
@@ -209,7 +210,7 @@ const StaffPDF = ({
           <Row style={{ paddingLeft: "5px", paddingTop: "1px" }}>
             <View style={{ paddingLeft: "0px" }}>
               <Row>
-                <CheckBox></CheckBox>
+                <CheckBox>{handOverDocs ? "X" : " "}</CheckBox>
                 <CheckBoxLabel style={{ width: "127px" }}>Handover documents</CheckBoxLabel>
               </Row>
             </View>
@@ -233,7 +234,7 @@ const StaffPDF = ({
             </View>
             <View style={{ paddingLeft: "35px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
                   Placeholder
                 </Text>
               </Row>
@@ -242,15 +243,15 @@ const StaffPDF = ({
           <Row style={{ paddingLeft: "5px", paddingTop: "1px" }}>
             <View style={{ paddingLeft: "0px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
                   Placeholder
                 </Text>
               </Row>
             </View>
             <View style={{ paddingLeft: "35px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
-                Placeholder
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
+                  Placeholder
                 </Text>
               </Row>
             </View>
@@ -266,7 +267,7 @@ const StaffPDF = ({
             </View>
             <View style={{ paddingLeft: "35px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
                   Placeholder
                 </Text>
               </Row>
@@ -275,14 +276,14 @@ const StaffPDF = ({
           <Row style={{ paddingLeft: "5px", paddingTop: "1px" }}>
             <View style={{ paddingLeft: "0px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
                   Placeholder
                 </Text>
               </Row>
             </View>
             <View style={{ paddingLeft: "35px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
                 Placeholder
                 </Text>
               </Row>
@@ -291,7 +292,13 @@ const StaffPDF = ({
           <Row style={{ paddingTop: "10px", paddingBottom: "0px", justifyContent: "center" }}>
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
+                {logisticsSign ?
+                  <Image source={"http://localhost:3000/fetch/signature?code=" + logisticsOfficerCode} style={{width: 130,height: 20}}/>
+                  : 
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Logistics Officer Signature & Date
@@ -299,7 +306,13 @@ const StaffPDF = ({
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/> */}
+                {immidiateSupSign ? 
+                  <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/>
+                  :
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Immediate Supervisor/Manager Signature & Date
@@ -312,7 +325,13 @@ const StaffPDF = ({
           <Row style={{ paddingTop: "0px", paddingBottom: "0px", justifyContent: "center" }}>
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
+                {projectManagerSign ? 
+                  <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/>
+                  :
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Immediate Supervisor/Signature and Date
@@ -320,7 +339,13 @@ const StaffPDF = ({
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
+                {acctSign ? 
+                  <Image source={"http://localhost:3000/fetch/signature?code=" + accountingCode} style={{width: 130,height: 20}}/>
+                  : 
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Accounting Department's Signature and Date
@@ -388,6 +413,7 @@ const StaffPDF = ({
           <RowEnd style={{ paddingBottom: "0px", paddingTop: "0px" }}>
             <View style={{ marginRight: "30px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 100 }}>
+                {/* <Image source={"http://128.199.121.153:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/> */}
                 <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/>
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 120, paddingTop: "2px" }}>
@@ -483,7 +509,13 @@ const StaffPDF = ({
                 HR Manager
               </Text>
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
-                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
+                {hraSign ?
+                  <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
+                  : 
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 150, paddingTop: "2px" }}>
                 Signature and Date
@@ -494,7 +526,13 @@ const StaffPDF = ({
                 Chief Operating Officer
               </Text>
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
-                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
+                {cooSign ? 
+                  <Image source={"http://localhost:3000/fetch/signature?code=" + cooCode} style={{width: 130,height: 20}}/>
+                  : 
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 150, paddingTop: "2px" }}>
                 Signature and Date
@@ -505,7 +543,13 @@ const StaffPDF = ({
                 Chief Executive Officer
               </Text>
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
-                {/* <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
+                {ceoSign ? 
+                  <Image source={"http://localhost:3000/fetch/signature?code=" + ceoCode} style={{width: 130,height: 20}}/>
+                  : 
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 150, paddingTop: "2px" }}>
                 Signature and Date
@@ -520,6 +564,6 @@ const StaffPDF = ({
       </Footer>
     </Body>
   </Document>
-);
+));
 
 export default StaffPDF;

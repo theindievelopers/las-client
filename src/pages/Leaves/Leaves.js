@@ -63,8 +63,16 @@ const Leaves = () => {
       employee_type: ""
     }
   ])
+  const [accounting, setAccounting] = useState({})
+  const [ceo, setCeo] = useState({})
+  const [coo, setCoo] = useState({})
+  const [logisticsOfficer, setLogisticsOfficer] = useState({})
+  const [hraManager, setHraManager] = useState({})
 
   useEffect(() => {
+    if (!sessionStorage.isLoggedIn) {
+      window.location.replace('#/login')
+    }
     // Applications
     fetch('http://localhost:3000/application')
       .then(res => res.json())
@@ -82,6 +90,43 @@ const Leaves = () => {
         if (data) {
           setEmployees(data)
         }
+      })
+
+
+    // Approvers Data
+    fetch('http://localhost:3000/applicationform')
+      .then(res => res.json())
+      .then(data => {
+        let approverCode = data[0].data.approvers
+        let accounting = []
+        let ceo = []
+        let coo = []
+        let hraManager = [] 
+        let logisticsOfficer = []
+        fetch('http://localhost:3000/employee')
+          .then(res => res.json())
+          .then(data => {
+            data.map(inidvData => {
+              if(inidvData.code === approverCode.accounting){
+                accounting.push(inidvData)
+              } else if(inidvData.code === approverCode.ceo){
+                ceo.push(inidvData)
+              } else if(inidvData.code === approverCode.coo){
+                coo.push(inidvData)
+              } else if(inidvData.code === approverCode.hra_manager){
+                hraManager.push(inidvData)
+              } else if(inidvData.code === approverCode.logistics_officer){
+                logisticsOfficer.push(inidvData)
+              }
+            })
+          })
+          .then(() => {
+            setAccounting(accounting[0])
+            setCeo(ceo[0])
+            setCoo(coo[0])
+            setLogisticsOfficer(logisticsOfficer[0])
+            setHraManager(hraManager[0])
+          })
       })
   }, [])
 
@@ -126,7 +171,7 @@ const Leaves = () => {
     setLeaveFrom("")
     setLeaveTo()
     setBackOn("")
-
+    refetch()
   }
 
   const handleShowForm = () => {
@@ -140,7 +185,6 @@ const Leaves = () => {
     setIsEdit(true)
     // setSelectedEmployee(employee)
     setSelectedLeave(leave)
-    console.log(leave)
     setDepartureDate(data.departure_date)
     setReturnDate(data.return_date)
     setContact(data.contact_number)
@@ -240,7 +284,6 @@ const Leaves = () => {
   }
 
   const handleStaffDepartureDate = (e) => {
-    console.log(e.target.value)
     setStaffDepartureDate(e.target.value)
   }
 
@@ -265,7 +308,6 @@ const Leaves = () => {
   }
 
   const handleHandoverDocs = (e) => {
-    console.log(e.target.checked)
     setHandoverDocs(e.target.checked)
   }
 
@@ -398,13 +440,13 @@ const Leaves = () => {
             hr_manager_signature_and_date: "",
             createdby: selectedLeave.application_data.createdby,
             createdat: selectedLeave.application_data.createdat,
-            updatedby: sessionStorage.user,
+            updatedby: "admin",
             updatedat: moment(new Date()).format("MM-DD-YYYY")
           },
-          status: "ACTIVE",
+          status: "PENDING",
           createdBy: selectedLeave.application_data.createdBy,
           createdAt: selectedLeave.application_data.createdAt,
-          updatedBy: sessionStorage.user,
+          updatedBy: "admin",
           updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
@@ -422,7 +464,6 @@ const Leaves = () => {
           }
         })
         .catch(err => {
-          console.log(err)
         })
     } else {
       fetch('http://localhost:3000/application', {
@@ -458,19 +499,18 @@ const Leaves = () => {
             hr_manager_signature_and_date: "",
             createdby: sessionStorage.user,
             createdat: moment(new Date()).format("MM-DD-YYYY"),
-            updatedby: sessionStorage.user,
+            updatedby: "admin",
             updatedat: moment(new Date()).format("MM-DD-YYYY")
           },
           status: "ACTIVE",
-          createdBy: sessionStorage.user,
+          createdBy: "admin",
           createdAt: moment(new Date()).format("MM-DD-YYYY"),
-          updatedBy: sessionStorage.user,
+          updatedBy: "admin",
           updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
         .then(res => res.json())
         .then(data => {
-          console.log(data)
           if (data.error) {
             alert(data.error)
           } else {
@@ -485,7 +525,7 @@ const Leaves = () => {
 
   const handleSubmitStaff = () => {
     setIsLoading(true)
-    if(departureDate == "" || returnDate == "" || leaveType == "") {
+    if(staffDepartureDate == "" || staffReturnDate == "" || staffLeaveTypeChange == "") {
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -497,8 +537,6 @@ const Leaves = () => {
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          // id: selectedLeave.id,
-          // collateid: selectedLeave.collateid,
           application_form_code: selectedLeave.application_form_code,
           employee_id: selectedLeave.employee_id,
           application_data: {
@@ -540,13 +578,13 @@ const Leaves = () => {
             ceo_signature_and_date: "",
             createdby: selectedLeave.application_data.createdby,
             createdat: selectedLeave.application_data.createdat,
-            updatedby: sessionStorage.user,
+            updatedby: "admin",
             updatedat: moment(new Date()).format("MM-DD-YYYY")
           },
           status: "ACTIVE",
           createdBy: selectedLeave.createdBy,
           createdAt: selectedLeave.createdAt,
-          updatedBy: sessionStorage.user,
+          updatedBy: "admin",
           updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
@@ -564,7 +602,6 @@ const Leaves = () => {
           }
         })
         .catch(err => {
-          console.log(err)
         })
     } else {
       fetch('http://localhost:3000/application', {
@@ -572,9 +609,9 @@ const Leaves = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           application_form_code: "LEAVE_STAFF",
-          employee_id: selectedEmployee[0].id,
+          employee_code: selectedEmployee[0].code,
           application_data: {
-            name: `${selectedEmployee[0].fname} ${selectedEmployee[0].lname}`,
+            name: selectedEmployee[0].fullname,
             employee_code: selectedEmployee[0].code,
             project: selectedEmployee[0].cost_allocation_site,
             position: selectedEmployee[0].cost_allocation_actual_job_title,
@@ -610,15 +647,15 @@ const Leaves = () => {
             hr_manager_signature_and_date: "",
             coo_signature_and_date: "",
             ceo_signature_and_date: "",
-            createdby: sessionStorage.user,
+            createdby: "admin",
             createdat: moment(new Date()).format("MM-DD-YYYY"),
-            updatedby: sessionStorage.user,
+            updatedby: "admin",
             updatedat: moment(new Date()).format("MM-DD-YYYY")
           },
           status: "ACTIVE",
-          createdBy: sessionStorage.user,
+          createdBy: "admin",
           createdAt: moment(new Date()).format("MM-DD-YYYY"),
-          updatedBy: sessionStorage.user,
+          updatedBy: "admin",
           updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
@@ -630,6 +667,7 @@ const Leaves = () => {
             let newLeaves = [...leaves]
             newLeaves.push(data)
             setLeaves(newLeaves)
+            setShowForm(false)
             handleRefresh()
           }
         })
@@ -720,6 +758,11 @@ const Leaves = () => {
                         isLoading={isLoading}
                         refetch={refetch}
                         handleEdit={handleEdit}
+                        accounting={accounting}
+                        ceo={ceo}
+                        coo={coo}
+                        hraManager={hraManager}
+                        logisticsOfficer={logisticsOfficer}
                       />
                     </CardBody>
                   </Card>

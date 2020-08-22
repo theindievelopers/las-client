@@ -26,12 +26,7 @@ class LeavesTable extends Component {
           },
           {
             title: 'Employee ID',
-            field: 'employee_id',
-            width: 130
-          },
-          {
-            title: 'Employee Code',
-            field: 'application_data.employee_code',
+            field: 'employee_code',
             width: 130
           },
           {
@@ -67,7 +62,6 @@ class LeavesTable extends Component {
             tooltip: 'Show PDF',
             render: rowData => {
               let appData = rowData.application_data
-              console.log(rowData)
               if (rowData.application_form_code == "LEAVE_WORKER") {
                 return (
                   <PDFViewer
@@ -98,7 +92,7 @@ class LeavesTable extends Component {
                     />
                   </PDFViewer>
                 )
-              }
+              } else if (rowData.application_form_code == "LEAVE_STAFF") {
               return (
                 <PDFViewer
                   width="500px" height="850px"
@@ -117,6 +111,7 @@ class LeavesTable extends Component {
                     handOverSuccessorCode={appData.handover_briefing_to_successor_employee_code}
                     handOverDocsCode={appData.handover_documents_employee_code}
                     handOverDocsName={appData.handover_documents_employee_name}
+                    handOverDocs={appData.handover_documents}
                     itemIssued={appData.items_issued}
                     itemRemarks={appData.remarks}
                     recievedTicket={appData.receive_ticket}
@@ -131,9 +126,21 @@ class LeavesTable extends Component {
                     airportArrivalDate={appData.airport_transportation_arrival_date}
                     airportAccommodation={appData.airport_transportation_accommodation}
                     airportMobile={appData.airport_transportation_mobile_number}
+                    ceoSign={appData.ceo_signature_and_date}
+                    cooSign={appData.coo_signature_and_date}
+                    acctSign={appData.accounting_department_signature_and_date}
+                    hraSign={appData.hr_manager_signature_and_date}
+                    logisticsSign={appData.logistics_officer_signature_and_date}
+                    accountingCode={this.props.accounting.code}
+                    ceoCode={this.props.ceo.code}
+                    cooCode={this.props.coo.code}
+                    hraManagerCode={this.props.hraManager.code}
+                    logisticsOfficerCode={this.props.logisticsOfficer.code}
+                    immidiateSupSign={appData.immidiate_supervisor_manager_signature_and_date}
+                    projectManagerSign={appData.project_manager_signature_and_date}
                   />
                 </PDFViewer>
-              )
+              )}
             },
           },
         ]}

@@ -11,18 +11,15 @@ import {
 import {
   FormInput
 } from '../globalcomponents';
-// import Axios from 'axios';
-// import Swal from 'sweetalert2';
+import Axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [usernameRequired, setUsernameRequired] = useState(true)
   const [passwordRequired, setPasswordRequired] = useState(true)
-  const [userCredentials, setUserCredentials] = useState({
-    username: 'admin',
-    password: 'admin'
-  })
+  const [userCredentials, setUserCredentials] = useState({})
 
   const handleUsernameChange = (e) => {
     if (e.target.value === "") {
@@ -45,10 +42,64 @@ const Login = () => {
   }
 
   const handleLogin = () => {
-    if(username === userCredentials.username && password === userCredentials.password) {
-      sessionStorage.isLoggedIn = true;
-      sessionStorage.user = userCredentials.username
-      window.location.replace('#/')
+    if (usernameRequired) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Username Required!',
+      })
+    } else if (passwordRequired) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Password Required!',
+      })
+    } else {
+      fetch('http://localhost:3000/login', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            return (Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Username or Password not match!',
+            })
+            )
+          }
+          sessionStorage.empCode = JSON.stringify(data.data.employeecode)
+          sessionStorage.accessLevel = JSON.stringify(data.data.accesslvl)
+          sessionStorage.name = JSON.stringify(data.data.fullname)
+          sessionStorage.isLoggedIn = true;
+          window.location.replace('/');
+
+          // fetch('http://localhost:3000/users', {
+          //   method: 'post',
+          //   headers: { 'Content-Type': 'application/json' },
+          //   body: JSON.stringify({
+          //     username,
+          //     password
+          //   })
+          // })
+          //   .then(res => res.json())
+          //   .then(data => {
+          //     // console.log(data)
+          //     setUserCredentials(data[0])
+          //     sessionStorage.empCode = JSON.stringify(data[0].employeecode)
+          //     sessionStorage.accessLevel = JSON.stringify(data[0].accesslevel)
+          //     sessionStorage.isLoggedIn = true;
+          //     // window.location.replace('/');
+          //   })
+
+        })
     }
   }
 

@@ -9,15 +9,14 @@ import Swal from 'sweetalert2'
 import { Card,CardBody } from 'reactstrap'
 
 const Employees = () => {
-  const [signatureUpload, setSignatureUpload] = useState({})
+  const [loggedInUser, setLoggedInUser] = useState()
+  const [signatureUpload, setSignatureUpload] = useState(false)
   const [employess, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isEdit, setIsedit] = useState(false)
   const [showForm, setShowFrom] = useState(false)
   const [employeeCode, setEmployeeCode] = useState("")
-  const [fname, setFname] = useState("")
-  const [mname, setMname] = useState("")
-  const [lname, setLname] = useState("")
+  const [fullname, setFullname] = useState("")
   const [costAllocationSite, setCostAllocationSite] = useState("")
   const [costAllocationJT, setCostAllocationJT] = useState("")
   const [nationality, setNationality] = useState("")
@@ -54,6 +53,8 @@ const Employees = () => {
   const [accommodation, setAccommodation] = useState("")
   const [employeeType, setEmployeeType] = useState("")
   const [employmentStatus, setEmployementStatus] = useState("")
+  const [projectManager, setProjectManager] = useState("")
+  const [immediateSuperior, setImmediateSuperior] = useState("")
   const [signature, setSignature] = useState("")
   const [createdBy, setCreatedBy] = useState("")
   const [createdAt, setCreatedAt] = useState("")
@@ -61,11 +62,13 @@ const Employees = () => {
   const [selectedEmployee, setSelectedEmployee] = useState([])
 
   useEffect(() => {
+    if(!sessionStorage.isLoggedIn) {
+      window.location.replace('#/login')
+    }
     fetch('http://localhost:3000/employee')
       .then(res => res.json())
       .then(data => {
         if (data) {
-          console.log(data)
           setIsLoading(false)
           setEmployees(data)
         }
@@ -78,7 +81,6 @@ const Employees = () => {
       .then(res => res.json())
       .then(data => {
         if (data) {
-          console.log(data)
           setIsLoading(false)
           setEmployees(data)
         }
@@ -89,9 +91,7 @@ const Employees = () => {
     setShowFrom(!showForm)
     setIsLoading(false)
     setEmployeeCode("")
-    setFname("")
-    setMname("")
-    setLname("")
+    setFullname("")
     setCostAllocationSite("")
     setCostAllocationJT("")
     setNationality("")
@@ -129,11 +129,15 @@ const Employees = () => {
     setEmployeeType("")
     setEmployementStatus("")
     setSignature("")
+    setSignatureUpload(false)
+    setSelectedEmployee([])
+    refetch()
   }
 
   const handleShowForm = (employee) => {
     setShowFrom(!showForm)
     setIsedit(false)
+    setSelectedEmployee([])
   }
 
   const handleEdit = (employee) => {
@@ -141,9 +145,7 @@ const Employees = () => {
     setIsedit(true)
     setSelectedEmployee(employee)
     setEmployeeCode(employee.code)
-    setFname(employee.fname)
-    setMname(employee.mname)
-    setLname(employee.lname)
+    setFullname(employee.fullname)
     setCostAllocationSite(employee.cost_allocation_site)
     setCostAllocationJT(employee.cost_allocation_actual_job_title)
     setNationality(employee.nationality)
@@ -183,24 +185,16 @@ const Employees = () => {
     setSignature(employee.signature)
     setCreatedBy(employee.createdBy)
     setCreatedAt(employee.createdAt)
-    console.log(employee)
   }
 
   const handleEmployeeCodeChange = (e) => {
     setEmployeeCode(e.target.value)
   }
-
-  const handleFnameChange = (e) => {
-    setFname(e.target.value)
+  
+  const handleFullnameChange = (e) => {
+    setFullname(e.target.value)
   }
 
-  const handleMnameChange = (e) => {
-    setMname(e.target.value)
-  }
-
-  const handleLnameChange = (e) => {
-    setLname(e.target.value)
-  }
   const handleCostAllocationSiteChange = (e) => {
     setCostAllocationSite(e.target.value)
   }
@@ -301,7 +295,6 @@ const Employees = () => {
     setRecruitedBy(e.target.value)
   }
   const handleAccommodationChange = e => {
-    console.log(e.target.value)
     setAccommodation(e.target.value)
   }
   const handleEmployeeTypeChange = e => {
@@ -310,33 +303,49 @@ const Employees = () => {
   const handleEmployementStatusChange = e => {
     setEmployementStatus(e.target.value)
   }
+
+  const handleProjectManagerChange = e => {
+    setProjectManager(e.target.value)
+  }
+
+  const handleImmediateSuperior = e => {
+    setImmediateSuperior(e.target.value)
+  }
+
+  const signatureImage = document.getElementsByClassName('.signature')
+
   const handleSignature = e => {
     e.preventDefault();
     setSignature(e.target.files[0])
-    if(e.target.files[0] && e.target.files[0].size > 48999) {
-      e.target.value = ""
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'File is too big! Please upload 48kb or less.',
-      })
-    } else if(e.target.files[0] && e.target.files[0].type !== "image/png") {
+    if(e.target.files[0] && e.target.files[0].type !== "image/png") {
       e.target.value = ""
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'Please upload PNG file!',
       })
+    } else if(e.target.files[0] && e.target.files[0].size > 48999) {
+      e.target.value = ""
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'File is too big! Please upload 48kb or less.',
+      })
     } else {
       const formData = new FormData()
       formData.append('upload_image', e.target.files[0])
       const config = {
         headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
+          'LAS': 'LAS',
+          'raihan': 'raihan'
         }
       }
       Axios.post(`http://localhost:3000/upload/signature?id=${selectedEmployee.id}`, formData, config)
-        .then(res => setSignature(res.data.data.signature))
+        .then(res => {
+          setSignature(res.data.data.signature)
+          setSignatureUpload(true)
+        })
 
     }
   }
@@ -344,7 +353,7 @@ const Employees = () => {
   const handleSubmit = () => {
     let calc = [basic, generalAllowance, hra, transportationAllowance, telAllowance, ticketAllowance, foodAllowance, medicalAllowance]
     const total = calc.reduce((accumulator, currentValue) => accumulator + currentValue);
-    if(fname === "" || lname === "" || employeeCode === "" || dob === "" || nationality === "" || passportNum === "" || residencePermit === "" || healthCardNum === "") {
+    if(fullname === "" || employeeCode === "" || dob === "" || nationality === "" || passportNum === "" || residencePermit === "" || healthCardNum === "") {
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -354,12 +363,10 @@ const Employees = () => {
     if (isEdit) {
       fetch(`http://localhost:3000/employees?id=${selectedEmployee.id}`, {
         method: 'put',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'LAS': 'LAS', 'raihan': 'raihan' },
         body: JSON.stringify({
           code: employeeCode,
-          fname: fname,
-          mname: mname,
-          lname: lname,
+          fullname: fullname,
           cost_allocation_site:costAllocationSite,
           cost_allocation_actual_job_title: costAllocationJT,
           nationality:nationality,
@@ -397,10 +404,12 @@ const Employees = () => {
           accommodation: accommodation,
           employee_type: employeeType,
           signature: signature,
+          project_manager: projectManager,
+          immediate_superior: immediateSuperior,
           employment_status: employmentStatus,
           createdBy: createdBy,
           createdAt: createdAt,
-          updatedBy: sessionStorage.user,
+          updatedBy: "admin",
           updatedAt: moment(new Date()).format("YYYY-MM-DD")
         })
       })
@@ -419,17 +428,14 @@ const Employees = () => {
           }
         })
         .catch(err => {
-          console.log(err)
         })
     } else {
       fetch('http://localhost:3000/employees', {
         method: 'post',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'LAS': 'LAS', 'raihan': 'raihan' },
         body: JSON.stringify({
           code: employeeCode,
-          fname: fname,
-          mname: mname,
-          lname: lname,
+          fullname: fullname,
           cost_allocation_site: costAllocationSite,
           cost_allocation_actual_job_title: costAllocationJT,
           nationality:nationality,
@@ -466,18 +472,19 @@ const Employees = () => {
           recruited_by: recruitedBy,
           accommodation: accommodation,
           employee_type: employeeType,
-          signature: signature,
+          signature: "",
+          project_manager: projectManager,
+          immediate_superior: immediateSuperior,
           employment_status: employmentStatus,
-          createdBy: sessionStorage.user,
+          createdBy: "admin",
           createdAt: moment(new Date()).format("YYYY-MM-DD"),
-          updatedBy: sessionStorage.user,
+          updatedBy: "admin",
           updatedAt: moment(new Date()).format("YYYY-MM-DD")
         })
       })
         .then(res => res.json())
         .then(data => {
           setIsLoading(true)
-          console.log(data)
           if(data.error){
             Swal.fire({
               icon: 'error',
@@ -486,7 +493,6 @@ const Employees = () => {
             })
             setIsLoading(false)
           } else {
-            setIsLoading(true)
             let newEmployees = [...employess]
             newEmployees.push(data.data)
             setEmployees(newEmployees)
@@ -515,9 +521,7 @@ const Employees = () => {
             showForm={showForm}
             handleShowForm={handleShowForm}
             handleEmployeeCodeChange={handleEmployeeCodeChange}
-            handleFnameChange={handleFnameChange}
-            handleMnameChange={handleMnameChange}
-            handleLnameChange={handleLnameChange}
+            handleFullnameChange={handleFullnameChange}
             handleCostAllocationSiteChange={handleCostAllocationSiteChange}
             handleCostAllocationJTChange={handleCostAllocationJTChange}
             handleNationalityChange={handleNationalityChange}
@@ -554,7 +558,10 @@ const Employees = () => {
             handleAccommodationChange={handleAccommodationChange}
             handleEmployeeTypeChange={handleEmployeeTypeChange}
             handleEmployementStatusChange={handleEmployementStatusChange}
+            handleProjectManagerChange={handleProjectManagerChange}
+            handleImmediateSuperior={handleImmediateSuperior}
             handleSignature={handleSignature}
+            signatureUpload={signatureUpload}
             handleSubmit={handleSubmit}
           />
         </div>

@@ -17,11 +17,9 @@ import LeaveStaff from './LeaveStaff';
 
 const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, selectedEmployee, isEdit, selectedLeave, ...props }) => {
   const [selected, setSelected] = useState(selectedEmployee[0])
-  console.log(selectedLeave)
-
   const employeeList = employees.map((employee, i) => {
     return (
-      <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fname} {employee.lname}</option>
+      <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
     )
   })
   return (
@@ -32,6 +30,8 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
         size={"lg"}
         scrollable={true}
         onClosed={props.handleRefresh}
+        keyboard={false}
+        backdrop="static"
       >
         <ModalHeader
           toggle={handleShowForm}

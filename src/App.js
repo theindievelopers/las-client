@@ -10,8 +10,9 @@ import {
 const Login = React.lazy(()=>import('./pages/login'));
 const HomePage = React.lazy(()=>import('./pages/HomePage'))
 const Employees = React.lazy(()=>import('./pages/Employees/Employees'))
-const Forms = React.lazy(()=>import('./pages/Forms'))
+const Users = React.lazy(()=>import('./pages/Users/Users'))
 const Leaves = React.lazy(()=>import('./pages/Leaves/Leaves'))
+const Approvals = React.lazy(()=>import('./pages/Approvals/Approvals'))
 
 function App() {
   const loading = () => {
@@ -37,17 +38,23 @@ function App() {
             name="Home"
             render={props => <HomePage {...props}/>}
           />
-          {/* <Route 
-            path="/forms"
+          <Route 
+            path="/admin/users"
             exact
-            name="Forms"
-            render={props => <Forms {...props}/>}
-          /> */}
+            name="Users"
+            render={props => <Users {...props}/>}
+          />
           <Route 
             path="/leaves"
             exact
             name="Leaves"
             render={props => <Leaves {...props}/>}
+          />
+          <Route 
+            path="/approvals"
+            exact
+            name="Approvals"
+            render={props => <Approvals {...props}/>}
           />
           <Route 
             path="/employees"

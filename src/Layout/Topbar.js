@@ -3,7 +3,11 @@ import { Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 
 const Topbar = () => {
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState("")
+  useEffect(() => {
+    let user = JSON.parse(sessionStorage.name)
+    setUser(user)
+  }, [])
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -16,7 +20,7 @@ const Topbar = () => {
         <Nav className='ml-auto'>
           <NavItem>
             <NavLink className='text-uppercase' href='#'>
-              Hello, {sessionStorage.user}
+              Hello {user}
             </NavLink>
           </NavItem>
           <NavItem>

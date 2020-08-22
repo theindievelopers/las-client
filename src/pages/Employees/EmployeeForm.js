@@ -10,7 +10,8 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText, Card, CardImg
+  FormText, Card, CardImg,
+  Spinner
 } from 'reactstrap';
 
 const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, selectedEmployee, ...props }) => {
@@ -21,6 +22,8 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
         toggle={handleShowForm}
         size={"xl"}
         scrollable={true}
+        keyboard={false}
+        backdrop="static"
       >
         <ModalHeader
           toggle={handleShowForm}
@@ -37,25 +40,61 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
             <Row form>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="fName">First Name: *</Label>
-                  <Input bsSize="sm" type="text" name="fName" id="fName" placeholder="First Name" onBlur={handleFnameChange}
-                    defaultValue={isEdit ? selectedEmployee.fname : ""}
+                  <Label for="employeeCode">Employee Code: *</Label>
+                  <Input bsSize="sm" type="text" name="employeeCode" id="employeeCode" placeholder="Employee Code" onBlur={props.handleEmployeeCodeChange}
+                    defaultValue={isEdit ? selectedEmployee.code : ""}
                   />
                 </FormGroup>
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="mName">Middle Name:</Label>
-                  <Input bsSize="sm" type="text" name="mName" id="mName" placeholder="Middle Name" onBlur={props.handleMnameChange}
-                    defaultValue={isEdit ? selectedEmployee.mname : ""}
+                  <Label for="employeeType">Employee Type: *</Label>
+                  <Input bsSize="sm"
+                    type="select"
+                    name="employeeType"
+                    id="employeeType"
+                    onBlur={props.handleEmployeeTypeChange}
+                    defaultValue={isEdit ? selectedEmployee.employee_type : ""}
+                  >
+                    <option>-</option>
+                    <option>worker</option>
+                    <option>staff</option>
+
+                  </Input>
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="employmentStatus">Employment Status: *</Label>
+                  <Input bsSize="sm" type="text" name="employmentStatus" id="employmentStatus" placeholder="Employment Status" onBlur={props.handleEmployementStatusChange}
+                    defaultValue={isEdit ? selectedEmployee.employment_status : ""}
+                  />
+                </FormGroup>
+              </Col>
+              
+            </Row>
+            <Row form>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="fullname">Full Name: *</Label>
+                  <Input bsSize="sm" type="text" name="fullname" id="fullname" placeholder="Full Name" onBlur={props.handleFullnameChange}
+                    defaultValue={isEdit ? selectedEmployee.fullname : ""}
                   />
                 </FormGroup>
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="lName">Last Name: *</Label>
-                  <Input bsSize="sm" type="text" name="lName" id="lName" placeholder="Last Name" onBlur={props.handleLnameChange}
-                    defaultValue={isEdit ? selectedEmployee.lname : ""}
+                  <Label for="nationality">Nationality: *</Label>
+                  <Input bsSize="sm" type="text" name="nationality" id="nationality" placeholder="Nationality" onBlur={props.handleNationalityChange}
+                    defaultValue={isEdit ? selectedEmployee.nationality : ""}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="dob">Date of Birth: *</Label>
+                  <Input bsSize="sm" type="date" name="dob" id="dob" placeholder="" onBlur={props.handleDOBSiteChange}
+                    defaultValue={isEdit ? selectedEmployee.dob : ""}
                   />
                 </FormGroup>
               </Col>
@@ -79,35 +118,9 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="nationality">Nationality: *</Label>
-                  <Input bsSize="sm" type="text" name="nationality" id="nationality" placeholder="Nationality" onBlur={props.handleNationalityChange}
-                    defaultValue={isEdit ? selectedEmployee.nationality : ""}
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row form>
-              <Col md={4}>
-                <FormGroup>
-                  <Label for="employeeCode">Employee Code: *</Label>
-                  <Input bsSize="sm" type="text" name="employeeCode" id="employeeCode" placeholder="Employee Code" onBlur={props.handleEmployeeCodeChange}
-                    defaultValue={isEdit ? selectedEmployee.code : ""}
-                  />
-                </FormGroup>
-              </Col>
-              <Col md={4}>
-                <FormGroup>
                   <Label for="sponsorship">Sponsorship:</Label>
                   <Input bsSize="sm" type="text" name="sponsorship" id="sponsorship" placeholder="Sponsorship" onBlur={props.handleSponsorshipChange}
                     defaultValue={isEdit ? selectedEmployee.sponsorship : ""}
-                  />
-                </FormGroup>
-              </Col>
-              <Col md={4}>
-                <FormGroup>
-                  <Label for="dob">Date of Birth: *</Label>
-                  <Input bsSize="sm" type="date" name="dob" id="dob" placeholder="" onBlur={props.handleDOBSiteChange}
-                    defaultValue={isEdit ? selectedEmployee.dob : ""}
                   />
                 </FormGroup>
               </Col>
@@ -158,7 +171,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               <Col md={4}>
                 <FormGroup>
                   <Label for="residencePermitBloodGroup">Residence Permit Blood Group:</Label>
-                  <Input bsSize="sm" type="text" name="residencePermitBloodGroup" id="residencePermitBloodGroup" placeholder="Passport Expiry Date" onBlur={props.handleResidencePermitBloodGroupChange}
+                  <Input bsSize="sm" type="text" name="residencePermitBloodGroup" id="residencePermitBloodGroup" placeholder="Residence Permit Blood Group" onBlur={props.handleResidencePermitBloodGroupChange}
                     defaultValue={isEdit ? selectedEmployee.residence_permit_blood_group : ""}
                   />
                 </FormGroup>
@@ -357,6 +370,22 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={6}>
                 <FormGroup>
+                  <Label for="projectManager">Prject Manager:</Label>
+                  <Input bsSize="sm" type="text" name="projectManager" id="projectManager" placeholder="Prject Manager" onBlur={props.handleProjectManagerChange}
+                    defaultValue={isEdit ? selectedEmployee.recruited_by : ""}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={6}>
+                <FormGroup>
+                  <Label for="immediateSuperior">Immediate Superior:</Label>
+                  <Input bsSize="sm" type="text" name="immediateSuperior" id="immediateSuperior" placeholder="Immediate Superior" onBlur={props.handleImmediateSuperior}
+                    defaultValue={isEdit ? selectedEmployee.recruited_by : ""}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={6}>
+                <FormGroup>
                   <Label for="accommodation">Accommodation:</Label>
                   <Input bsSize="sm" type="text" name="accommodation" id="accommodation" placeholder="Accommodation" onBlur={props.handleAccommodationChange}
                     defaultValue={isEdit ? selectedEmployee.accommodation : ""}
@@ -364,37 +393,14 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
                 </FormGroup>
               </Col>
             </Row>
-            <Row form>
-              <Col md={6}>
-                <FormGroup>
-                  <Label for="employeeType">Employee Type: *</Label>
-                  <Input bsSize="sm"
-                    type="select"
-                    name="employeeType"
-                    id="employeeType"
-                    onBlur={props.handleEmployeeTypeChange}
-                    defaultValue={isEdit ? selectedEmployee.employee_type : ""}
-                  >
-                    <option>-</option>
-                    <option>worker</option>
-                    <option>staff</option>
-
-                  </Input>
-                </FormGroup>
-              </Col>
-              <Col md={6}>
-                <FormGroup>
-                  <Label for="employmentStatus">Employment Status: *</Label>
-                  <Input bsSize="sm" type="text" name="employmentStatus" id="employmentStatus" placeholder="Employment Status" onBlur={props.handleEmployementStatusChange}
-                    defaultValue={isEdit ? selectedEmployee.employment_status : ""}
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
             {isEdit ? 
               <Row>
                 <Col md={6}>
-                  <img width="100px" src={`http://localhost:3000/fetch/signature?id=${selectedEmployee.id}`} />
+                  {props.signatureUpload || selectedEmployee.signature ?
+                    <img className="signature" width="100px" src={`http://localhost:3000/fetch/signature?id=${selectedEmployee.id}`} />
+                    :
+                    ""
+                  }
                   <FormGroup>
                     <Label for="signature">Signature</Label>
                     <Input type="file" name="file" id="signature" onChange={props.handleSignature}/>
