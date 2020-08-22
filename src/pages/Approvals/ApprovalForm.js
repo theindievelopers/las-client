@@ -43,11 +43,17 @@ const ApprovalForm = React.memo( props => {
         </ModalHeader>
         <ModalBody>
           <Row>
-            <Col md={12}>
-              <h4>{selectedApplicationData.employee_code} - {selectedApplicationData.name}</h4>
+            <Col md={6}>
+              <h4>Employee No.: {selectedApplicationData.employee_code}</h4>
             </Col>
-            <Col md={12}>
-              <h4>{selectedApplicationData.project} - {selectedApplicationData.position}</h4>
+            <Col md={6}>
+              <h4>Fullname: {selectedApplicationData.name}</h4>
+            </Col>
+            <Col md={6}>
+              <h4>Department: {selectedApplicationData.project}</h4>
+            </Col>
+            <Col md={6}>
+              <h4>Position: {selectedApplicationData.position}</h4>
             </Col>
             <Col md={12}>
               {isReady ?
