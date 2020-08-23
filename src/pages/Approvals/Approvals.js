@@ -62,10 +62,8 @@ const Approvals = React.memo(props => {
         let uniqueApproversID = []
         data.map(indivData => {
           if(uniqueApproversID.includes(indivData.approver_id)){
-            console.log("all ready there")
           } else {
             uniqueApproversID.push(indivData.approver_id)
-            console.log(uniqueApproversID)
           }
           if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 2 || JSON.parse(sessionStorage.empCode) === indivData.approver_id) {
             allData.push(indivData)
@@ -135,26 +133,20 @@ const Approvals = React.memo(props => {
   }
 
   const handleShowForm = (data) => {
-    console.log(data)
-    console.log(leaves)
     setSelectedApproval(data)
     setAccountingSign(data.signature)
     let projectManID = ""
     let immediateSupID = ""
     leaves.map(indivLeave => {
       if (indivLeave.collateid === data.collateid) {
-        console.log(indivLeave.application_data)
         setSelectedLeave(indivLeave)
         setSelectedApplicaitonData(indivLeave.application_data)
-        console.log(indivLeave)
         projectManID = indivLeave.application_data.project_manager
         immediateSupID = indivLeave.application_data.immediate_supervisor
       }
     }, () => {
     })
     employess.map(indivEmpoyee => {
-      console.log(immediateSupID)
-      console.log(projectManID)
       if(indivEmpoyee.code === immediateSupID){
         setImmediateSuperior(indivEmpoyee)
       }

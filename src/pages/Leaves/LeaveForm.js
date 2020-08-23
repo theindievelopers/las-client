@@ -24,7 +24,6 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
       )
     }
   })
-  console.log(selectedEmployee)
   return (
     <React.Fragment>
       <Modal

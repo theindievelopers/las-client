@@ -15,7 +15,6 @@ import {
 } from 'reactstrap';
 
 const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, selectedEmployee,employees, ...props }) => {
-  console.log(employees)
   const employeeList = employees.map((employee, i) => {
     if(employee.signature !== ""){
       return (

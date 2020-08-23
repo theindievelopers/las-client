@@ -22,9 +22,6 @@ const ApprovalForm = React.memo( props => {
     showForm, handleShowForm, selectedLeave, selectedApplicationData, isReady, handleRefresh, accounting, ceo, coo, hraManager, logisticsOfficer, approvals,
     handleApprove, handleDeny, handleReview, projectManager, immediateSuperior
   } = props
-
-  console.log(immediateSuperior.code)
-  console.log(projectManager.code)
   return (
     <React.Fragment>
       <Modal
