@@ -167,26 +167,40 @@ const Approvals = React.memo(props => {
 
   const handleApprove = () => {
     let acctSign = ""
+    let acctSignDate = ""
     let ceoSign = ""
+    let ceoSignDate = ""
     let cooSign = ""
+    let cooSignDate = ""
     let logisticsSign = ""
+    let logisticsSignDate = ""
     let hraSign = ""
+    let hraSignDate = ""
     let projSign = ""
+    let projSignDate = ""
     let immSign = ""
+    let immSignDate = ""
     if (selectedApproval.approver_id === accounting.code) {
       acctSign = accounting.signature
+      acctSignDate = moment(new Date()).format("YYYY-MM-DD")
     } else if (selectedApproval.approver_id === ceo.code) {
       ceoSign = ceo.signature
+      ceoSignDate = moment(new Date()).format("YYYY-MM-DD")
     } else if (selectedApproval.approver_id === coo.code) {
       cooSign = coo.code
+      cooSignDate = moment(new Date()).format("YYYY-MM-DD")
     } else if (selectedApproval.approver_id === logisticsOfficer.code) {
       logisticsSign = logisticsOfficer.signature
+      logisticsSignDate = moment(new Date()).format("YYYY-MM-DD")
     } else if (selectedApproval.approver_id === hraManager.code) {
       hraSign = hraManager.signature
+      hraSignDate = moment(new Date()).format("YYYY-MM-DD")
     } else if (selectedApproval.approver_id === immediateSuperior.code) {
       immSign = immediateSuperior.signature
+      immSignDate = moment(new Date()).format("YYYY-MM-DD")
     } else if (selectedApproval.approver_id === projectManager.code) {
       projSign = projectManager.signature
+      projSignDate = moment(new Date()).format("YYYY-MM-DD")
     }
     Swal.fire({
       title: 'Are you sure?',
@@ -242,6 +256,13 @@ const Approvals = React.memo(props => {
                   handover_documents_employee_code: selectedLeave.application_data.handover_documents_employee_code,
                   items_issued: selectedLeave.application_data.items_issued,
                   remarks: selectedLeave.application_data.remarks,
+                  logistics_officer_sign_date: (selectedLeave.application_data.logistics_officer_sign_date ? selectedLeave.application_data.logistics_officer_sign_date : logisticsSignDate),
+                  immidiate_supervisor_sign_date: (selectedLeave.application_data.immidiate_supervisor_sign_date ? selectedLeave.application_data.immidiate_supervisor_sign_date : immSignDate),
+                  project_manager_sign_date: (selectedLeave.application_data.project_manager_sign_date ? selectedLeave.application_data.project_manager_sign_date : projSignDate),
+                  accounting_dept_sign_date: (selectedLeave.application_data.accounting_dept_sign_date ? selectedLeave.application_data.accounting_dept_sign_date : acctSignDate),
+                  hr_manager_sign_date: (selectedLeave.application_data.hr_manager_sign_date ? selectedLeave.application_data.hr_manager_sign_date : hraSignDate),
+                  coo_sign_date: (selectedLeave.application_data.coo_sign_date ? selectedLeave.application_data.coo_sign_date : cooSignDate),
+                  ceo_sign_date: (selectedLeave.application_data.ceo_sign_date ? selectedLeave.application_data.ceo_sign_date : ceoSignDate),
                   logistics_officer_signature_and_date: (selectedLeave.application_data.logistics_officer_signature_and_date ? selectedLeave.application_data.logistics_officer_signature_and_date : logisticsSign),
                   immidiate_supervisor_manager_signature_and_date: (selectedLeave.application_data.immidiate_supervisor_manager_signature_and_date ? selectedLeave.application_data.immidiate_supervisor_manager_signature_and_date : immSign),
                   project_manager_signature_and_date: (selectedLeave.application_data.project_manager_signature_and_date ? selectedLeave.application_data.project_manager_signature_and_date : projSign),

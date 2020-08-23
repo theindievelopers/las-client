@@ -22,6 +22,7 @@ const ApprovalForm = React.memo( props => {
     showForm, handleShowForm, selectedLeave, selectedApplicationData, isReady, handleRefresh, accounting, ceo, coo, hraManager, logisticsOfficer, approvals,
     handleApprove, handleDeny, handleReview, projectManager, immediateSuperior
   } = props
+  console.log(selectedApplicationData)
   return (
     <React.Fragment>
       <Modal
@@ -101,6 +102,13 @@ const ApprovalForm = React.memo( props => {
                       logisticsSign={selectedApplicationData.logistics_officer_signature_and_date}
                       immidiateSupSign={selectedApplicationData.immidiate_supervisor_manager_signature_and_date}
                       projectManagerSign={selectedApplicationData.project_manager_signature_and_date}
+                      ceoSignDate={selectedApplicationData.ceo_sign_date}
+                      cooSignDate={selectedApplicationData.coo_sign_date}
+                      acctSignDate={selectedApplicationData.accounting_dept_sign_date}
+                      hraSignDate={selectedApplicationData.hr_manager_sign_date}
+                      logisticsSignDate={selectedApplicationData.logistics_officer_sign_date}
+                      immidiateSupSignDate={selectedApplicationData.immidiate_supervisor_sign_date}
+                      projectManagerSignDate={selectedApplicationData.project_manager_sign_date}
                     />
                     :
                     <WorkerPDF 

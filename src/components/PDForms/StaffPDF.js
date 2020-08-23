@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 
 const Body = styled.Page`
   padding-top: 35px;
-  padding-bottom: 50px;
+  padding-bottom: 40px;
   padding-right: 35px;
   padding-left: 35px;
   border: 1px solid red;
@@ -110,7 +110,7 @@ const Paragraph = styled.Text`
 const Footer = styled.Text`
   left: 35px;
   right: 35px;
-  bottom: 25px;
+  bottom: 20px;
   font-size: 11px;
   position: absolute;
   // text-align: center;
@@ -122,6 +122,7 @@ const StaffPDF = React.memo(({
     handOverDocsCode,handOverDocsName,itemIssued,itemRemarks,recievedTicket,recievedSettlement,recievedOthers,leaveFrom,leaveTo,backOn,employeeSignature,
     employeeSignDate,airportDepartureDate,airportArrivalDate,airportAccommodation,airportMobile, accountingCode, ceoCode, cooCode, hraManagerCode, logisticsOfficerCode, 
     projectManagerCode,immediateSuperiorCode, ceoSign, cooSign, acctSign, hraSign, logisticsSign, immidiateSupSign, projectManagerSign,handOverDocs, 
+    ceoSignDate, cooSignDate, acctSignDate, hraSignDate, logisticsSignDate, immidiateSupSignDate, projectManagerSignDate,
     ...props 
   }) => (
   <Document>
@@ -294,7 +295,10 @@ const StaffPDF = React.memo(({
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {logisticsSign ?
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + logisticsOfficerCode} style={{width: 130,height: 20}}/>
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + logisticsOfficerCode} style={{width: 130,height: 20}}/> 
+                    <Text>{logisticsSignDate}</Text>
+                  </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
                     Placeholder
@@ -308,7 +312,10 @@ const StaffPDF = React.memo(({
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {immidiateSupSign ? 
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + immediateSuperiorCode} style={{width: 130, height: 20}}/>
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + immediateSuperiorCode} style={{width: 130, height: 20}}/>
+                    <Text>{immidiateSupSignDate}</Text>
+                  </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
                     Placeholder
@@ -327,7 +334,10 @@ const StaffPDF = React.memo(({
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {projectManagerSign ? 
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/>
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/>
+                    <Text>{projectManagerSignDate}</Text>
+                  </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
                     Placeholder
@@ -341,7 +351,10 @@ const StaffPDF = React.memo(({
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {acctSign ? 
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + accountingCode} style={{width: 130,height: 20}}/>
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + accountingCode} style={{width: 130,height: 20}}/>
+                    <Text>{acctSignDate}</Text>
+                  </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
                     Placeholder
@@ -511,7 +524,10 @@ const StaffPDF = React.memo(({
               </Text>
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
                 {hraSign ?
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
+                    <Text>{hraSignDate}</Text>
+                  </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
                     Placeholder
@@ -528,7 +544,10 @@ const StaffPDF = React.memo(({
               </Text>
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
                 {cooSign ? 
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + cooCode} style={{width: 130,height: 20}}/>
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + cooCode} style={{width: 130,height: 20}}/>
+                    <Text>{cooSignDate}</Text>
+                  </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
                     Placeholder
@@ -545,7 +564,10 @@ const StaffPDF = React.memo(({
               </Text>
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
                 {ceoSign ? 
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + ceoCode} style={{width: 130,height: 20}}/>
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + ceoCode} style={{width: 130,height: 20}}/>
+                    <Text>{ceoSignDate}</Text>
+                  </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
                     Placeholder

@@ -61,6 +61,7 @@ class LeavesTable extends Component {
             icon: props => <i className="far fa-file-pdf"></i>,
             tooltip: 'Show PDF',
             render: rowData => {
+              console.log(rowData)
               let appData = rowData.application_data
               if (rowData.application_form_code == "LEAVE_WORKER") {
                 return (
@@ -140,6 +141,13 @@ class LeavesTable extends Component {
                     immediateSuperiorCode={appData.immediate_supervisor}
                     immidiateSupSign={appData.immidiate_supervisor_manager_signature_and_date}
                     projectManagerSign={appData.project_manager_signature_and_date}
+                    ceoSignDate={appData.ceo_sign_date}
+                    cooSignDate={appData.coo_sign_date}
+                    acctSignDate={appData.accounting_dept_sign_date}
+                    hraSignDate={appData.hr_manager_sign_date}
+                    logisticsSignDate={appData.logistics_officer_sign_date}
+                    immidiateSupSignDate={appData.immidiate_supervisor_sign_date}
+                    projectManagerSignDate={appData.project_manager_sign_date}
                   />
                 </PDFViewer>
               )}
