@@ -20,11 +20,11 @@ import WorkerPDF from '../../components/PDForms/WorkerPDF';
 const ApprovalForm = React.memo( props => {
   const { 
     showForm, handleShowForm, selectedLeave, selectedApplicationData, isReady, handleRefresh, accounting, ceo, coo, hraManager, logisticsOfficer, approvals,
-    handleApprove, handleDeny, handleReview
+    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior
   } = props
-  // console.log("approvals", approvals)
-  // console.log(selectedLeave)
 
+  console.log(immediateSuperior.code)
+  console.log(projectManager.code)
   return (
     <React.Fragment>
       <Modal
@@ -95,6 +95,8 @@ const ApprovalForm = React.memo( props => {
                       cooCode={coo.code}
                       hraManagerCode={hraManager.code}
                       logisticsOfficerCode={logisticsOfficer.code}
+                      projectManagerCode={projectManager.code}
+                      immediateSuperiorCode={immediateSuperior.code}
                       ceoSign={selectedApplicationData.ceo_signature_and_date}
                       cooSign={selectedApplicationData.coo_signature_and_date}
                       acctSign={selectedApplicationData.accounting_department_signature_and_date}

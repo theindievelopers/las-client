@@ -206,3 +206,128 @@
 
         C:\Users\Makati\Desktop\weew\s\las-client\src\img\gsas.jpg
         src\img\gsas.jpg
+
+
+
+
+
+
+
+
+
+        let acctSign = ""
+        let ceoSign = ""
+        let cooSign = ""
+        let logisticsSign = ""
+        let hraSign = ""
+        let projSign = ""
+        let immSign = ""
+        if (selectedApproval.approver_id === accounting.code) {
+          acctSign = accounting.signature
+        } else if (selectedApproval.approver_id === ceo.code) {
+          ceoSign = ceo.signature
+        } else if (selectedApproval.approver_id === coo.code) {
+          cooSign = coo.code
+        } else if (selectedApproval.approver_id === logisticsOfficer.code) {
+          logisticsSign = logisticsOfficer.signature
+        } else if (selectedApproval.approver_id === hraManager.code) {
+          hraSign = hraManager.signature
+        } else if (selectedApproval.approver_id === immediateSuperior.code) {
+          immSign = immediateSuperior.signature
+        } else if (selectedApproval.approver_id === projectManager.code) {
+          projSign = projectManager.signature
+        }
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, update it!'
+        }).then((result) => {
+          if (result.value) {
+            Swal.fire(
+              'Updated!',
+              'Application has been Approved.',
+              'success'
+            )
+            fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+              method: 'put',
+              headers: { 'Content-Type': 'application/json', 'LAS': 'LAS', 'raihan': 'raihan' },
+              body: JSON.stringify({
+                approver_id: selectedApproval.approver_id,
+                createdBy: selectedApproval.createdBy,
+                createdAt: selectedApproval.createdAt,
+                updatedBy: JSON.parse(sessionStorage.name),
+                updatedAt: moment(new Date()).format("YYYY-MM-DD"),
+                status: "APPROVED"
+              })
+            })
+              .then(res => res.json())
+              .then(data => {
+                fetch(`http://localhost:3000/application?id=${selectedLeave.id}`, {
+                  method: 'put',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    application_form_code: selectedLeave.application_form_code,
+                    employee_id: selectedLeave.employee_id,
+                    application_data: {
+                      name: selectedLeave.application_data.name,
+                      employee_code: selectedLeave.application_data.employee_code,
+                      project: selectedLeave.application_data.project,
+                      position: selectedLeave.application_data.position,
+                      departure_date: selectedLeave.application_data.departure_date,
+                      return_date: selectedLeave.application_data.return_date,
+                      leave_type: selectedLeave.application_data.leave_type,
+                      contact_number: selectedLeave.application_data.contact_number,
+                      handover_briefing_to_successor: selectedLeave.application_data.handover_briefing_to_successor,
+                      handover_briefing_to_successor_employee_name: selectedLeave.application_data.handover_briefing_to_successor_employee_name,
+                      handover_briefing_to_successor_employee_code: "",
+                      handover_documents: selectedLeave.application_data.handover_documents,
+                      handover_documents_employee_name: selectedLeave.application_data.handover_documents_employee_name,
+                      handover_documents_employee_code: selectedLeave.application_data.handover_documents_employee_code,
+                      items_issued: selectedLeave.application_data.items_issued,
+                      remarks: selectedLeave.application_data.remarks,
+                      logistics_officer_signature_and_date: (selectedLeave.application_data.logistics_officer_signature_and_date ? selectedLeave.application_data.logistics_officer_signature_and_date : logisticsSign),
+                      immidiate_supervisor_manager_signature_and_date: (selectedLeave.application_data.immidiate_supervisor_manager_signature_and_date ? selectedLeave.application_data.immidiate_supervisor_manager_signature_and_date : immSign),
+                      project_manager_signature_and_date: (selectedLeave.application_data.project_manager_signature_and_date ? selectedLeave.application_data.project_manager_signature_and_date : projSign),
+                      accounting_department_signature_and_date: (selectedLeave.application_data.accounting_department_signature_and_date ? selectedLeave.application_data.accounting_department_signature_and_date : acctSign),
+                      receive_ticket: selectedLeave.application_data.receive_ticket,
+                      receive_settlement: selectedLeave.application_data.receive_settlement,
+                      receive_others: selectedLeave.application_data.receive_others,
+                      receive_others_remarks: selectedLeave.application_data.receive_others_remarks,
+                      leave_from: selectedLeave.application_data.leave_from,
+                      leave_to: selectedLeave.application_data.leave_to,
+                      be_back_on: selectedLeave.application_data.be_back_on,
+                      employee_signature: selectedLeave.application_data.employee_signature,
+                      employee_signature_date: selectedLeave.application_data.employee_signature_date,
+                      airport_transportation_departure_date: selectedLeave.airport_transportation_departure_date,
+                      airport_transportation_arrival_date: selectedLeave.application_data.airport_transportation_arrival_date,
+                      airport_transportation_accommodation: selectedLeave.application_data.airport_transportation_accommodation,
+                      airport_transportation_mobile_number: selectedLeave.application_data.airport_transportation_mobile_number,
+                      hr_manager_signature_and_date: (selectedLeave.application_data.hr_manager_signature_and_date ? selectedLeave.application_data.hr_manager_signature_and_date : hraSign),
+                      coo_signature_and_date: (selectedLeave.application_data.coo_signature_and_date ? selectedLeave.application_data.coo_signature_and_date : cooSign),
+                      ceo_signature_and_date: (selectedLeave.application_data.ceo_signature_and_date ? selectedLeave.application_data.ceo_signature_and_date : ceoSign),
+                      createdby: selectedLeave.application_data.createdby,
+                      createdat: selectedLeave.application_data.createdat,
+                      updatedby: selectedLeave.application_data.updatedBy,
+                      updatedat: selectedLeave.application_data.updatedAt
+                    },
+                    status: "ACTIVE",
+                    createdBy: selectedLeave.createdBy,
+                    createdAt: selectedLeave.createdAt,
+                    updatedBy: JSON.parse(sessionStorage.name),
+                    updatedAt: moment(new Date()).format("MM-DD-YYYY")
+                  })
+                })
+                  .then(res => res.json())
+                  .then(data => {
+                    refetch()
+                    handleRefresh()
+                  })
+                refetch()
+                handleRefresh()
+              })
+          }
+        })

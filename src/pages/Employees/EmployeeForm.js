@@ -14,7 +14,15 @@ import {
   Spinner
 } from 'reactstrap';
 
-const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, selectedEmployee, ...props }) => {
+const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, selectedEmployee,employees, ...props }) => {
+  console.log(employees)
+  const employeeList = employees.map((employee, i) => {
+    if(employee.signature !== ""){
+      return (
+        <option key={i} value={employee.code} onClick={props.handleEmployeeSelect}>{employee.code}-{employee.fullname}</option>
+      )
+    }
+  })
   return (
     <React.Fragment>
       <Modal
@@ -59,7 +67,6 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
                     <option>-</option>
                     <option>worker</option>
                     <option>staff</option>
-
                   </Input>
                 </FormGroup>
               </Col>
@@ -371,17 +378,39 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               <Col md={6}>
                 <FormGroup>
                   <Label for="projectManager">Prject Manager:</Label>
-                  <Input bsSize="sm" type="text" name="projectManager" id="projectManager" placeholder="Prject Manager" onBlur={props.handleProjectManagerChange}
+                  {/* <Input bsSize="sm" type="text" name="projectManager" id="projectManager" placeholder="Prject Manager" onBlur={props.handleProjectManagerChange}
                     defaultValue={isEdit ? selectedEmployee.recruited_by : ""}
-                  />
+                  /> */}
+                  <Input bsSize="sm"
+                    type="select"
+                    name="employee"
+                    id="employee"
+                    onChange={props.handleProjectManagerChange}
+                    defaultValue={isEdit ? selectedEmployee.project_manager : ""}
+                  >
+                    <option>-</option>
+                    <option>N/A</option>
+                    {employeeList}
+                  </Input>
                 </FormGroup>
               </Col>
               <Col md={6}>
                 <FormGroup>
                   <Label for="immediateSuperior">Immediate Superior:</Label>
-                  <Input bsSize="sm" type="text" name="immediateSuperior" id="immediateSuperior" placeholder="Immediate Superior" onBlur={props.handleImmediateSuperior}
+                  {/* <Input bsSize="sm" type="text" name="immediateSuperior" id="immediateSuperior" placeholder="Immediate Superior" onBlur={props.handleImmediateSuperior}
                     defaultValue={isEdit ? selectedEmployee.recruited_by : ""}
-                  />
+                  /> */}
+                  <Input bsSize="sm"
+                    type="select"
+                    name="employee"
+                    id="employee"
+                    onChange={props.handleImmediateSuperior}
+                    defaultValue={isEdit ? selectedEmployee.immediate_superior : ""}
+                  >
+                    <option>-</option>
+                    <option>N/A</option>
+                    {employeeList}
+                  </Input>
                 </FormGroup>
               </Col>
               <Col md={6}>

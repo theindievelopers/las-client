@@ -121,7 +121,8 @@ const StaffPDF = React.memo(({
     name, department, departureDate, employeeNum, position, returnDate,contactNum, typeOfLeave, handOverSuccessor,handOverSuccessorName,handOverSuccessorCode,
     handOverDocsCode,handOverDocsName,itemIssued,itemRemarks,recievedTicket,recievedSettlement,recievedOthers,leaveFrom,leaveTo,backOn,employeeSignature,
     employeeSignDate,airportDepartureDate,airportArrivalDate,airportAccommodation,airportMobile, accountingCode, ceoCode, cooCode, hraManagerCode, logisticsOfficerCode, 
-    ceoSign, cooSign, acctSign, hraSign, logisticsSign, immidiateSupSign, projectManagerSign,handOverDocs, ...props 
+    projectManagerCode,immediateSuperiorCode, ceoSign, cooSign, acctSign, hraSign, logisticsSign, immidiateSupSign, projectManagerSign,handOverDocs, 
+    ...props 
   }) => (
   <Document>
     <Body size="A4" wrap>
@@ -307,7 +308,7 @@ const StaffPDF = React.memo(({
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {immidiateSupSign ? 
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/>
+                  <Image source={"http://localhost:3000/fetch/signature?code=" + immediateSuperiorCode} style={{width: 130, height: 20}}/>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
                     Placeholder
@@ -326,7 +327,7 @@ const StaffPDF = React.memo(({
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {projectManagerSign ? 
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/>
+                  <Image source={"http://localhost:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
                     Placeholder

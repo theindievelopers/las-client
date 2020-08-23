@@ -11,7 +11,7 @@ import { Card,CardBody } from 'reactstrap'
 const Employees = () => {
   const [loggedInUser, setLoggedInUser] = useState()
   const [signatureUpload, setSignatureUpload] = useState(false)
-  const [employess, setEmployees] = useState([])
+  const [employees, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isEdit, setIsedit] = useState(false)
   const [showForm, setShowFrom] = useState(false)
@@ -493,7 +493,7 @@ const Employees = () => {
             })
             setIsLoading(false)
           } else {
-            let newEmployees = [...employess]
+            let newEmployees = [...employees]
             newEmployees.push(data.data)
             setEmployees(newEmployees)
             handleRefresh()
@@ -515,6 +515,7 @@ const Employees = () => {
       <div className="row">
         <div className="col-4 offset-8 text-right">
           <EmployeeForm
+            employees={employees}
             isLoading={isLoading}
             isEdit={isEdit}
             selectedEmployee={selectedEmployee}
@@ -582,7 +583,7 @@ const Employees = () => {
                   <Card>
                     <CardBody>
                       <EmployeesTable
-                        data={employess}
+                        data={employees}
                         handleShowForm={handleShowForm}
                         handleEdit={handleEdit}
                         isLoading={isLoading}

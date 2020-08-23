@@ -136,6 +136,8 @@ class LeavesTable extends Component {
                     cooCode={this.props.coo.code}
                     hraManagerCode={this.props.hraManager.code}
                     logisticsOfficerCode={this.props.logisticsOfficer.code}
+                    projectManagerCode={appData.project_manager}
+                    immediateSuperiorCode={appData.immediate_supervisor}
                     immidiateSupSign={appData.immidiate_supervisor_manager_signature_and_date}
                     projectManagerSign={appData.project_manager_signature_and_date}
                   />

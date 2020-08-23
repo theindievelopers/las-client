@@ -188,6 +188,16 @@ class EmployeesTable extends Component {
             // width: 130
           },
           {
+            title: 'Project Manager',
+            field: 'project_manager',
+            // width: 130
+          },
+          {
+            title: 'Immediate Superior',
+            field: 'immediate_superior',
+            // width: 130
+          },
+          {
             title: 'Accomodation',
             field: 'accommodation',
             // width: 130

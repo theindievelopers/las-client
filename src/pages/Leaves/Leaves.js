@@ -544,6 +544,8 @@ const Leaves = () => {
             employee_code: selectedLeave.application_data.employee_code,
             project: selectedLeave.application_data.project,
             position: selectedLeave.application_data.position,
+            project_manager: selectedLeave.project_manager,
+            immediate_supervisor: selectedLeave.immediate_superior,
             departure_date: staffDepartureDate,
             return_date: staffReturnDate,
             leave_type: staffLeaveTypeChange,
@@ -615,6 +617,8 @@ const Leaves = () => {
             employee_code: selectedEmployee[0].code,
             project: selectedEmployee[0].cost_allocation_site,
             position: selectedEmployee[0].cost_allocation_actual_job_title,
+            project_manager: selectedEmployee[0].project_manager,
+            immediate_supervisor: selectedEmployee[0].immediate_superior,
             departure_date: staffDepartureDate,
             return_date: staffReturnDate,
             leave_type: staffLeaveTypeChange,
@@ -662,12 +666,21 @@ const Leaves = () => {
         .then(res => res.json())
         .then(data => {
           if (data.error) {
-            alert(data.error)
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `${data.error}`,
+            })
           } else {
             let newLeaves = [...leaves]
             newLeaves.push(data)
             setLeaves(newLeaves)
             setShowForm(false)
+            Swal.fire(
+              'Success!',
+              'Leave Application has been filed successfully!',
+              'success'
+            )
             handleRefresh()
           }
         })

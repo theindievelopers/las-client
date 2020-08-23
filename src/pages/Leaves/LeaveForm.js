@@ -18,10 +18,13 @@ import LeaveStaff from './LeaveStaff';
 const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, selectedEmployee, isEdit, selectedLeave, ...props }) => {
   const [selected, setSelected] = useState(selectedEmployee[0])
   const employeeList = employees.map((employee, i) => {
-    return (
-      <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
-    )
+    if(employee.signature !== ""){
+      return (
+        <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
+      )
+    }
   })
+  console.log(selectedEmployee)
   return (
     <React.Fragment>
       <Modal

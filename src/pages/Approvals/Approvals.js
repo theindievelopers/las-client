@@ -9,12 +9,14 @@ import ApprovalTable from './ApprovalsTable'
 import ApprovalForm from './ApprovalForm'
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import StaffPDF from '../../components/PDForms/StaffPDF'
+import { useImperativeHandle } from 'react'
 
-const Approvals = React.memo( props => {
+const Approvals = React.memo(props => {
   const [users, setUsers] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [isReady, setIsReady] = useState(false)
   const [approvals, setApprovals] = useState([])
+  const [employess, setEmployees] = useState([])
   const [approversData, setApproversData] = useState([])
   const [leaves, setLeaves] = useState([])
   const [selectedApproval, setSelectedApproval] = useState([])
@@ -29,6 +31,8 @@ const Approvals = React.memo( props => {
   const [coo, setCoo] = useState({})
   const [logisticsOfficer, setLogisticsOfficer] = useState({})
   const [hraManager, setHraManager] = useState({})
+  const [projectManager, setProjectManager] = useState({})
+  const [immediateSuperior, setImmediateSuperior] = useState({})
   const [approvers, setApprovers] = useState({})
   const [accountingSign, setAccountingSign] = useState("")
   const [ceoSign, setCeoSign] = useState("")
@@ -43,16 +47,10 @@ const Approvals = React.memo( props => {
   }, [])
 
   useEffect(() => {
-    fetch('http://localhost:3000/application')
-      .then(res => res.json())
-      .then(data => {
-        let allData = []
-        data.map(indivData => {
-          allData.push(indivData)
-        })
-        setLeaves(allData)
-      })
+    refetch()
+  }, [])
 
+  const refetch = () => {
     fetch('http://localhost:3000/approvals')
       .then(res => res.json())
       .then(data => {
@@ -61,16 +59,23 @@ const Approvals = React.memo( props => {
         let denied = []
         let review = []
         let pending = []
+        let uniqueApproversID = []
         data.map(indivData => {
+          if(uniqueApproversID.includes(indivData.approver_id)){
+            console.log("all ready there")
+          } else {
+            uniqueApproversID.push(indivData.approver_id)
+            console.log(uniqueApproversID)
+          }
           if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 2 || JSON.parse(sessionStorage.empCode) === indivData.approver_id) {
             allData.push(indivData)
-            if(indivData.status === "APPROVED"){
+            if (indivData.status === "APPROVED") {
               approved.push(indivData)
-            } else if(indivData.status === "DENIED"){
+            } else if (indivData.status === "DENIED") {
               denied.push(indivData)
-            } else if(indivData.status === "REVIEW"){
+            } else if (indivData.status === "REVIEW") {
               review.push(indivData)
-            } else if(indivData.status === "PENDING"){
+            } else if (indivData.status === "PENDING") {
               pending.push(indivData)
             }
           }
@@ -82,56 +87,6 @@ const Approvals = React.memo( props => {
         setReview(review.length)
       })
 
-    fetch('http://localhost:3000/applicationform')
-      .then(res => res.json())
-      .then(data => {
-        let approverCode = data[0].data.approvers
-        let accounting = []
-        let ceo = []
-        let coo = []
-        let hraManager = [] 
-        let logisticsOfficer = []
-        fetch('http://localhost:3000/employee')
-          .then(res => res.json())
-          .then(data => {
-            data.map(inidvData => {
-              if(inidvData.code === approverCode.accounting){
-                accounting.push(inidvData)
-              } else if(inidvData.code === approverCode.ceo){
-                ceo.push(inidvData)
-              } else if(inidvData.code === approverCode.coo){
-                coo.push(inidvData)
-              } else if(inidvData.code === approverCode.hra_manager){
-                hraManager.push(inidvData)
-              } else if(inidvData.code === approverCode.logistics_officer){
-                logisticsOfficer.push(inidvData)
-              }
-            })
-          })
-          .then(() => {
-            setAccounting(accounting[0])
-            setCeo(ceo[0])
-            setCoo(coo[0])
-            setLogisticsOfficer(logisticsOfficer[0])
-            setHraManager(hraManager[0])
-          })
-      })
-  }, [])
-
-  const refetch = () => {
-    fetch('http://localhost:3000/approvals')
-    .then(res => res.json())
-    .then(data => {
-      let allData = []
-      data.map(indivData => {
-        if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 2 || JSON.parse(sessionStorage.empCode) === indivData.approver_id) {
-          allData.push(indivData)
-        }
-      })
-      setApprovals(allData)
-      setForApproval(allData.length)
-    })
-
     fetch('http://localhost:3000/application')
       .then(res => res.json())
       .then(data => {
@@ -141,15 +96,70 @@ const Approvals = React.memo( props => {
         })
         setLeaves(allData)
       })
+
+    fetch('http://localhost:3000/applicationform')
+      .then(res => res.json())
+      .then(data => {
+        let approverCode = data[0].data.approvers
+        let accounting = []
+        let ceo = []
+        let coo = []
+        let hraManager = []
+        let logisticsOfficer = []
+        fetch('http://localhost:3000/employee')
+          .then(res => res.json())
+          .then(data => {
+            data.map(inidvData => {
+              if (inidvData.code === approverCode.accounting) {
+                accounting.push(inidvData)
+              } else if (inidvData.code === approverCode.ceo) {
+                ceo.push(inidvData)
+              } else if (inidvData.code === approverCode.coo) {
+                coo.push(inidvData)
+              } else if (inidvData.code === approverCode.hra_manager) {
+                hraManager.push(inidvData)
+              } else if (inidvData.code === approverCode.logistics_officer) {
+                logisticsOfficer.push(inidvData)
+              }
+            })
+            setEmployees(data)
+          })
+          .then(() => {
+            setAccounting(accounting[0])
+            setCeo(ceo[0])
+            setCoo(coo[0])
+            setLogisticsOfficer(logisticsOfficer[0])
+            setHraManager(hraManager[0])
+          })
+      })
   }
 
   const handleShowForm = (data) => {
+    console.log(data)
+    console.log(leaves)
     setSelectedApproval(data)
     setAccountingSign(data.signature)
+    let projectManID = ""
+    let immediateSupID = ""
     leaves.map(indivLeave => {
       if (indivLeave.collateid === data.collateid) {
+        console.log(indivLeave.application_data)
         setSelectedLeave(indivLeave)
         setSelectedApplicaitonData(indivLeave.application_data)
+        console.log(indivLeave)
+        projectManID = indivLeave.application_data.project_manager
+        immediateSupID = indivLeave.application_data.immediate_supervisor
+      }
+    }, () => {
+    })
+    employess.map(indivEmpoyee => {
+      console.log(immediateSupID)
+      console.log(projectManID)
+      if(indivEmpoyee.code === immediateSupID){
+        setImmediateSuperior(indivEmpoyee)
+      }
+      if(indivEmpoyee.code === projectManID){
+        setProjectManager(indivEmpoyee)
       }
     })
     setTimeout(() => {
@@ -169,16 +179,22 @@ const Approvals = React.memo( props => {
     let cooSign = ""
     let logisticsSign = ""
     let hraSign = ""
-    if(selectedApproval.approver_id === accounting.code){
+    let projSign = ""
+    let immSign = ""
+    if (selectedApproval.approver_id === accounting.code) {
       acctSign = accounting.signature
-    } else if (selectedApproval.approver_id === ceo.code){
+    } else if (selectedApproval.approver_id === ceo.code) {
       ceoSign = ceo.signature
-    } else if (selectedApproval.approver_id === coo.code){
+    } else if (selectedApproval.approver_id === coo.code) {
       cooSign = coo.code
-    } else if (selectedApproval.approver_id === logisticsOfficer.code){
+    } else if (selectedApproval.approver_id === logisticsOfficer.code) {
       logisticsSign = logisticsOfficer.signature
     } else if (selectedApproval.approver_id === hraManager.code) {
       hraSign = hraManager.signature
+    } else if (selectedApproval.approver_id === immediateSuperior.code) {
+      immSign = immediateSuperior.signature
+    } else if (selectedApproval.approver_id === projectManager.code) {
+      projSign = projectManager.signature
     }
     Swal.fire({
       title: 'Are you sure?',
@@ -189,7 +205,7 @@ const Approvals = React.memo( props => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, update it!'
     }).then((result) => {
-      if(result.value){
+      if (result.value) {
         Swal.fire(
           'Updated!',
           'Application has been Approved.',
@@ -220,6 +236,8 @@ const Approvals = React.memo( props => {
                   employee_code: selectedLeave.application_data.employee_code,
                   project: selectedLeave.application_data.project,
                   position: selectedLeave.application_data.position,
+                  project_manager: selectedLeave.application_data.project_manager,
+                  immediate_supervisor: selectedLeave.application_data.immediate_supervisor,
                   departure_date: selectedLeave.application_data.departure_date,
                   return_date: selectedLeave.application_data.return_date,
                   leave_type: selectedLeave.application_data.leave_type,
@@ -233,8 +251,8 @@ const Approvals = React.memo( props => {
                   items_issued: selectedLeave.application_data.items_issued,
                   remarks: selectedLeave.application_data.remarks,
                   logistics_officer_signature_and_date: (selectedLeave.application_data.logistics_officer_signature_and_date ? selectedLeave.application_data.logistics_officer_signature_and_date : logisticsSign),
-                  immidiate_supervisor_manager_signature_and_date: "",
-                  project_manager_signature_and_date: "",
+                  immidiate_supervisor_manager_signature_and_date: (selectedLeave.application_data.immidiate_supervisor_manager_signature_and_date ? selectedLeave.application_data.immidiate_supervisor_manager_signature_and_date : immSign),
+                  project_manager_signature_and_date: (selectedLeave.application_data.project_manager_signature_and_date ? selectedLeave.application_data.project_manager_signature_and_date : projSign),
                   accounting_department_signature_and_date: (selectedLeave.application_data.accounting_department_signature_and_date ? selectedLeave.application_data.accounting_department_signature_and_date : acctSign),
                   receive_ticket: selectedLeave.application_data.receive_ticket,
                   receive_settlement: selectedLeave.application_data.receive_settlement,
@@ -286,7 +304,7 @@ const Approvals = React.memo( props => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, update it!'
     }).then((result) => {
-      if(result.value){
+      if (result.value) {
         Swal.fire(
           'Updated!',
           'Application has been Denied.',
@@ -323,7 +341,7 @@ const Approvals = React.memo( props => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, update it!'
     }).then((result) => {
-      if(result.value){
+      if (result.value) {
         Swal.fire(
           'Updated!',
           'Application has been tagged for Review.',
@@ -367,6 +385,8 @@ const Approvals = React.memo( props => {
             coo={coo}
             hraManager={hraManager}
             logisticsOfficer={logisticsOfficer}
+            projectManager={projectManager}
+            immediateSuperior={immediateSuperior}
             approvals={approvals}
             handleApprove={handleApprove}
             handleDeny={handleDeny}
