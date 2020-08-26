@@ -9,7 +9,6 @@ import Swal from 'sweetalert2'
 import { Card,CardBody } from 'reactstrap'
 
 const Employees = () => {
-  const [loggedInUser, setLoggedInUser] = useState()
   const [signatureUpload, setSignatureUpload] = useState(false)
   const [employees, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -58,7 +57,6 @@ const Employees = () => {
   const [signature, setSignature] = useState("")
   const [createdBy, setCreatedBy] = useState("")
   const [createdAt, setCreatedAt] = useState("")
-  const [empSign, setEmpSign] = useState()
   const [selectedEmployee, setSelectedEmployee] = useState([])
 
   useEffect(() => {
@@ -305,14 +303,20 @@ const Employees = () => {
   }
 
   const handleProjectManagerChange = e => {
-    setProjectManager(e.target.value)
+    let value = e.target.value
+    if(value === "" || value === "-" || value === "N/A") {
+      return value = ""
+    }
+    setProjectManager(value)
   }
 
   const handleImmediateSuperior = e => {
+    let value = e.target.value
+    if(value === "" || value === "-" || value === "N/A") {
+      return value = ""
+    }
     setImmediateSuperior(e.target.value)
   }
-
-  const signatureImage = document.getElementsByClassName('.signature')
 
   const handleSignature = e => {
     e.preventDefault();

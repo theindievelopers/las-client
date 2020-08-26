@@ -15,13 +15,22 @@ import {
 } from 'reactstrap';
 
 const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, selectedEmployee,employees, ...props }) => {
-  const employeeList = employees.map((employee, i) => {
+  const selectProjectManager = employees.map((employee, i) => {
     if(employee.signature !== ""){
       return (
-        <option key={i} value={employee.code} onClick={props.handleEmployeeSelect}>{employee.code}-{employee.fullname}</option>
+        <option key={i} value={employee.code} selected={isEdit && selectedEmployee.project_manager === employee.code ? true : false}>{employee.code}-{employee.fullname}</option>
       )
     }
   })
+
+  const selectImmediateSuperior = employees.map((employee, i) => {
+    if(employee.signature !== ""){
+      return (
+        <option key={i} value={employee.code} selected={isEdit && selectedEmployee.immediate_superior === employee.code ? true : false}>{employee.code}-{employee.fullname}</option>
+      )
+    }
+  })
+
   return (
     <React.Fragment>
       <Modal
@@ -38,7 +47,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
           {isEdit ? "Update" : "Add"} Employee
           {isEdit ? "" :
             <FormText color="muted">
-              All fields marked with * are required
+              All fields marked with <span style={{color: "red"}}>*</span> are required
             </FormText>
           }
         </ModalHeader>
@@ -47,7 +56,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
             <Row form>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="employeeCode">Employee Code: *</Label>
+                  <Label for="employeeCode">Employee Code: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="text" name="employeeCode" id="employeeCode" placeholder="Employee Code" onBlur={props.handleEmployeeCodeChange}
                     defaultValue={isEdit ? selectedEmployee.code : ""}
                   />
@@ -55,7 +64,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="employeeType">Employee Type: *</Label>
+                  <Label for="employeeType">Employee Type: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm"
                     type="select"
                     name="employeeType"
@@ -71,7 +80,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="employmentStatus">Employment Status: *</Label>
+                  <Label for="employmentStatus">Employment Status: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="text" name="employmentStatus" id="employmentStatus" placeholder="Employment Status" onBlur={props.handleEmployementStatusChange}
                     defaultValue={isEdit ? selectedEmployee.employment_status : ""}
                   />
@@ -82,7 +91,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
             <Row form>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="fullname">Full Name: *</Label>
+                  <Label for="fullname">Full Name: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="text" name="fullname" id="fullname" placeholder="Full Name" onBlur={props.handleFullnameChange}
                     defaultValue={isEdit ? selectedEmployee.fullname : ""}
                   />
@@ -90,7 +99,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="nationality">Nationality: *</Label>
+                  <Label for="nationality">Nationality: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="text" name="nationality" id="nationality" placeholder="Nationality" onBlur={props.handleNationalityChange}
                     defaultValue={isEdit ? selectedEmployee.nationality : ""}
                   />
@@ -98,7 +107,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="dob">Date of Birth: *</Label>
+                  <Label for="dob">Date of Birth: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="date" name="dob" id="dob" placeholder="" onBlur={props.handleDOBSiteChange}
                     defaultValue={isEdit ? selectedEmployee.dob : ""}
                   />
@@ -134,7 +143,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
             <Row form>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="passportNumber">Passport No.: *</Label>
+                  <Label for="passportNumber">Passport No.: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="text" name="passportNumber" id="passportNumber" placeholder="Passport Number" onBlur={props.handlePassportNumChange}
                     defaultValue={isEdit ? selectedEmployee.passport_number : ""}
                   />
@@ -142,7 +151,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="passportDateIssued">Passport Date Issued: *</Label>
+                  <Label for="passportDateIssued">Passport Date Issued: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="date" name="passportDateIssued" id="passportDateIssued" placeholder="" onBlur={props.handlePassportDateIssuedChange}
                     defaultValue={isEdit ? selectedEmployee.passport_date_of_issue : ""}
                   />
@@ -150,7 +159,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="passportExpiryDate">Passport Expiry Date: *</Label>
+                  <Label for="passportExpiryDate">Passport Expiry Date: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="date" name="passportExpiryDate" id="passportExpiryDate" placeholder="" onBlur={props.handlePassportExpiryChange}
                     defaultValue={isEdit ? selectedEmployee.passport_expiry_date : ""}
                   />
@@ -160,7 +169,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
             <Row form>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="residencePermitNumber">Residence Permit No.: *</Label>
+                  <Label for="residencePermitNumber">Residence Permit No.: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="text" name="residencePermitNumber" id="residencePermitNumber" placeholder="Residence Permit No." onBlur={props.handleResidencePermitChange}
                     defaultValue={isEdit ? selectedEmployee.residence_permit_number : ""}
                   />
@@ -168,7 +177,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="residencePermitExpiryDate">Residence Permit Expiry Date: *</Label>
+                  <Label for="residencePermitExpiryDate">Residence Permit Expiry Date: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="date" name="residencePermitExpiryDate" id="residencePermitExpiryDate" placeholder="" onBlur={props.handleResidenceExpiryDateChange}
                     defaultValue={isEdit ? selectedEmployee.residence_permit_expiry_date : ""}
                   />
@@ -194,7 +203,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="joiningDate">Joining Date: *</Label>
+                  <Label for="joiningDate">Joining Date: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="date" name="joiningDate" id="joiningDate" placeholder="Joining Date" onBlur={props.handleJoiningDateChange}
                     defaultValue={isEdit ? selectedEmployee.joining_date : ""}
                   />
@@ -306,7 +315,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="drivingLicenseIssueDate">Driving License Issue Date: *</Label>
+                  <Label for="drivingLicenseIssueDate">Driving License Issue Date: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="date" name="drivingLicenseIssueDate" id="drivingLicenseIssueDate" placeholder="" onBlur={props.handleDrivingLicenseIssueDateChange}
                     defaultValue={isEdit ? selectedEmployee.driving_license_issue_date : ""}
                   />
@@ -316,7 +325,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
             <Row form>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="drivingLicenseExpiryDate">Driving License Expiry Date: *</Label>
+                  <Label for="drivingLicenseExpiryDate">Driving License Expiry Date: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="date" name="drivingLicenseExpiryDate" id="drivingLicenseExpiryDate" placeholder="Driving License Expiry Date" onBlur={props.handleDriverLicenseExpiryChange}
                     defaultValue={isEdit ? selectedEmployee.driving_license_expiry_date : ""}
                   />
@@ -324,7 +333,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="healthCardNumber">Helath Card No.: *</Label>
+                  <Label for="healthCardNumber">Helath Card No.: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="text" name="healthCardNumber" id="healthCardNumber" placeholder="Leave Ticket Entitlement" onBlur={props.handleHealthCardNumChange}
                     defaultValue={isEdit ? selectedEmployee.health_card_number : ""}
                   />
@@ -332,7 +341,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="healthCardIssueDate">Healt Card Issue Date: *</Label>
+                  <Label for="healthCardIssueDate">Healt Card Issue Date: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="date" name="healthCardIssueDate" id="healthCardIssueDate" placeholder="Healt Card Issue Date" onBlur={props.handleHealthCardIssueDateChange}
                     defaultValue={isEdit ? selectedEmployee.health_card_issue_date : ""}
                   />
@@ -342,7 +351,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
             <Row form>
               <Col md={4}>
                 <FormGroup>
-                  <Label for="healthCardExpiryDate">Health Card Expiry Date: *</Label>
+                  <Label for="healthCardExpiryDate">Health Card Expiry Date: <span style={{color: "red"}}>*</span></Label>
                   <Input bsSize="sm" type="date" name="healthCardExpiryDate" id="healthCardExpiryDate" placeholder="Health Card Expiry Date" onBlur={props.handleHealthCardExpiryChange}
                     defaultValue={isEdit ? selectedEmployee.health_card_expiry_date : ""}
                   />
@@ -389,7 +398,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
                   >
                     <option>-</option>
                     <option>N/A</option>
-                    {employeeList}
+                    {selectProjectManager}
                   </Input>
                 </FormGroup>
               </Col>
@@ -408,7 +417,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
                   >
                     <option>-</option>
                     <option>N/A</option>
-                    {employeeList}
+                    {selectImmediateSuperior}
                   </Input>
                 </FormGroup>
               </Col>

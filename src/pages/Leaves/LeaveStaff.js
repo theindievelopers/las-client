@@ -1,23 +1,43 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import {
   Button,
   Col,
   Row,
-  Form,
   FormGroup,
   Label,
   Input,
-  Card, CardBody, CardImg
-  // FormText
 } from 'reactstrap';
 
-const LeaveStaff = ({isEdit,selectedLeave,...props}) => {
+const LeaveStaff = ({isEdit,selectedLeave, ...props}) => {
+  const [employees, setEmployees] = useState([])
+
+  useEffect(() => {
+    fetch('http://localhost:3000/employee')
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          setEmployees(data)
+        }
+      })
+  }, [])
+
+  const selectedHandOverEmp = employees.map((employee, i) => {
+      return (
+        <option key={i} value={`${employee.fullname} / ${employee.code}`} selected={isEdit && selectedLeave.application_data.handover_briefing_to_successor_employee_name === `${employee.fullname} / ${employee.code}` ? true : false}>{employee.fullname}</option>
+      )
+  })
+
+  const selectedDocsEmp = employees.map((employee, i) => {
+    return (
+      <option key={i} value={`${employee.fullname} / ${employee.code}`} selected={isEdit && selectedLeave.application_data.handover_documents_employee_name === `${employee.fullname} / ${employee.code}` ? true : false}>{employee.fullname}</option>
+    )
+})
   return (
     <React.Fragment>
       <Row className="pt-3">
         <Col md={4}>
           <FormGroup>
-            <Label for="departureDate">Departure Date: *</Label>
+            <Label for="departureDate">Departure Date: <span style={{color: "red"}}>*</span></Label>
             <Input bsSize="sm" type="date" name="departureDate" id="departureDate" placeholder="" onBlur={props.handleStaffDepartureDate} 
               defaultValue={isEdit ? selectedLeave.application_data.departure_date : ""}
             />
@@ -25,7 +45,7 @@ const LeaveStaff = ({isEdit,selectedLeave,...props}) => {
         </Col>
         <Col md={4}>
           <FormGroup>
-            <Label for="returnDate">Return Date: *</Label>
+            <Label for="returnDate">Return Date: <span style={{color: "red"}}>*</span></Label>
             <Input bsSize="sm" type="date" name="returnDate" id="returnDate" placeholder="" onBlur={props.handleStaffReturnDate} 
               defaultValue={isEdit ? selectedLeave.application_data.return_date : ""}
             />
@@ -43,7 +63,7 @@ const LeaveStaff = ({isEdit,selectedLeave,...props}) => {
       <Row>
         <Col md={12}>
           <FormGroup>
-            <Label for="leaveType">Leave Type: *</Label>
+            <Label for="leaveType">Leave Type: <span style={{color: "red"}}>*</span></Label>
             <Input bsSize="sm"
               type="select"
               name="leaveType"
@@ -70,23 +90,37 @@ const LeaveStaff = ({isEdit,selectedLeave,...props}) => {
           </FormGroup>
           <FormGroup>
             <Label for="">Name/Employee No.:</Label>
-            <Input bsSize="sm" type="text" name="handoverSuccessorName" id="handoverSuccessorName" placeholder="Name/Employee No." onBlur={props.handleHandoverSuccessorName} 
-              defaultValue={isEdit ? selectedLeave.application_data.handover_briefing_to_successor_employee_name : ""}
-            />
+            <Input bsSize="sm"
+                type="select"
+                name="employee"
+                id="employee"
+                onChange={props.handleHandoverSuccessorName}
+                defaultValue={isEdit ? selectedLeave.application_data.handover_briefing_to_successor_employee_name : ""}
+              >
+                <option>-</option>
+                {selectedHandOverEmp}
+              </Input>
           </FormGroup>
         </Col>
         <Col md={6}>
           <FormGroup check>
             <Input type="checkbox" name="handoverDocs" id="handoverDocs" onClick={props.handleHandoverDocs} 
-
+              defaultChecked={isEdit && selectedLeave.application_data.handover_documents ? true : false}
             />
             <Label for="handoverDocs" check>Handover Documents</Label>
           </FormGroup>
           <FormGroup>
             <Label for="handoverDocsName">Name/Employee No.:</Label>
-            <Input bsSize="sm" type="text" name="handoverDocsName" id="handoverDocsName" placeholder="Name/Employee No." onBlur={props.handleHandoverDocsName} 
-              defaultValue={isEdit ? selectedLeave.application_data.handover_documents_employee_name : ""}
-            />
+            <Input bsSize="sm"
+                type="select"
+                name="employee"
+                id="employee"
+                onChange={props.handleHandoverDocsName}
+                defaultValue={isEdit ? selectedLeave.application_data.handover_documents_employee_name : ""}
+              >
+                <option>-</option>
+                {selectedDocsEmp}
+              </Input>
           </FormGroup>
         </Col>
       </Row>
@@ -97,14 +131,20 @@ const LeaveStaff = ({isEdit,selectedLeave,...props}) => {
             <Input bsSize="sm" type="text" name="staffItemIssued1" id="staffItemIssued1" placeholder="Item" onBlur={props.handleStaffItemsIssued1} 
               defaultValue={isEdit ? selectedLeave.application_data.items_issued : ""}
             />
-            <Input bsSize="sm" type="text" name="staffItemIssued2" id="staffItemIssued2" placeholder="Item" onBlur={props.handleStaffItemsIssued2} />
+            <Input bsSize="sm" type="text" name="staffItemIssued2" id="staffItemIssued2" placeholder="Item" onBlur={props.handleStaffItemsIssued2} 
+              defaultValue={isEdit ? selectedLeave.application_data.items_issued2: ""}
+            />
           </FormGroup>
         </Col>
         <Col md={6}>
           <FormGroup>
             <Label for="staffItemIssued" style={{color: 'white'}}>_</Label>
-            <Input bsSize="sm" type="text" name="staffItemIssued3" id="staffItemIssued3" placeholder="Item" onBlur={props.handleStaffItemsIssued3} />
-            <Input bsSize="sm" type="text" name="staffItemIssued4" id="staffItemIssued4" placeholder="Item" onBlur={props.handleStaffItemsIssued4} />
+            <Input bsSize="sm" type="text" name="staffItemIssued3" id="staffItemIssued3" placeholder="Item" onBlur={props.handleStaffItemsIssued3} 
+              defaultValue={isEdit ? selectedLeave.application_data.items_issued3 : ""}
+            />
+            <Input bsSize="sm" type="text" name="staffItemIssued4" id="staffItemIssued4" placeholder="Item" onBlur={props.handleStaffItemsIssued4} 
+              defaultValue={isEdit ? selectedLeave.application_data.items_issued4 : ""}
+            />
           </FormGroup>
         </Col>
       </Row>
@@ -115,14 +155,20 @@ const LeaveStaff = ({isEdit,selectedLeave,...props}) => {
             <Input bsSize="sm" type="text" name="staffRemarks1" id="staffRemarks1" placeholder="Remarks" onBlur={props.handleStaffRemarks1} 
               defaultValue={isEdit ? selectedLeave.application_data.remarks : ""}
             />
-            <Input bsSize="sm" type="text" name="staffRemarks2" id="staffRemarks2" placeholder="Remarks" onBlur={props.handleStaffRemarks2} />
+            <Input bsSize="sm" type="text" name="staffRemarks2" id="staffRemarks2" placeholder="Remarks" onBlur={props.handleStaffRemarks2} 
+              defaultValue={isEdit ? selectedLeave.application_data.remarks2 : ""}
+            />
           </FormGroup>
         </Col>
         <Col md={6}>
           <FormGroup>
             <Label for="staffRemarks" style={{color: 'white'}}>_</Label>
-            <Input bsSize="sm" type="text" name="staffRemarks3" id="staffRemarks3" placeholder="Remarks" onBlur={props.handleStaffRemarks3} />
-            <Input bsSize="sm" type="text" name="staffRemarks4" id="staffRemarks4" placeholder="Remarks" onBlur={props.handleStaffRemarks4} />
+            <Input bsSize="sm" type="text" name="staffRemarks3" id="staffRemarks3" placeholder="Remarks" onBlur={props.handleStaffRemarks3} 
+              defaultValue={isEdit ? selectedLeave.application_data.remarks3 : ""}
+            />
+            <Input bsSize="sm" type="text" name="staffRemarks4" id="staffRemarks4" placeholder="Remarks" onBlur={props.handleStaffRemarks4} 
+              defaultValue={isEdit ? selectedLeave.application_data.remarks4 : ""}
+            />
           </FormGroup>
         </Col>
       </Row>
@@ -160,7 +206,7 @@ const LeaveStaff = ({isEdit,selectedLeave,...props}) => {
           <FormGroup>
             <Label for="specifyItems">Others (Specify):</Label>
             <Input bsSize="sm" type="text" name="specifyItems" id="specifyItems" placeholder="Specify" onBlur={props.handleSpecifyStaffOthers}
-              defaultChecked={isEdit && selectedLeave.application_data.receive_others_remarks ? true : ""}
+              defaultValue={isEdit ? selectedLeave.application_data.receive_others_remarks : ""}
             />
           </FormGroup>
         </Col>

@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from '../../Layout/Sidebar'
 import Topbar from '../../Layout/Topbar'
-import Axios from 'axios'
-import moment from 'moment'
-import Swal from 'sweetalert2'
 
 const Users = () => {
-  const [users, setUsers] = useState([])
 
   useEffect(() => {
     if(!sessionStorage.isLoggedIn) {

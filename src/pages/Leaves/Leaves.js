@@ -5,7 +5,6 @@ import moment from 'moment';
 import LeavesTable from './LeavesTable';
 import LeaveForm from './LeaveForm';
 import Swal from 'sweetalert2'
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import { Card, CardBody } from 'reactstrap';
 
 const Leaves = () => {
@@ -78,7 +77,13 @@ const Leaves = () => {
       .then(res => res.json())
       .then(data => {
         if (data) {
-          setLeaves(data)
+          let allData = []
+          data.map(indivData => {
+            if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.empCode) === indivData.employee_code) {
+              return allData.push(indivData)
+            }
+          })
+          setLeaves(allData)
           setIsLoading(false)
         }
       })
@@ -108,15 +113,15 @@ const Leaves = () => {
           .then(data => {
             data.map(inidvData => {
               if(inidvData.code === approverCode.accounting){
-                accounting.push(inidvData)
+                 return accounting.push(inidvData)
               } else if(inidvData.code === approverCode.ceo){
-                ceo.push(inidvData)
+                return ceo.push(inidvData)
               } else if(inidvData.code === approverCode.coo){
-                coo.push(inidvData)
+                return coo.push(inidvData)
               } else if(inidvData.code === approverCode.hra_manager){
-                hraManager.push(inidvData)
+                return hraManager.push(inidvData)
               } else if(inidvData.code === approverCode.logistics_officer){
-                logisticsOfficer.push(inidvData)
+                return logisticsOfficer.push(inidvData)
               }
             })
           })
@@ -136,7 +141,13 @@ const Leaves = () => {
       .then(res => res.json())
       .then(data => {
         if (data) {
-          setLeaves(data)
+          let allData = []
+          data.map(indivData => {
+            if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.empCode) === indivData.employee_code) {
+              allData.push(indivData)
+            }
+          })
+          setLeaves(allData)
           setIsLoading(false)
         }
       })
@@ -205,20 +216,20 @@ const Leaves = () => {
     setStaffLeaveTypeChange(data.leave_type)
     setHandoverSuccessor(data.handover_briefing_to_successor)
     setHandoverSuccessorName(data.handover_briefing_to_successor_employee_name)
-    // setHandoverDocs(data.)
+    setHandoverDocs(data.handover_documents)
     setHandoverDocsName(data.handover_documents_employee_name)
     setStaffItemsIssued1(data.items_issued)
-    // setStaffItemsIssued2
-    // setStaffItemsIssued3
-    // setStaffItemsIssued4
+    setStaffItemsIssued2(data.items_issued2)
+    setStaffItemsIssued3(data.items_issued3)
+    setStaffItemsIssued4(data.items_issued4)
     setStaffRemarks1(data.remarks)
-    // setStaffRemarks2
-    // setStaffRemarks3
-    // setStaffRemarks4
+    setStaffRemarks2(data.remarks2)
+    setStaffRemarks3(data.remarks3)
+    setStaffRemarks4(data.remarks4)
     setStaffTicket(data.receive_ticket)
     setStaffSettlement(data.receive_settlement)
     setStaffOthers(data.receive_others)
-    // setSpecifyStaffOthers
+    setSpecifyStaffOthers(data.receive_others_remarks)
     setStaffLeaveFrom(data.leave_from)
     setStaffLeaveTo(data.leave_to)
     setStaffBackOn(data.be_back_on)
@@ -231,7 +242,7 @@ const Leaves = () => {
   }
 
   const handleEmployeeSelect = (e) => {
-    if (e.target.value == "-") {
+    if (e.target.value === "") {
       return setSelectedEmployee(e.target.value)
     }
     let selected = employees.filter(employee => {
@@ -399,7 +410,7 @@ const Leaves = () => {
 
   const handleSubmitWorker = () => {
     setIsLoading(true)
-    if(departureDate == "" || returnDate == "" || leaveType == "") {
+    if(departureDate === "" || returnDate === "" || leaveType === "") {
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -452,6 +463,13 @@ const Leaves = () => {
       })
         .then(res => res.json())
         .then(data => {
+          if (data.error) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `${data.error}`,
+            })
+          } else {
           if (data.success) {
             setIsEdit(false)
             refetch()
@@ -462,6 +480,7 @@ const Leaves = () => {
               'success'
             )
           }
+        }
         })
         .catch(err => {
         })
@@ -497,12 +516,12 @@ const Leaves = () => {
             employee_signature: selectedEmployee[0].signature,
             employee_signature_date: moment(new Date()).format("MM-DD-YYYY"),
             hr_manager_signature_and_date: "",
-            createdby: sessionStorage.user,
+            createdby: JSON.parse(sessionStorage.user),
             createdat: moment(new Date()).format("MM-DD-YYYY"),
             updatedby: "admin",
             updatedat: moment(new Date()).format("MM-DD-YYYY")
           },
-          status: "ACTIVE",
+          status: "PENDING",
           createdBy: "admin",
           createdAt: moment(new Date()).format("MM-DD-YYYY"),
           updatedBy: "admin",
@@ -512,7 +531,11 @@ const Leaves = () => {
         .then(res => res.json())
         .then(data => {
           if (data.error) {
-            alert(data.error)
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `${data.error}`,
+            })
           } else {
             let newLeaves = [...leaves]
             newLeaves.push(data)
@@ -525,7 +548,7 @@ const Leaves = () => {
 
   const handleSubmitStaff = () => {
     setIsLoading(true)
-    if(staffDepartureDate == "" || staffReturnDate == "" || staffLeaveTypeChange == "") {
+    if(staffDepartureDate === "" || staffReturnDate === "" || staffLeaveTypeChange === "") {
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -555,24 +578,27 @@ const Leaves = () => {
             handover_briefing_to_successor_employee_code: "",
             handover_documents: handoverDocs,
             handover_documents_employee_name: handoverDocsName,
-            handover_documents_employee_code: handoverDocs,
+            handover_documents_employee_code: "",
             items_issued: staffItemsIssued1,
+            items_issued2: staffItemsIssued2,
+            items_issued3: staffItemsIssued3,
+            items_issued4: staffItemsIssued4,
             remarks: staffRemarks1,
+            remarks2: staffRemarks2,
+            remarks3: staffRemarks3,
+            remarks4: staffRemarks4,
             logistics_officer_signature_and_date: selectedLeave.logistics_officer_signature_and_date,
             logistics_officer_sign_date: selectedLeave.logistics_officer_sign_date,
-            immidiate_supervisor_sign_date: selectedLeave.immidiate_supervisor_sign_date,
-            project_manager_sign_date: selectedLeave.project_manager_sign_date,
-            accounting_dept_sign_date: selectedLeave.accounting_dept_sign_date,
-            hr_manager_sign_date: selectedLeave.hr_manager_sign_date,
-            coo_sign_date: selectedLeave.coo_sign_date,
-            ceo_sign_date: selectedLeave.ceo_sign_date,
             immidiate_supervisor_manager_signature_and_date: selectedLeave.immidiate_supervisor_manager_signature_and_date,
+            immidiate_supervisor_sign_date: selectedLeave.immidiate_supervisor_sign_date,
             project_manager_signature_and_date: selectedLeave.project_manager_signature_and_date,
+            project_manager_sign_date: selectedLeave.project_manager_sign_date,
             accounting_department_signature_and_date: selectedLeave.accounting_department_signature_and_date,
+            accounting_dept_sign_date: selectedLeave.accounting_dept_sign_date,
             receive_ticket: staffTicket,
             receive_settlement: staffSettlement,
             receive_others: staffOthers,
-            receive_others_remarks: handleSpecifyStaffOthers,
+            receive_others_remarks: specifyStaffOthers,
             leave_from: staffLeaveFrom,
             leave_to: staffLeaveTo,
             be_back_on: staffBackOn,
@@ -582,18 +608,21 @@ const Leaves = () => {
             airport_transportation_arrival_date: staffArrivalDateAirport,
             airport_transportation_accommodation: staffAccommodation,
             airport_transportation_mobile_number: staffMobile,
-            hr_manager_signature_and_date: selectedLeave,
-            coo_signature_and_date: selectedLeave,
-            ceo_signature_and_date: selectedLeave,
+            hr_manager_signature_and_date: selectedLeave.hr_manager_signature_and_date,
+            hr_manager_sign_date: selectedLeave.hr_manager_sign_date,
+            coo_signature_and_date: selectedLeave.coo_signature_and_date,
+            coo_sign_date: selectedLeave.coo_sign_date,
+            ceo_signature_and_date: selectedLeave.ceo_signature_and_date,
+            ceo_sign_date: selectedLeave.ceo_sign_date,
             createdby: selectedLeave.application_data.createdby,
             createdat: selectedLeave.application_data.createdat,
             updatedby: sessionStorage.name,
             updatedat: moment(new Date()).format("MM-DD-YYYY")
           },
-          status: "ACTIVE",
+          status: "PENDING",
           createdBy: selectedLeave.createdBy,
           createdAt: selectedLeave.createdAt,
-          updatedBy: sessionStorage.name,
+          updatedBy: JSON.parse(sessionStorage.name),
           updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
@@ -601,7 +630,6 @@ const Leaves = () => {
         .then(data => {
           if (data.success) {
             setIsEdit(false)
-            refetch()
             setShowForm(false)
             Swal.fire(
               'Success!',
@@ -609,6 +637,7 @@ const Leaves = () => {
               'success'
             )
           }
+            handleRefresh()
         })
         .catch(err => {
         })
@@ -635,9 +664,15 @@ const Leaves = () => {
             handover_briefing_to_successor_employee_code: "",
             handover_documents: handoverDocs,
             handover_documents_employee_name: handoverDocsName,
-            handover_documents_employee_code: handoverDocs,
+            handover_documents_employee_code: "",
             items_issued: staffItemsIssued1,
+            items_issued2: staffItemsIssued2,
+            items_issued3: staffItemsIssued3,
+            items_issued4: staffItemsIssued4,
             remarks: staffRemarks1,
+            remarks2: staffRemarks2,
+            remarks3: staffRemarks3,
+            remarks4: staffRemarks4,
             logistics_officer_signature_and_date: "",
             logistics_officer_sign_date: "",
             immidiate_supervisor_manager_signature_and_date: "",
@@ -649,7 +684,7 @@ const Leaves = () => {
             receive_ticket: staffTicket,
             receive_settlement: staffSettlement,
             receive_others: staffOthers,
-            receive_others_remarks: handleSpecifyStaffOthers,
+            receive_others_remarks: specifyStaffOthers,
             leave_from: staffLeaveFrom,
             leave_to: staffLeaveTo,
             be_back_on: staffBackOn,
@@ -665,15 +700,15 @@ const Leaves = () => {
             coo_sign_date: "",
             ceo_signature_and_date: "",
             ceo_sign_date: "",
-            createdby: sessionStorage.name,
+            createdby: JSON.parse(sessionStorage.name),
             createdat: moment(new Date()).format("MM-DD-YYYY"),
-            updatedby: sessionStorage.name,
+            updatedby: JSON.parse(sessionStorage.name),
             updatedat: moment(new Date()).format("MM-DD-YYYY")
           },
-          status: "ACTIVE",
-          createdBy: sessionStorage.name,
+          status: "PENDING",
+          createdBy: JSON.parse(sessionStorage.name),
           createdAt: moment(new Date()).format("MM-DD-YYYY"),
-          updatedBy: sessionStorage.name,
+          updatedBy: JSON.parse(sessionStorage.name),
           updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
@@ -763,9 +798,6 @@ const Leaves = () => {
           />
         </div>
       </div>
-      {/* <div className="row">
-        <div className="col-lg-1">
-        </div> */}
         <Sidebar />
         <div className="main-panel">
           <Topbar />

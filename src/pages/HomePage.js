@@ -1,27 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from '../Layout/Sidebar'
 import Topbar from '../Layout/Topbar'
-import {
-  Card, 
-  // CardText, 
-  CardBody,
-  // CardTitle, 
-  // Button, 
-  Col, 
-  CardImg,
-  // Table
-} from 'reactstrap';
-
 
 const HomePage = () => {
-  const [applicationData, setApplicationData] = useState([])
-  const [applications, setApplications] = useState([])
-  const [employees, setEmployees] = useState([])
-  const [img64, setImg64] = useState("")
-  const [image, setImage] = useState("")
-  const [imageInput, setImageInput] = useState({})
-  const [isImageValid, setIsImageValid] = useState(false)
-  const [formData, setFormData] = useState()
 
   useEffect(() => {
     if (!sessionStorage.isLoggedIn) {

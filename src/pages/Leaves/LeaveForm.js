@@ -3,10 +3,6 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  Button,
-  Col,
-  Row,
-  Form,
   FormGroup,
   Label,
   Input,
@@ -16,12 +12,21 @@ import LeaveWorker from './LeaveWorker';
 import LeaveStaff from './LeaveStaff';
 
 const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, selectedEmployee, isEdit, selectedLeave, ...props }) => {
-  const [selected, setSelected] = useState(selectedEmployee[0])
   const employeeList = employees.map((employee, i) => {
     if(employee.signature !== ""){
       return (
         <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
       )
+    }
+  })
+
+  const selectEmployeeForLeave = employees.map((employee, i) => {
+    if(employee.signature !== "" && (employee.project_manager !== "" && employee.immediate_superior !== "")){
+      if(JSON.parse(sessionStorage.accessLevel) === 1 || employee.code === JSON.parse(sessionStorage.empCode)){
+        return (
+          <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
+        )
+      }
     }
   })
   return (
@@ -41,7 +46,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
           {isEdit ? "Update Leave" : "Apply Leave"}
           {isEdit ? "" :
             <FormText color="muted">
-              All fields marked with * are required
+              All fields marked with <span style={{color: "red"}}></span>* are required
             </FormText>
           }
         </ModalHeader>
@@ -58,7 +63,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                 onChange={props.handleEmployeeSelect}
               >
                 <option>-</option>
-                {employeeList}
+                {selectEmployeeForLeave}
               </Input>
             }
             {isEdit && selectedLeave.application_form_code == "LEAVE_WORKER" ?
@@ -85,6 +90,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
               isEdit && selectedLeave.application_form_code == "LEAVE_STAFF" ?
                 <LeaveStaff
                   selectedEmployee={selectedEmployee[0]}
+                  employees={props.employees}
                   handleStaffDepartureDate={props.handleStaffDepartureDate}
                   handleStaffReturnDate={props.handleStaffReturnDate}
                   handleStaffContactChange={props.handleStaffContactChange}
@@ -118,7 +124,6 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                   selectedLeave={selectedLeave}
                   isEdit={isEdit}
                   selectedLeave={selectedLeave}
-                  isEdit={isEdit}
                 />
                 :
                 selectedEmployee[0].employee_type == "worker"

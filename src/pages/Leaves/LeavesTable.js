@@ -46,22 +46,29 @@ class LeavesTable extends Component {
           },
           {
             title: 'Created At',
-            field: "createdAt",
-            width: 130
+            field: 'createdAt',
+            width: 130,
+            type: "date"
           },
           {
             title: 'Updated By',
             field: 'updatedBy',
             width: 130
           },
+          {
+            title: 'Updated At',
+            field: 'updatedAt',
+            width: 130,
+            type: "date"
+          },
         ]}
         data={this.props.leaves}
         detailPanel={[
-          {
+          rowData => ({
             icon: props => <i className="far fa-file-pdf"></i>,
             tooltip: 'Show PDF',
+            disabled: rowData.status === "DENIED" || rowData.status === "PROCESSING" || rowData.status === "REVIEW",
             render: rowData => {
-              console.log(rowData)
               let appData = rowData.application_data
               if (rowData.application_form_code == "LEAVE_WORKER") {
                 return (
@@ -114,10 +121,17 @@ class LeavesTable extends Component {
                     handOverDocsName={appData.handover_documents_employee_name}
                     handOverDocs={appData.handover_documents}
                     itemIssued={appData.items_issued}
+                    itemIssued2={appData.items_issued2}
+                    itemIssued3={appData.items_issued3}
+                    itemIssued4={appData.items_issued4}
                     itemRemarks={appData.remarks}
+                    itemRemarks2={appData.remarks2}
+                    itemRemarks3={appData.remarks3}
+                    itemRemarks4={appData.remarks4}
                     recievedTicket={appData.receive_ticket}
                     recievedSettlement={appData.receive_settlement}
                     recievedOthers={appData.receive_others}
+                    recievedOthersRemarks={appData.receive_others_remarks}
                     leaveFrom={appData.leave_from}
                     leaveTo={appData.leave_to}
                     backOn={appData.be_back_on}
@@ -152,7 +166,7 @@ class LeavesTable extends Component {
                 </PDFViewer>
               )}
             },
-          },
+          }),
         ]}
         actions={[
           {
@@ -167,12 +181,15 @@ class LeavesTable extends Component {
             isFreeAction: true,
             onClick: () => this.props.handleShowForm()
           },
-          {
+          rowData => ({
             icon: 'edit',
             tooltip: 'Edit User',
             width: '150px',
-            onClick: (event, rowData) => this.props.handleEdit(rowData)
-          },
+            onClick: (event, rowData) => {
+              this.props.handleEdit(rowData)
+            },
+            disabled: sessionStorage.accessLevel !== "1" && rowData.status !== "PENDING"
+          })
           // {isLoading: this.props.isLoading}
         ]}
         onRowClick={((evt, selectedRow) => this.setState({selectedRow : selectedRow.tableData.id}))}

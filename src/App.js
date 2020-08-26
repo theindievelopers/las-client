@@ -38,30 +38,39 @@ function App() {
             name="Home"
             render={props => <HomePage {...props}/>}
           />
-          <Route 
-            path="/admin/users"
-            exact
-            name="Users"
-            render={props => <Users {...props}/>}
-          />
+          {JSON.parse(sessionStorage.accessLevel) === 1 ?
+            <Route 
+              path="/admin/users"
+              exact
+              name="Users"
+              render={props => <Users {...props}/>}
+            />
+            : ""
+          }
           <Route 
             path="/leaves"
             exact
             name="Leaves"
             render={props => <Leaves {...props}/>}
           />
-          <Route 
-            path="/approvals"
-            exact
-            name="Approvals"
-            render={props => <Approvals {...props}/>}
-          />
-          <Route 
-            path="/employees"
-            exact
-            name="Employees"
-            render={props => <Employees {...props}/>}
-          />
+          {JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 2 ?
+            <Route 
+              path="/approvals"
+              exact
+              name="Approvals"
+              render={props => <Approvals {...props}/>}
+            />
+            : ""
+          }
+          {JSON.parse(sessionStorage.accessLevel) === 1 ?
+            <Route 
+              path="/admin/employees"
+              exact
+              name="Employees"
+              render={props => <Employees {...props}/>}
+            />
+            : ""
+          }
         </Switch>
       </React.Suspense>
     </HashRouter>
