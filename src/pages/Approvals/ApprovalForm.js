@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import {
   Modal,
   ModalHeader,
@@ -6,23 +6,17 @@ import {
   Button,
   Col,
   Row,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
   Spinner
 } from 'reactstrap';
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFViewer} from '@react-pdf/renderer';
 import StaffPDF from '../../components/PDForms/StaffPDF';
 import WorkerPDF from '../../components/PDForms/WorkerPDF';
 
 const ApprovalForm = React.memo( props => {
   const { 
-    showForm, handleShowForm, selectedLeave, selectedApplicationData, isReady, handleRefresh, accounting, ceo, coo, hraManager, logisticsOfficer, approvals,
-    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior
+    showForm, handleShowForm, selectedLeave, selectedApplicationData, isReady, handleRefresh, accounting, ceo, coo, hraManager, logisticsOfficer,
+    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior,selectedApproval
   } = props
-  console.log(selectedApplicationData)
   return (
     <React.Fragment>
       <Modal
@@ -75,10 +69,17 @@ const ApprovalForm = React.memo( props => {
                       handOverDocsName={selectedApplicationData.handover_documents_employee_name}
                       handOverDocs={selectedApplicationData.handover_documents}
                       itemIssued={selectedApplicationData.items_issued}
+                      itemIssued2={selectedApplicationData.items_issued2}
+                      itemIssued3={selectedApplicationData.items_issued3}
+                      itemIssued4={selectedApplicationData.items_issued4}
                       itemRemarks={selectedApplicationData.remarks}
+                      itemRemarks2={selectedApplicationData.remarks2}
+                      itemRemarks3={selectedApplicationData.remarks3}
+                      itemRemarks4={selectedApplicationData.remarks4}
                       recievedTicket={selectedApplicationData.receive_ticket}
                       recievedSettlement={selectedApplicationData.receive_settlement}
                       recievedOthers={selectedApplicationData.receive_others}
+                      recievedOthersRemarks={selectedApplicationData.receive_others_remarks}
                       leaveFrom={selectedApplicationData.leave_from}
                       leaveTo={selectedApplicationData.leave_to}
                       backOn={selectedApplicationData.be_back_on}
@@ -146,9 +147,15 @@ const ApprovalForm = React.memo( props => {
           </Row>
           <div className="float-right">
             <Button color="secondary" onClick={handleRefresh}>CANCEL</Button>{' '}
-            <Button color="primary" onClick={handleReview}>REVIEW</Button>{' '}
-            <Button color="danger" onClick={handleDeny}>DENY</Button>{' '}
-            <Button color="success" onClick={handleApprove}>APPROVE</Button>{' '}
+            <Button color="primary" onClick={handleReview}
+              disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "REVIEW" || selectedApproval.status === "APPROVED" || selectedApproval.status === "DENIED"}
+            >REVIEW</Button>{' '}
+            <Button color="danger" onClick={handleDeny}
+              disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+            >DENY</Button>{' '}
+            <Button color="success" onClick={handleApprove}
+              disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "APPROVED"}
+            >APPROVE</Button>{' '}
           </div>
         </ModalBody>
       </Modal>

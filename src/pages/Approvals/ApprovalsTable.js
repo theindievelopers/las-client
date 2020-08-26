@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import MaterialTable from 'material-table';
 import moment from 'moment'
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
@@ -37,7 +37,8 @@ class ApprovalTable extends Component {
           {
             title: 'Created At',
             field: "createdAt",
-            width: 130
+            width: 130,
+            type: "date"
           },
           {
             title: 'Updated By',
@@ -47,7 +48,8 @@ class ApprovalTable extends Component {
           {
             title: 'Updated At',
             field: 'updatedAt',
-            width: 130
+            width: 130,
+            type: "date"
           },
         ]}
         data={this.props.data}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { Document, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import styled from '@react-pdf/styled-components';
 import Logo from '../../img/logo.jpg';
 import FooterImg from '../../img/footerimg.png'
@@ -49,10 +49,6 @@ const Header = styled.Text`
   // height: 40px;
   padding: 5px;
 `;
-
-const Logo1 = styled.Image`
-  width: 100px;
-`
 
 const Title = styled.Text`
   font-size: 12px;

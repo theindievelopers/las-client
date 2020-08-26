@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from '../../Layout/Sidebar'
 import Topbar from '../../Layout/Topbar'
-import Axios from 'axios'
 import moment from 'moment'
 import { Card, CardTitle, CardText, Row, Col, CardBody } from 'reactstrap';
 import Swal from 'sweetalert2'
 import ApprovalTable from './ApprovalsTable'
 import ApprovalForm from './ApprovalForm'
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
-import StaffPDF from '../../components/PDForms/StaffPDF'
-import { useImperativeHandle } from 'react'
 
 const Approvals = React.memo(props => {
-  const [users, setUsers] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [isReady, setIsReady] = useState(false)
   const [approvals, setApprovals] = useState([])
   const [employess, setEmployees] = useState([])
-  const [approversData, setApproversData] = useState([])
   const [leaves, setLeaves] = useState([])
   const [selectedApproval, setSelectedApproval] = useState([])
   const [selectedLeave, setSelectedLeave] = useState([])
@@ -33,12 +27,7 @@ const Approvals = React.memo(props => {
   const [hraManager, setHraManager] = useState({})
   const [projectManager, setProjectManager] = useState({})
   const [immediateSuperior, setImmediateSuperior] = useState({})
-  const [approvers, setApprovers] = useState({})
-  const [accountingSign, setAccountingSign] = useState("")
-  const [ceoSign, setCeoSign] = useState("")
-  const [cooSign, setCooSign] = useState("")
-  const [logisticsOfficerSign, setLogisticsOfficerSign] = useState("")
-  const [hraManagerSign, setHraManagerSign] = useState("")
+
 
   useEffect(() => {
     if (!sessionStorage.isLoggedIn) {
@@ -61,11 +50,7 @@ const Approvals = React.memo(props => {
         let pending = []
         let uniqueApproversID = []
         data.map(indivData => {
-          if(uniqueApproversID.includes(indivData.approver_id)){
-          } else {
-            uniqueApproversID.push(indivData.approver_id)
-          }
-          if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 2 || JSON.parse(sessionStorage.empCode) === indivData.approver_id) {
+          if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.empCode) === indivData.approver_id) {
             allData.push(indivData)
             if (indivData.status === "APPROVED") {
               approved.push(indivData)
@@ -134,7 +119,6 @@ const Approvals = React.memo(props => {
 
   const handleShowForm = (data) => {
     setSelectedApproval(data)
-    setAccountingSign(data.signature)
     let projectManID = ""
     let immediateSupID = ""
     leaves.map(indivLeave => {
@@ -144,7 +128,6 @@ const Approvals = React.memo(props => {
         projectManID = indivLeave.application_data.project_manager
         immediateSupID = indivLeave.application_data.immediate_supervisor
       }
-    }, () => {
     })
     employess.map(indivEmpoyee => {
       if(indivEmpoyee.code === immediateSupID){
@@ -255,7 +238,13 @@ const Approvals = React.memo(props => {
                   handover_documents_employee_name: selectedLeave.application_data.handover_documents_employee_name,
                   handover_documents_employee_code: selectedLeave.application_data.handover_documents_employee_code,
                   items_issued: selectedLeave.application_data.items_issued,
+                  items_issued2: selectedLeave.application_data.items_issued2,
+                  items_issued3: selectedLeave.application_data.items_issued3,
+                  items_issued4: selectedLeave.application_data.items_issued4,
                   remarks: selectedLeave.application_data.remarks,
+                  remarks2: selectedLeave.application_data.remarks2,
+                  remarks3: selectedLeave.application_data.remarks3,
+                  remarks4: selectedLeave.application_data.remarks4,
                   logistics_officer_sign_date: (selectedLeave.application_data.logistics_officer_sign_date ? selectedLeave.application_data.logistics_officer_sign_date : logisticsSignDate),
                   immidiate_supervisor_sign_date: (selectedLeave.application_data.immidiate_supervisor_sign_date ? selectedLeave.application_data.immidiate_supervisor_sign_date : immSignDate),
                   project_manager_sign_date: (selectedLeave.application_data.project_manager_sign_date ? selectedLeave.application_data.project_manager_sign_date : projSignDate),
@@ -276,7 +265,7 @@ const Approvals = React.memo(props => {
                   be_back_on: selectedLeave.application_data.be_back_on,
                   employee_signature: selectedLeave.application_data.employee_signature,
                   employee_signature_date: selectedLeave.application_data.employee_signature_date,
-                  airport_transportation_departure_date: selectedLeave.airport_transportation_departure_date,
+                  airport_transportation_departure_date: selectedLeave.application_data.airport_transportation_departure_date,
                   airport_transportation_arrival_date: selectedLeave.application_data.airport_transportation_arrival_date,
                   airport_transportation_accommodation: selectedLeave.application_data.airport_transportation_accommodation,
                   airport_transportation_mobile_number: selectedLeave.application_data.airport_transportation_mobile_number,
@@ -288,7 +277,18 @@ const Approvals = React.memo(props => {
                   updatedby: selectedLeave.application_data.updatedBy,
                   updatedat: selectedLeave.application_data.updatedAt
                 },
-                status: "ACTIVE",
+                status: (
+                  selectedLeave.application_data.project_manager && selectedLeave.application_data.immediate_supervisor &&
+                  selectedLeave.application_data.logistics_officer_signature_and_date &&
+                  selectedLeave.application_data.immidiate_supervisor_manager_signature_and_date &&
+                  selectedLeave.application_data.project_manager_signature_and_date &&
+                  selectedLeave.application_data.accounting_department_signature_and_date &&
+                  selectedLeave.application_data.hr_manager_signature_and_date &&
+                  selectedLeave.application_data.coo_signature_and_date &&
+                  selectedLeave.application_data.ceo_signature_and_date
+                  ? "APPROVED"
+                  : "PROCESSING"
+                ),
                 createdBy: selectedLeave.createdBy,
                 createdAt: selectedLeave.createdAt,
                 updatedBy: JSON.parse(sessionStorage.name),
@@ -337,6 +337,81 @@ const Approvals = React.memo(props => {
         })
           .then(res => res.json())
           .then(data => {
+            fetch(`http://localhost:3000/application?id=${selectedLeave.id}`, {
+              method: 'put',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                application_form_code: selectedLeave.application_form_code,
+                employee_id: selectedLeave.employee_id,
+                application_data: {
+                  name: selectedLeave.application_data.name,
+                  employee_code: selectedLeave.application_data.employee_code,
+                  project: selectedLeave.application_data.project,
+                  position: selectedLeave.application_data.position,
+                  project_manager: selectedLeave.application_data.project_manager,
+                  immediate_supervisor: selectedLeave.application_data.immediate_supervisor,
+                  departure_date: selectedLeave.application_data.departure_date,
+                  return_date: selectedLeave.application_data.return_date,
+                  leave_type: selectedLeave.application_data.leave_type,
+                  contact_number: selectedLeave.application_data.contact_number,
+                  handover_briefing_to_successor: selectedLeave.application_data.handover_briefing_to_successor,
+                  handover_briefing_to_successor_employee_name: selectedLeave.application_data.handover_briefing_to_successor_employee_name,
+                  handover_briefing_to_successor_employee_code: "",
+                  handover_documents: selectedLeave.application_data.handover_documents,
+                  handover_documents_employee_name: selectedLeave.application_data.handover_documents_employee_name,
+                  handover_documents_employee_code: selectedLeave.application_data.handover_documents_employee_code,
+                  items_issued: selectedLeave.application_data.items_issued,
+                  items_issued2: selectedLeave.application_data.items_issued2,
+                  items_issued3: selectedLeave.application_data.items_issued3,
+                  items_issued4: selectedLeave.application_data.items_issued4,
+                  remarks: selectedLeave.application_data.remarks,
+                  remarks2: selectedLeave.application_data.remarks2,
+                  remarks3: selectedLeave.application_data.remarks3,
+                  remarks4: selectedLeave.application_data.remarks4,
+                  logistics_officer_sign_date: selectedLeave.application_data.logistics_officer_sign_date,
+                  immidiate_supervisor_sign_date: selectedLeave.application_data.immidiate_supervisor_sign_date,
+                  project_manager_sign_date: selectedLeave.application_data.project_manager_sign_date,
+                  accounting_dept_sign_date: selectedLeave.application_data.accounting_dept_sign_date,
+                  hr_manager_sign_date: selectedLeave.application_data.hr_manager_sign_date,
+                  coo_sign_date: selectedLeave.application_data.coo_sign_date,
+                  ceo_sign_date: selectedLeave.application_data.ceo_sign_date,
+                  logistics_officer_signature_and_date: selectedLeave.application_data.logistics_officer_signature_and_date,
+                  immidiate_supervisor_manager_signature_and_date: selectedLeave.application_data.immidiate_supervisor_manager_signature_and_date,
+                  project_manager_signature_and_date: selectedLeave.application_data.project_manager_signature_and_date,
+                  accounting_department_signature_and_date: selectedLeave.application_data.accounting_department_signature_and_date,
+                  receive_ticket: selectedLeave.application_data.receive_ticket,
+                  receive_settlement: selectedLeave.application_data.receive_settlement,
+                  receive_others: selectedLeave.application_data.receive_others,
+                  receive_others_remarks: selectedLeave.application_data.receive_others_remarks,
+                  leave_from: selectedLeave.application_data.leave_from,
+                  leave_to: selectedLeave.application_data.leave_to,
+                  be_back_on: selectedLeave.application_data.be_back_on,
+                  employee_signature: selectedLeave.application_data.employee_signature,
+                  employee_signature_date: selectedLeave.application_data.employee_signature_date,
+                  airport_transportation_departure_date: selectedLeave.application_data.airport_transportation_departure_date,
+                  airport_transportation_arrival_date: selectedLeave.application_data.airport_transportation_arrival_date,
+                  airport_transportation_accommodation: selectedLeave.application_data.airport_transportation_accommodation,
+                  airport_transportation_mobile_number: selectedLeave.application_data.airport_transportation_mobile_number,
+                  hr_manager_signature_and_date: selectedLeave.application_data.hr_manager_signature_and_date,
+                  coo_signature_and_date: selectedLeave.application_data.coo_signature_and_date,
+                  ceo_signature_and_date: selectedLeave.application_data.ceo_signature_and_date,
+                  createdby: selectedLeave.application_data.createdby,
+                  createdat: selectedLeave.application_data.createdat,
+                  updatedby: selectedLeave.application_data.updatedBy,
+                  updatedat: selectedLeave.application_data.updatedAt
+                },
+                status: "DENIED",
+                createdBy: selectedLeave.createdBy,
+                createdAt: selectedLeave.createdAt,
+                updatedBy: JSON.parse(sessionStorage.name),
+                updatedAt: moment(new Date()).format("MM-DD-YYYY")
+              })
+            })
+              .then(res => res.json())
+              .then(data => {
+                refetch()
+                handleRefresh()
+              })
             refetch()
             handleRefresh()
           })
@@ -375,6 +450,81 @@ const Approvals = React.memo(props => {
         })
           .then(res => res.json())
           .then(data => {
+            fetch(`http://localhost:3000/application?id=${selectedLeave.id}`, {
+              method: 'put',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                application_form_code: selectedLeave.application_form_code,
+                employee_id: selectedLeave.employee_id,
+                application_data: {
+                  name: selectedLeave.application_data.name,
+                  employee_code: selectedLeave.application_data.employee_code,
+                  project: selectedLeave.application_data.project,
+                  position: selectedLeave.application_data.position,
+                  project_manager: selectedLeave.application_data.project_manager,
+                  immediate_supervisor: selectedLeave.application_data.immediate_supervisor,
+                  departure_date: selectedLeave.application_data.departure_date,
+                  return_date: selectedLeave.application_data.return_date,
+                  leave_type: selectedLeave.application_data.leave_type,
+                  contact_number: selectedLeave.application_data.contact_number,
+                  handover_briefing_to_successor: selectedLeave.application_data.handover_briefing_to_successor,
+                  handover_briefing_to_successor_employee_name: selectedLeave.application_data.handover_briefing_to_successor_employee_name,
+                  handover_briefing_to_successor_employee_code: "",
+                  handover_documents: selectedLeave.application_data.handover_documents,
+                  handover_documents_employee_name: selectedLeave.application_data.handover_documents_employee_name,
+                  handover_documents_employee_code: selectedLeave.application_data.handover_documents_employee_code,
+                  items_issued: selectedLeave.application_data.items_issued,
+                  items_issued2: selectedLeave.application_data.items_issued2,
+                  items_issued3: selectedLeave.application_data.items_issued3,
+                  items_issued4: selectedLeave.application_data.items_issued4,
+                  remarks: selectedLeave.application_data.remarks,
+                  remarks2: selectedLeave.application_data.remarks2,
+                  remarks3: selectedLeave.application_data.remarks3,
+                  remarks4: selectedLeave.application_data.remarks4,
+                  logistics_officer_sign_date: selectedLeave.application_data.logistics_officer_sign_date,
+                  immidiate_supervisor_sign_date: selectedLeave.application_data.immidiate_supervisor_sign_date,
+                  project_manager_sign_date: selectedLeave.application_data.project_manager_sign_date,
+                  accounting_dept_sign_date: selectedLeave.application_data.accounting_dept_sign_date,
+                  hr_manager_sign_date: selectedLeave.application_data.hr_manager_sign_date,
+                  coo_sign_date: selectedLeave.application_data.coo_sign_date,
+                  ceo_sign_date: selectedLeave.application_data.ceo_sign_date,
+                  logistics_officer_signature_and_date: selectedLeave.application_data.logistics_officer_signature_and_date,
+                  immidiate_supervisor_manager_signature_and_date: selectedLeave.application_data.immidiate_supervisor_manager_signature_and_date,
+                  project_manager_signature_and_date: selectedLeave.application_data.project_manager_signature_and_date,
+                  accounting_department_signature_and_date: selectedLeave.application_data.accounting_department_signature_and_date,
+                  receive_ticket: selectedLeave.application_data.receive_ticket,
+                  receive_settlement: selectedLeave.application_data.receive_settlement,
+                  receive_others: selectedLeave.application_data.receive_others,
+                  receive_others_remarks: selectedLeave.application_data.receive_others_remarks,
+                  leave_from: selectedLeave.application_data.leave_from,
+                  leave_to: selectedLeave.application_data.leave_to,
+                  be_back_on: selectedLeave.application_data.be_back_on,
+                  employee_signature: selectedLeave.application_data.employee_signature,
+                  employee_signature_date: selectedLeave.application_data.employee_signature_date,
+                  airport_transportation_departure_date: selectedLeave.application_data.airport_transportation_departure_date,
+                  airport_transportation_arrival_date: selectedLeave.application_data.airport_transportation_arrival_date,
+                  airport_transportation_accommodation: selectedLeave.application_data.airport_transportation_accommodation,
+                  airport_transportation_mobile_number: selectedLeave.application_data.airport_transportation_mobile_number,
+                  hr_manager_signature_and_date: selectedLeave.application_data.hr_manager_signature_and_date,
+                  coo_signature_and_date: selectedLeave.application_data.coo_signature_and_date,
+                  ceo_signature_and_date: selectedLeave.application_data.ceo_signature_and_date,
+                  createdby: selectedLeave.application_data.createdby,
+                  createdat: selectedLeave.application_data.createdat,
+                  updatedby: selectedLeave.application_data.updatedBy,
+                  updatedat: selectedLeave.application_data.updatedAt
+                },
+                status: "REVIEW",
+                createdBy: selectedLeave.createdBy,
+                createdAt: selectedLeave.createdAt,
+                updatedBy: JSON.parse(sessionStorage.name),
+                updatedAt: moment(new Date()).format("MM-DD-YYYY")
+              })
+            })
+              .then(res => res.json())
+              .then(data => {
+                refetch()
+                handleRefresh()
+              })
             refetch()
             handleRefresh()
           })
@@ -404,6 +554,7 @@ const Approvals = React.memo(props => {
             handleApprove={handleApprove}
             handleDeny={handleDeny}
             handleReview={handleReview}
+            selectedApproval={selectedApproval}
           />
         </div>
       </div>

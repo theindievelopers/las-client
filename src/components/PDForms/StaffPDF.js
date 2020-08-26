@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { Document, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import styled from '@react-pdf/styled-components';
 import Logo from '../../img/logo.jpg';
 import FooterImg from '../../img/footerimg.png'
@@ -119,7 +119,8 @@ const Footer = styled.Text`
 // Create Document Component
 const StaffPDF = React.memo(({ 
     name, department, departureDate, employeeNum, position, returnDate,contactNum, typeOfLeave, handOverSuccessor,handOverSuccessorName,handOverSuccessorCode,
-    handOverDocsCode,handOverDocsName,itemIssued,itemRemarks,recievedTicket,recievedSettlement,recievedOthers,leaveFrom,leaveTo,backOn,employeeSignature,
+    handOverDocsCode,handOverDocsName,itemIssued,itemIssued2,itemIssued3,itemIssued4,itemRemarks,itemRemarks2,itemRemarks3,itemRemarks4,recievedTicket,recievedSettlement,
+    recievedOthers,leaveFrom,leaveTo,backOn,employeeSignature,recievedOthersRemarks,
     employeeSignDate,airportDepartureDate,airportArrivalDate,airportAccommodation,airportMobile, accountingCode, ceoCode, cooCode, hraManagerCode, logisticsOfficerCode, 
     projectManagerCode,immediateSuperiorCode, ceoSign, cooSign, acctSign, hraSign, logisticsSign, immidiateSupSign, projectManagerSign,handOverDocs, 
     ceoSignDate, cooSignDate, acctSignDate, hraSignDate, logisticsSignDate, immidiateSupSignDate, projectManagerSignDate,
@@ -204,7 +205,7 @@ const StaffPDF = React.memo(({
               <Row>
                 <Text style={{ fontSize: 9, paddingLeft: "3px", paddingTop: "1px" }}>Name/Employee No.</Text>
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
-
+                  {handOverSuccessorName}
                 </Text>
               </Row>
             </View>
@@ -220,7 +221,7 @@ const StaffPDF = React.memo(({
               <Row>
                 <Text style={{ fontSize: 9, paddingLeft: "3px", paddingTop: "1px" }}>Name/Employee No.</Text>
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
-
+                  {handOverDocsName}
                 </Text>
               </Row>
             </View>
@@ -236,8 +237,8 @@ const StaffPDF = React.memo(({
             </View>
             <View style={{ paddingLeft: "35px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
-                  Placeholder
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                  {itemIssued2 ? itemIssued2 : " "}
                 </Text>
               </Row>
             </View>
@@ -245,15 +246,15 @@ const StaffPDF = React.memo(({
           <Row style={{ paddingLeft: "5px", paddingTop: "1px" }}>
             <View style={{ paddingLeft: "0px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
-                  Placeholder
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                  {itemIssued3 ? itemIssued3 : " "}
                 </Text>
               </Row>
             </View>
             <View style={{ paddingLeft: "35px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
-                  Placeholder
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px"}}>
+                  {itemIssued4 ? itemIssued4 : " "}
                 </Text>
               </Row>
             </View>
@@ -269,8 +270,8 @@ const StaffPDF = React.memo(({
             </View>
             <View style={{ paddingLeft: "35px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
-                  Placeholder
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                  {itemRemarks2 ? itemRemarks2 : " "}
                 </Text>
               </Row>
             </View>
@@ -278,15 +279,15 @@ const StaffPDF = React.memo(({
           <Row style={{ paddingLeft: "5px", paddingTop: "1px" }}>
             <View style={{ paddingLeft: "0px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
-                  Placeholder
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                  {itemRemarks3 ? itemRemarks3 : " "}
                 </Text>
               </Row>
             </View>
             <View style={{ paddingLeft: "35px" }}>
               <Row>
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px", color: "white" }}>
-                Placeholder
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 220, marginLeft: "5px" }}>
+                  {itemRemarks4 ? itemRemarks4 : " "}
                 </Text>
               </Row>
             </View>
@@ -333,7 +334,7 @@ const StaffPDF = React.memo(({
           <Row style={{ paddingTop: "0px", paddingBottom: "0px", justifyContent: "center" }}>
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                {projectManagerSign ? 
+                {projectManagerSign ?
                   <View>
                     <Image source={"http://localhost:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/>
                     <Text>{projectManagerSignDate}</Text>
@@ -391,7 +392,7 @@ const StaffPDF = React.memo(({
                 <CheckBox>{recievedOthers ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Others:</CheckBoxLabel>
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 170, marginLeft: "5px" }}>
-
+                  {recievedOthersRemarks ? recievedOthersRemarks : " "}
                 </Text>
               </Row>
             </View>

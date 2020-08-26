@@ -221,6 +221,7 @@ class EmployeesTable extends Component {
             title: 'Created At',
             field: 'createdAt',
             // width: 130
+            type: "date"
           },
           {
             title: 'Updated By',
@@ -231,6 +232,7 @@ class EmployeesTable extends Component {
             title: 'Updated At',
             field: 'updatedAt',
             // width: 130
+            type: "date"
           },
         ]}
         data={this.props.data}
@@ -252,7 +254,9 @@ class EmployeesTable extends Component {
             icon: 'edit',
             tooltip: 'Edit User',
             width: '150px',
-            onClick: (event, rowData) => this.props.handleEdit(rowData)
+            onClick: (event, rowData) => {
+              this.props.handleEdit(rowData)
+            }
           }
         ]}
         onRowClick={((evt, selectedRow) => this.setState({selectedRow : selectedRow.tableData.id}))}

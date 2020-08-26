@@ -5,14 +5,11 @@ import logo from '../img/logo.jpg'
 const Sidebar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState("")
   const [accessLevel, setAccessLevel] = useState()
 
   useEffect(() => {
     if(sessionStorage.isLoggedIn) {
-      let user = JSON.parse(sessionStorage.name)
       let accessLevel = JSON.parse(sessionStorage.accessLevel)
-      setUser(user)
       setAccessLevel(accessLevel)
     }
   }, [])
@@ -35,15 +32,10 @@ const Sidebar = () => {
               Leaves
             </a>
           </li>
-          <li>
-            <a href='#/approvals'>
-              Approvals
-            </a>
-          </li>
           {accessLevel === 1 || accessLevel === 2 ?
             <li>
-              <a href='#/employees'>
-                Employees
+              <a href='#/approvals'>
+                Approvals
               </a>
             </li>
             : ""
@@ -60,6 +52,11 @@ const Sidebar = () => {
                   <li>
                     <a href='#/admin/users'>
                       Users
+                    </a>
+                  </li>
+                  <li>
+                    <a href='#/admin/employees'>
+                      Employees
                     </a>
                   </li>
                 </ul>
