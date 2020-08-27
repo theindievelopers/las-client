@@ -414,7 +414,7 @@ const Employees = () => {
           createdBy: createdBy,
           createdAt: createdAt,
           updatedBy: "admin",
-          updatedAt: moment(new Date()).format("YYYY-MM-DD")
+          updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
         .then(res => res.json())
@@ -481,9 +481,9 @@ const Employees = () => {
           immediate_superior: immediateSuperior,
           employment_status: employmentStatus,
           createdBy: "admin",
-          createdAt: moment(new Date()).format("YYYY-MM-DD"),
+          createdAt: moment(new Date()).format("MM-DD-YYYY"),
           updatedBy: "admin",
-          updatedAt: moment(new Date()).format("YYYY-MM-DD")
+          updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
         .then(res => res.json())
