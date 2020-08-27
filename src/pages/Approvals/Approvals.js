@@ -165,25 +165,25 @@ const Approvals = React.memo(props => {
     let immSignDate = ""
     if (selectedApproval.approver_id === accounting.code) {
       acctSign = accounting.signature
-      acctSignDate = moment(new Date()).format("YYYY-MM-DD")
+      acctSignDate = moment(new Date()).format("MM/DD/YYYY")
     } else if (selectedApproval.approver_id === ceo.code) {
       ceoSign = ceo.signature
-      ceoSignDate = moment(new Date()).format("YYYY-MM-DD")
+      ceoSignDate = moment(new Date()).format("MM/DD/YYYY")
     } else if (selectedApproval.approver_id === coo.code) {
       cooSign = coo.code
-      cooSignDate = moment(new Date()).format("YYYY-MM-DD")
+      cooSignDate = moment(new Date()).format("MM/DD/YYYY")
     } else if (selectedApproval.approver_id === logisticsOfficer.code) {
       logisticsSign = logisticsOfficer.signature
-      logisticsSignDate = moment(new Date()).format("YYYY-MM-DD")
+      logisticsSignDate = moment(new Date()).format("MM/DD/YYYY")
     } else if (selectedApproval.approver_id === hraManager.code) {
       hraSign = hraManager.signature
-      hraSignDate = moment(new Date()).format("YYYY-MM-DD")
+      hraSignDate = moment(new Date()).format("MM/DD/YYYY")
     } else if (selectedApproval.approver_id === immediateSuperior.code) {
       immSign = immediateSuperior.signature
-      immSignDate = moment(new Date()).format("YYYY-MM-DD")
+      immSignDate = moment(new Date()).format("MM/DD/YYYY")
     } else if (selectedApproval.approver_id === projectManager.code) {
       projSign = projectManager.signature
-      projSignDate = moment(new Date()).format("YYYY-MM-DD")
+      projSignDate = moment(new Date()).format("MM/DD/YYYY")
     }
     Swal.fire({
       title: 'Are you sure?',
