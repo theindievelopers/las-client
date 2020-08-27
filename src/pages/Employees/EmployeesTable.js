@@ -46,6 +46,7 @@ class EmployeesTable extends Component {
             title: 'DOB',
             field: 'dob',
             // width: 130
+            type: 'date'
           },
           {
             title: 'Passport No.',
@@ -56,11 +57,13 @@ class EmployeesTable extends Component {
             title: 'Passport Issued Date',
             field: 'passport_date_of_issue',
             // width: 130
+            type: 'date'
           },
           {
             title: 'Passport Expiry Date',
             field: 'passport_expiry_date',
             // width: 130
+            type: 'date'
           },
           {
             title: 'Residence Permit No.',
@@ -71,6 +74,7 @@ class EmployeesTable extends Component {
             title: 'Residence Permit Expiry Date',
             field: 'residence_permit_expiry_date',
             // width: 130
+            type: 'date'
           },
           {
             title: 'Blood Group',
@@ -86,6 +90,7 @@ class EmployeesTable extends Component {
             title: 'Joining Date',
             field: 'joining_date',
             // width: 130
+            type: 'date'
           },
           {
             title: 'Increment Month',
@@ -156,6 +161,7 @@ class EmployeesTable extends Component {
             title: 'Driving License Issue Date',
             field: 'driving_license_expiry_date',
             // width: 130
+            type: 'date'
           },
           {
             title: 'Health Card Number',
@@ -166,11 +172,13 @@ class EmployeesTable extends Component {
             title: 'Healt Card Issue Date',
             field: 'health_card_issue_date',
             // width: 130
+            type: 'date'
           },
           {
             title: 'Health Card Expiry Date',
             field: 'health_card_expiry_date',
             // width: 130
+            type: 'date'
           },
           {
             title: 'Bank Name',
