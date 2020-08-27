@@ -385,7 +385,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="projectManager">Prject Manager:</Label>
+                  <Label for="projectManager">Project Manager:</Label>
                   {/* <Input bsSize="sm" type="text" name="projectManager" id="projectManager" placeholder="Prject Manager" onBlur={props.handleProjectManagerChange}
                     defaultValue={isEdit ? selectedEmployee.recruited_by : ""}
                   /> */}
