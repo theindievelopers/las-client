@@ -4,8 +4,6 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-// import Forms from './pages/Forms';
-// import Leaves from './pages/Leaves';
 
 const Login = React.lazy(()=>import('./pages/login'));
 const HomePage = React.lazy(()=>import('./pages/HomePage'))
@@ -38,39 +36,30 @@ function App() {
             name="Home"
             render={props => <HomePage {...props}/>}
           />
-          {JSON.parse(sessionStorage.accessLevel) === 1 ?
             <Route 
               path="/admin/users"
               exact
               name="Users"
               render={props => <Users {...props}/>}
             />
-            : ""
-          }
           <Route 
             path="/leaves"
             exact
             name="Leaves"
             render={props => <Leaves {...props}/>}
           />
-          {JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 2 ?
             <Route 
               path="/approvals"
               exact
               name="Approvals"
               render={props => <Approvals {...props}/>}
             />
-            : ""
-          }
-          {JSON.parse(sessionStorage.accessLevel) === 1 ?
             <Route 
               path="/admin/employees"
               exact
               name="Employees"
               render={props => <Employees {...props}/>}
             />
-            : ""
-          }
         </Switch>
       </React.Suspense>
     </HashRouter>
