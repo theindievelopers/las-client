@@ -151,7 +151,7 @@ const ApprovalForm = React.memo( props => {
               disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "REVIEW" || selectedApproval.status === "APPROVED" || selectedApproval.status === "DENIED"}
             >REVIEW</Button>{' '}
             <Button color="danger" onClick={handleDeny}
-              disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+              disabled={selectedLeave.status === "APPROVED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
             >DENY</Button>{' '}
             <Button color="success" onClick={handleApprove}
               disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "APPROVED"}
