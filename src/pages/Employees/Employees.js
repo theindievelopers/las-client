@@ -413,7 +413,7 @@ const Employees = () => {
           employment_status: employmentStatus,
           createdBy: createdBy,
           createdAt: createdAt,
-          updatedBy: "admin",
+          updatedBy: JSON.parse(sessionStorage.name),
           updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
@@ -480,9 +480,9 @@ const Employees = () => {
           project_manager: projectManager,
           immediate_superior: immediateSuperior,
           employment_status: employmentStatus,
-          createdBy: "admin",
+          createdBy: JSON.parse(sessionStorage.name),
           createdAt: moment(new Date()).format("MM-DD-YYYY"),
-          updatedBy: "admin",
+          updatedBy: JSON.parse(sessionStorage.name),
           updatedAt: moment(new Date()).format("MM-DD-YYYY")
         })
       })
