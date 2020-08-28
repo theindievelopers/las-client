@@ -79,7 +79,7 @@ const Leaves = () => {
         if (data) {
           let allData = []
           data.map(indivData => {
-            if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.empCode) === indivData.employee_code) {
+            if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 3 || JSON.parse(sessionStorage.empCode) === indivData.employee_code) {
               return allData.push(indivData)
             }
           })
@@ -143,7 +143,7 @@ const Leaves = () => {
         if (data) {
           let allData = []
           data.map(indivData => {
-            if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.empCode) === indivData.employee_code) {
+            if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 3 || JSON.parse(sessionStorage.empCode) === indivData.employee_code) {
               allData.push(indivData)
             }
           })

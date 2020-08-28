@@ -50,7 +50,7 @@ const Approvals = React.memo(props => {
         let pending = []
         let uniqueApproversID = []
         data.map(indivData => {
-          if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.empCode) === indivData.approver_id) {
+          if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 3 || JSON.parse(sessionStorage.empCode) === indivData.approver_id) {
             allData.push(indivData)
             if (indivData.status === "APPROVED") {
               approved.push(indivData)

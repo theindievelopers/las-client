@@ -8,14 +8,14 @@ import {
   Row,
   Spinner
 } from 'reactstrap';
-import { PDFViewer} from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
 import StaffPDF from '../../components/PDForms/StaffPDF';
 import WorkerPDF from '../../components/PDForms/WorkerPDF';
 
-const ApprovalForm = React.memo( props => {
-  const { 
+const ApprovalForm = React.memo(props => {
+  const {
     showForm, handleShowForm, selectedLeave, selectedApplicationData, isReady, handleRefresh, accounting, ceo, coo, hraManager, logisticsOfficer,
-    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior,selectedApproval
+    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior, selectedApproval
   } = props
   return (
     <React.Fragment>
@@ -49,10 +49,10 @@ const ApprovalForm = React.memo( props => {
             </Col>
             <Col md={12}>
               {isReady ?
-                  <PDFViewer
-                    width="763px" height="570px"
-                  >
-                    {selectedLeave.application_form_code === "LEAVE_STAFF" ?
+                <PDFViewer
+                  width="763px" height="570px"
+                >
+                  {selectedLeave.application_form_code === "LEAVE_STAFF" ?
                     <StaffPDF
                       name={selectedApplicationData.name}
                       department={selectedApplicationData.project}
@@ -112,7 +112,7 @@ const ApprovalForm = React.memo( props => {
                       projectManagerSignDate={selectedApplicationData.project_manager_sign_date}
                     />
                     :
-                    <WorkerPDF 
+                    <WorkerPDF
                       name={selectedApplicationData.name}
                       department={selectedApplicationData.project}
                       employeeNum={selectedApplicationData.employee_code}
@@ -135,9 +135,9 @@ const ApprovalForm = React.memo( props => {
                       employeeSignDate={selectedApplicationData.employee_signature_date}
                     />
                   }
-                  </PDFViewer>
-                : 
-                <div style={{paddingTop: "275px", paddingBottom: "275px"}}>
+                </PDFViewer>
+                :
+                <div style={{ paddingTop: "275px", paddingBottom: "275px" }}>
                   <div className="d-flex justify-content-center align-items-center">
                     <Spinner color="secondary" />
                   </div>
@@ -146,16 +146,21 @@ const ApprovalForm = React.memo( props => {
             </Col>
           </Row>
           <div className="float-right">
-            <Button color="secondary" onClick={handleRefresh}>CANCEL</Button>{' '}
-            <Button color="primary" onClick={handleReview}
-              disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "REVIEW" || selectedApproval.status === "APPROVED" || selectedApproval.status === "DENIED"}
-            >REVIEW</Button>{' '}
-            <Button color="danger" onClick={handleDeny}
-              disabled={selectedLeave.status === "APPROVED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
-            >DENY</Button>{' '}
-            <Button color="success" onClick={handleApprove}
-              disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "APPROVED"}
-            >APPROVE</Button>{' '}
+            <Button color="secondary" onClick={handleRefresh} style={{marginRight: "4px"}}>CANCEL</Button>
+            {JSON.parse(sessionStorage.accessLevel) !== 3 ?
+              <React.Fragment>
+                <Button color="primary" onClick={handleReview} style={{marginRight: "4px"}}
+                  disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "REVIEW" || selectedApproval.status === "APPROVED" || selectedApproval.status === "DENIED"}
+                >REVIEW</Button>  
+                <Button color="danger" onClick={handleDeny} style={{marginRight: "4px"}}
+                  disabled={selectedLeave.status === "APPROVED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                >DENY</Button>  
+                <Button color="success" onClick={handleApprove}
+                  disabled={selectedLeave.status === "DENIED" || selectedLeave.status === "APPROVED" || selectedApproval.status === "APPROVED"}
+                >APPROVE</Button>  
+              </React.Fragment>
+              : ""
+            }
           </div>
         </ModalBody>
       </Modal>

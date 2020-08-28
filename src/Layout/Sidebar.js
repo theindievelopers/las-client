@@ -32,7 +32,7 @@ const Sidebar = () => {
               Leaves
             </a>
           </li>
-          {accessLevel === 1 || accessLevel === 2 ?
+          {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
             <li>
               <a href='#/approvals'>
                 Approvals

@@ -74,12 +74,12 @@ const Login = () => {
           sessionStorage.accessLevel = JSON.stringify(data.data.accesslvl)
           sessionStorage.name = JSON.stringify(data.data.fullname)
           sessionStorage.isLoggedIn = true;
-          if (data.data.accesslvl === 3) {
-            return window.location.replace('#/leaves');
+          if (data.data.accesslvl === 1) {
+            return window.location.replace('#/');
           } else if (data.data.accesslvl === 2) {
             return window.location.replace('#/approvals');
-          } else if (data.data.accesslvl === 1) {
-            return window.location.replace('#/');
+          } else {
+            return window.location.replace('#/leaves');
           }
         })
     }
