@@ -22,7 +22,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
 
   const selectEmployeeForLeave = employees.map((employee, i) => {
     if(employee.signature !== "" && (employee.project_manager !== "" && employee.immediate_superior !== "")){
-      if(JSON.parse(sessionStorage.accessLevel) === 1 || employee.code === JSON.parse(sessionStorage.empCode)){
+      if(JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 3 || employee.code === JSON.parse(sessionStorage.empCode)){
         return (
           <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
         )
