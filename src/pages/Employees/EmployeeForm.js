@@ -394,7 +394,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
                     name="employee"
                     id="employee"
                     onChange={props.handleProjectManagerChange}
-                    defaultValue={isEdit ? selectedEmployee.project_manager : ""}
+                    // defaultValue={isEdit ? selectedEmployee.project_manager : ""}
                   >
                     <option>-</option>
                     <option>N/A</option>
@@ -404,7 +404,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               </Col>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="immediateSuperior">Immediate Superior:</Label>
+                  <Label for="immediateSuperior">Immediate Supervisor:</Label>
                   {/* <Input bsSize="sm" type="text" name="immediateSuperior" id="immediateSuperior" placeholder="Immediate Superior" onBlur={props.handleImmediateSuperior}
                     defaultValue={isEdit ? selectedEmployee.recruited_by : ""}
                   /> */}
@@ -413,7 +413,7 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
                     name="employee"
                     id="employee"
                     onChange={props.handleImmediateSuperior}
-                    defaultValue={isEdit ? selectedEmployee.immediate_superior : ""}
+                    // defaultValue={isEdit ? selectedEmployee.immediate_superior : ""}
                   >
                     <option>-</option>
                     <option>N/A</option>
