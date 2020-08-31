@@ -126,7 +126,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                   selectedLeave={selectedLeave}
                 />
                 :
-                selectedEmployee[0].employee_type == "worker"
+                selectedEmployee[0].employee_type.toLower() == "worker"
                   ? <LeaveWorker
                     handleDepartureDate={props.handleDepartureDate}
                     handleReturnDate={props.handleReturnDate}
@@ -144,7 +144,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                     handleSubmitWorker={props.handleSubmitWorker}
                     handleRecievedOthers={props.handleRecievedOthers}
                   />
-                  : selectedEmployee[0].employee_type == "staff"
+                  : selectedEmployee[0].employee_type.toLower() == "staff"
                     ?
                     <LeaveStaff
                       selectedEmployee={selectedEmployee[0]}
@@ -179,7 +179,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                       handleStaffMobile={props.handleStaffMobile}
                       handleSubmitStaff={props.handleSubmitStaff}
                     />
-                    : ""
+                    : "Wrong Employee Type"
             }
           </FormGroup>
         </ModalBody>

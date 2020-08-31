@@ -463,6 +463,7 @@ const Leaves = () => {
       })
         .then(res => res.json())
         .then(data => {
+          console.log(data)
           if (data.error) {
             Swal.fire({
               icon: 'error',
@@ -530,6 +531,7 @@ const Leaves = () => {
       })
         .then(res => res.json())
         .then(data => {
+          console.log(data)
           if (data.error) {
             Swal.fire({
               icon: 'error',
@@ -714,6 +716,7 @@ const Leaves = () => {
       })
         .then(res => res.json())
         .then(data => {
+          console.log(data)
           if (data.error) {
             Swal.fire({
               icon: 'error',
