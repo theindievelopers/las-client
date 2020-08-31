@@ -201,7 +201,7 @@ class EmployeesTable extends Component {
             // width: 130
           },
           {
-            title: 'Immediate Superior',
+            title: 'Immediate Supervisor',
             field: 'immediate_superior',
             // width: 130
           },
