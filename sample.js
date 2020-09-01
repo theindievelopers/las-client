@@ -1,3 +1,6 @@
+&& (employee.project_manager !== "" || employee.project_manager !== null && employee.immediate_superior !== "" || employee.immediate_superior !== null)
+
+
 
     // const formData = new FormData();
     // formData.append('code', employeeCode)

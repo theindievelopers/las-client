@@ -13,7 +13,7 @@ import LeaveStaff from './LeaveStaff';
 
 const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, selectedEmployee, isEdit, selectedLeave, ...props }) => {
   const employeeList = employees.map((employee, i) => {
-    if(employee.signature !== ""){
+    if(employee.signature !== "" || employee.signature !== null){
       return (
         <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
       )
@@ -21,7 +21,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
   })
 
   const selectEmployeeForLeave = employees.map((employee, i) => {
-    if(employee.signature !== "" && (employee.project_manager !== "" && employee.immediate_superior !== "")){
+    if((employee.signature !== "" && employee.signature !== null) && (employee.project_manager !== "" && employee.project_manager !== null && employee.immediate_superior !== "" && employee.immediate_superior !== null)){
       if(JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 3 || employee.code === JSON.parse(sessionStorage.empCode)){
         return (
           <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
