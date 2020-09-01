@@ -126,7 +126,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                   selectedLeave={selectedLeave}
                 />
                 :
-                selectedEmployee[0].employee_type.toLower() == "worker"
+                selectedEmployee[0].employee_type == "worker"
                   ? <LeaveWorker
                     handleDepartureDate={props.handleDepartureDate}
                     handleReturnDate={props.handleReturnDate}
@@ -144,7 +144,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                     handleSubmitWorker={props.handleSubmitWorker}
                     handleRecievedOthers={props.handleRecievedOthers}
                   />
-                  : selectedEmployee[0].employee_type.toLower() == "staff"
+                  : selectedEmployee[0].employee_type == "staff"
                     ?
                     <LeaveStaff
                       selectedEmployee={selectedEmployee[0]}
