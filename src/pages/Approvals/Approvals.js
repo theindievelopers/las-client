@@ -95,13 +95,17 @@ const Approvals = React.memo(props => {
             data.map(inidvData => {
               if (inidvData.code === approverCode.accounting) {
                 accounting.push(inidvData)
-              } else if (inidvData.code === approverCode.ceo) {
+              }
+              if (inidvData.code === approverCode.ceo) {
                 ceo.push(inidvData)
-              } else if (inidvData.code === approverCode.coo) {
+              }
+              if (inidvData.code === approverCode.coo) {
                 coo.push(inidvData)
-              } else if (inidvData.code === approverCode.hra_manager) {
+              }
+              if (inidvData.code === approverCode.hra_manager) {
                 hraManager.push(inidvData)
-              } else if (inidvData.code === approverCode.logistics_officer) {
+              }
+              if (inidvData.code === approverCode.logistics_officer) {
                 logisticsOfficer.push(inidvData)
               }
             })

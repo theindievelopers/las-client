@@ -114,13 +114,17 @@ const Leaves = () => {
             data.map(inidvData => {
               if(inidvData.code === approverCode.accounting){
                  return accounting.push(inidvData)
-              } else if(inidvData.code === approverCode.ceo){
+              } 
+              if(inidvData.code === approverCode.ceo){
                 return ceo.push(inidvData)
-              } else if(inidvData.code === approverCode.coo){
+              } 
+              if(inidvData.code === approverCode.coo){
                 return coo.push(inidvData)
-              } else if(inidvData.code === approverCode.hra_manager){
+              }
+              if(inidvData.code === approverCode.hra_manager){
                 return hraManager.push(inidvData)
-              } else if(inidvData.code === approverCode.logistics_officer){
+              }
+              if(inidvData.code === approverCode.logistics_officer){
                 return logisticsOfficer.push(inidvData)
               }
             })
