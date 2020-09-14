@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, } from 'react'
 import {
   Modal,
   ModalHeader,
@@ -11,24 +11,23 @@ import {
 import LeaveWorker from './LeaveWorker';
 import LeaveStaff from './LeaveStaff';
 
-const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, selectedEmployee, isEdit, selectedLeave, ...props }) => {
-  const employeeList = employees.map((employee, i) => {
-    if(employee.signature !== "" || employee.signature !== null){
-      return (
-        <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
-      )
-    }
+const LeaveForm = React.memo(({ showForm, handleShowForm, handleFnameChange, employees, selectedEmployee, isEdit, isLoading, selectedLeave,empCode,
+  accessLevel,handleFilterEmployee,searchField,handleHideListEmployees,hideListEmployees, ...props }) => {
+
+  const filteredEmployees = employees.filter(employee => {
+    return employee.fullname.toLowerCase().includes(searchField.toLowerCase());
   })
 
-  const selectEmployeeForLeave = employees.map((employee, i) => {
+  const selectEmployeeForLeave = filteredEmployees.map((employee, i) => {
     if((employee.signature !== "" && employee.signature !== null) && (employee.project_manager !== "" && employee.project_manager !== null && employee.immediate_superior !== "" && employee.immediate_superior !== null)){
-      if(JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 3 || employee.code === JSON.parse(sessionStorage.empCode)){
+      if (accessLevel === 1 || accessLevel === 3 || empCode === employee.code) {
         return (
           <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>
         )
       }
     }
   })
+
   return (
     <React.Fragment>
       <Modal
@@ -54,17 +53,18 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
           <FormGroup>
             <Label for="employee">{isEdit ? "Update Leave For:" : "Apply Leave For:"}</Label>
             {isEdit ?
-              <Input bsSize="sm" type="text" value={selectedLeave.application_data.name}/>
+              <Input bsSize="sm" type="text" readOnly={true} value={selectedLeave.application_data.name}/>
             :
-              <Input bsSize="sm"
-                type="select"
-                name="employee"
-                id="employee"
-                onChange={props.handleEmployeeSelect}
-              >
-                <option>-</option>
-                {selectEmployeeForLeave}
-              </Input>
+              <React.Fragment>
+                <Input bsSize="sm" type="text" onChange={handleFilterEmployee} onClick={handleHideListEmployees} value={selectedEmployee[0].fullname}/>
+                <Input bsSize="sm"
+                  type="select"
+                  multiple
+                  hidden={hideListEmployees}
+                >
+                  {selectEmployeeForLeave}
+                </Input>
+              </React.Fragment>
             }
             {isEdit && selectedLeave.application_form_code == "LEAVE_WORKER" ?
               <LeaveWorker
@@ -85,6 +85,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                 handleRecievedOthers={props.handleRecievedOthers}
                 selectedLeave={selectedLeave}
                 isEdit={isEdit}
+                isLoading={isLoading}
               />
               :
               isEdit && selectedLeave.application_form_code == "LEAVE_STAFF" ?
@@ -123,7 +124,17 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                   handleSubmitStaff={props.handleSubmitStaff}
                   selectedLeave={selectedLeave}
                   isEdit={isEdit}
+                  isLoading={isLoading}
                   selectedLeave={selectedLeave}
+                  hideListHandoverName={props.hideListHandoverName}
+                  handleHideListHandoverSuccessorName={props.handleHideListHandoverSuccessorName}
+                  searchField={props.searchField}
+                  filterHandoverSuccessorName={props.filterHandoverSuccessorName}
+                  employees={props.employees}
+                  filteredEmployees={filteredEmployees}
+                  hideListHandoverDocsName={props.hideListHandoverDocsName}
+                  handleHideListHandoverDocsName={props.handleHideListHandoverDocsName}
+                  filterHandoverDocsName={props.filterHandoverDocsName}
                 />
                 :
                 selectedEmployee[0].employee_type == "worker"
@@ -143,6 +154,7 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                     handleBackOn={props.handleBackOn}
                     handleSubmitWorker={props.handleSubmitWorker}
                     handleRecievedOthers={props.handleRecievedOthers}
+                    isLoading={isLoading}
                   />
                   : selectedEmployee[0].employee_type == "staff"
                     ?
@@ -178,14 +190,24 @@ const LeaveForm = ({ showForm, handleShowForm, handleFnameChange, employees, sel
                       handleStaffAccommodation={props.handleStaffAccommodation}
                       handleStaffMobile={props.handleStaffMobile}
                       handleSubmitStaff={props.handleSubmitStaff}
+                      hideListHandoverName={props.hideListHandoverName}
+                      handleHideListHandoverSuccessorName={props.handleHideListHandoverSuccessorName}
+                      searchField={props.searchField}
+                      filterHandoverSuccessorName={props.filterHandoverSuccessorName}
+                      employees={props.employees}
+                      filteredEmployees={filteredEmployees}
+                      hideListHandoverDocsName={props.hideListHandoverDocsName}
+                      handleHideListHandoverDocsName={props.handleHideListHandoverDocsName}
+                      filterHandoverDocsName={props.filterHandoverDocsName}
+                      isLoading={isLoading}
                     />
-                    : "Wrong Employee Type"
+                    : ""
             }
           </FormGroup>
         </ModalBody>
       </Modal>
     </React.Fragment>
   )
-}
+})
 
 export default LeaveForm;

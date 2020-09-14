@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Sidebar from '../Layout/Sidebar'
 import Topbar from '../Layout/Topbar'
+import { CredsContext } from '../context/Context'
 
-const HomePage = () => {
+const HomePage = (props) => {
+
+  const { isLoggedIn } = useContext(CredsContext)
+
+  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
-    if (!sessionStorage.isLoggedIn) {
+    if (!isLoggedIn) {
       window.location.replace('#/login')
     }
 
+    setTimeout(() => {
+      setIsReady(true);
+    }, 1000);
   }, [])
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Sidebar from '../../Layout/Sidebar'
 import Topbar from '../../Layout/Topbar'
 import EmployeesTable from './EmployeesTable'
@@ -7,8 +7,11 @@ import Axios from 'axios'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 import { Card,CardBody } from 'reactstrap'
+import { CredsContext } from '../../context/Context'
 
-const Employees = () => {
+const Employees = React.memo( props => {
+  const { saveCreds, empCode, accessLevel, isLoggedIn, name, username } = useContext(CredsContext)
+
   const [signatureUpload, setSignatureUpload] = useState(false)
   const [employees, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -52,17 +55,27 @@ const Employees = () => {
   const [accommodation, setAccommodation] = useState("")
   const [employeeType, setEmployeeType] = useState("")
   const [employmentStatus, setEmployementStatus] = useState("")
-  const [projectManager, setProjectManager] = useState("")
-  const [immediateSuperior, setImmediateSuperior] = useState("")
+  const [projectManager, setProjectManager] = useState([])
+  const [immediateSuperior, setImmediateSuperior] = useState([])
   const [signature, setSignature] = useState("")
   const [createdBy, setCreatedBy] = useState("")
   const [createdAt, setCreatedAt] = useState("")
   const [selectedEmployee, setSelectedEmployee] = useState([])
+  const [hideListEmployees, setHideListEmployees] = useState(true)
+  const [hideListImmediateSuperior, setHideListImmediateSuperior] = useState(true)
+  const [searchField, setSearchField] = useState("")
 
   useEffect(() => {
-    if(!sessionStorage.isLoggedIn) {
+    if(!isLoggedIn) {
       window.location.replace('#/login')
     }
+    // } else if(accessLevel !== 1 || accessLevel !== 3) {
+    //   window.location.replace('#/leaves')
+    // }
+
+    // const abortController = new AbortController()
+    // const signal = abortController.signal
+
     fetch('http://localhost:3000/employee')
       .then(res => res.json())
       .then(data => {
@@ -71,6 +84,10 @@ const Employees = () => {
           setEmployees(data)
         }
       })
+
+    // return function cleanUp() {
+    //   abortController.abort()
+    // }
   }, [])
 
   const refetch = () => {
@@ -130,12 +147,22 @@ const Employees = () => {
     setSignatureUpload(false)
     setSelectedEmployee([])
     refetch()
+    setProjectManager([])
+    setImmediateSuperior([])
   }
 
   const handleShowForm = (employee) => {
     setShowFrom(!showForm)
     setIsedit(false)
     setSelectedEmployee([])
+    setImmediateSuperior([])
+    setProjectManager([])
+    setHideListEmployees(true)
+    setSearchField("")
+    let projectManagerInput = document.getElementById("projectManager")
+    projectManager.value = ""
+    let immediateSuperiorInput = document.getElementById("immediateSuperior")
+    immediateSuperior.value = ""
   }
 
   const handleEdit = (employee) => {
@@ -183,6 +210,14 @@ const Employees = () => {
     setSignature(employee.signature)
     setCreatedBy(employee.createdBy)
     setCreatedAt(employee.createdAt)
+    employees.map(indivEmpoyee => {
+      if(indivEmpoyee.code === employee.project_manager){
+        setProjectManager(indivEmpoyee)
+      }
+      if(indivEmpoyee.code === employee.immediate_superior){
+        setImmediateSuperior(indivEmpoyee)
+      }
+    })
   }
 
   const handleEmployeeCodeChange = (e) => {
@@ -212,7 +247,7 @@ const Employees = () => {
     setPassportNum(e.target.value)
   }
   const handlePassportDateIssuedChange = e => {
-    setPassportDateIssued(e.target.value)
+    setPassportDateIssued(moment(e.target.value).format("MM/DD/YYYY"))
   }
   const handlePassportExpiryChange = e => {
     setPassportExpiry(e.target.value)
@@ -221,7 +256,7 @@ const Employees = () => {
     setResidencePermit(e.target.value)
   }
   const handleResidenceExpiryDateChange = e => {
-    setResidenceExpiryDate(e.target.value)
+    setResidenceExpiryDate(moment(e.target.value).format("MM/DD/YYYY"))
   }
   const handleResidencePermitBloodGroupChange = e => {
     setResidencePermitBloodGroup(e.target.value)
@@ -230,7 +265,7 @@ const Employees = () => {
     setJobOfferDohaEntry(e.target.value)
   }
   const handleJoiningDateChange = e => {
-    setJoiningDate(e.target.value)
+    setJoiningDate(moment(e.target.value).format("MM/DD/YYYY"))
   }
   const handleIncrementMonthChange = e => {
     setIncrementMonth(parseInt(e.target.value, 10))
@@ -269,7 +304,7 @@ const Employees = () => {
     setLeaveTicketDaysPerYear(e.target.value)
   }
   const handleDrivingLicenseIssueDateChange = e => {
-    setDrivingLicenseIssueDate(e.target.value)
+    setDrivingLicenseIssueDate(moment(e.target.value).format("MM/DD/YYYY"))
   }
   const handleDriverLicenseExpiryChange = e => {
     setDriverLicenseExpiry(e.target.value)
@@ -278,7 +313,7 @@ const Employees = () => {
     setHealthCardNum(e.target.value)
   }
   const handleHealthCardIssueDateChange = e => {
-    setHealthCardIssueDate(e.target.value)
+    setHealthCardIssueDate(moment(e.target.value).format("MM/DD/YYYY"))
   }
   const handleHealthCardExpiryChange = e => {
     setHealthCardExpiry(e.target.value)
@@ -304,18 +339,26 @@ const Employees = () => {
 
   const handleProjectManagerChange = e => {
     let value = e.target.value
-    if(value === "" || value === "-" || value === "N/A") {
-      return value = ""
-    }
-    setProjectManager(value)
+    let projectManager = employees.filter(employee => {
+      return employee.code === value
+    })
+    setProjectManager(projectManager[0])
+    setHideListEmployees(true)
+    setSearchField(`${projectManager[0].code}-${projectManager[0].fullname}`)
+    let projectManagerInput = document.getElementById("projectManager")
+    projectManagerInput.value = `${projectManager[0].code}-${projectManager[0].fullname}`
   }
 
   const handleImmediateSuperior = e => {
     let value = e.target.value
-    if(value === "" || value === "-" || value === "N/A") {
-      return value = ""
-    }
-    setImmediateSuperior(e.target.value)
+    let immediateSuperior = employees.filter(employee => {
+      return employee.code === value
+    })
+    setImmediateSuperior(immediateSuperior[0])
+    setHideListImmediateSuperior(true)
+    setSearchField(`${immediateSuperior[0].code}-${immediateSuperior[0].fullname}`)
+    let immediateSuperiorInput = document.getElementById("immediateSuperior")
+    immediateSuperiorInput.value = `${immediateSuperior[0].code}-${immediateSuperior[0].fullname}`
   }
 
   const handleSignature = e => {
@@ -338,11 +381,11 @@ const Employees = () => {
     } else {
       const formData = new FormData()
       formData.append('upload_image', e.target.files[0])
+      const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
       const config = {
         headers: {
           'content-type': 'multipart/form-data',
-          'LAS': 'LAS',
-          'raihan': 'raihan'
+          'authorization': `Basic ${creds}`
         }
       }
       Axios.post(`http://localhost:3000/upload/signature?id=${selectedEmployee.id}`, formData, config)
@@ -352,6 +395,24 @@ const Employees = () => {
         })
 
     }
+  }
+
+  const handleHideListEmployees = () => {
+    setHideListEmployees(false)
+    setProjectManager("")
+  }
+
+  const handleHideLisImmdiateSuperior = () => {
+    setHideListImmediateSuperior(false)
+    setImmediateSuperior("")
+  }
+
+  const handleFilterEmployee = (e) => {
+    setSearchField(e.target.value)
+  }
+
+  const handleFilterImmdiateSuperior = (e) => {
+    setSearchField(e.target.value)
   }
 
   const handleSubmit = () => {
@@ -364,10 +425,12 @@ const Employees = () => {
         text: 'Please make sure to input all required fields!',
       })
     }
+    setIsLoading(true)
+    const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if (isEdit) {
       fetch(`http://localhost:3000/employees?id=${selectedEmployee.id}`, {
         method: 'put',
-        headers: { 'Content-Type': 'application/json', 'LAS': 'LAS', 'raihan': 'raihan' },
+        headers: { 'Content-Type': 'application/json',  'authorization': `Basic ${creds}`},
         body: JSON.stringify({
           code: employeeCode,
           fullname: fullname,
@@ -408,13 +471,13 @@ const Employees = () => {
           accommodation: accommodation,
           employee_type: employeeType,
           signature: signature,
-          project_manager: projectManager,
-          immediate_superior: immediateSuperior,
+          project_manager: projectManager.code,
+          immediate_superior: immediateSuperior.code,
           employment_status: employmentStatus,
           createdBy: createdBy,
           createdAt: createdAt,
-          updatedBy: JSON.parse(sessionStorage.name),
-          updatedAt: moment(new Date()).format("MM-DD-YYYY")
+          updatedBy: name,
+          updatedAt: moment(new Date()).format("MM/DD/YYYY")
         })
       })
         .then(res => res.json())
@@ -424,6 +487,7 @@ const Employees = () => {
             handleRefresh()
             refetch()
             setShowFrom(false)
+            setIsLoading(false)
             Swal.fire(
               'Success!',
               'Employee has been updated successfully!',
@@ -436,7 +500,7 @@ const Employees = () => {
     } else {
       fetch('http://localhost:3000/employees', {
         method: 'post',
-        headers: { 'Content-Type': 'application/json', 'LAS': 'LAS', 'raihan': 'raihan' },
+        headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
         body: JSON.stringify({
           code: employeeCode,
           fullname: fullname,
@@ -477,13 +541,13 @@ const Employees = () => {
           accommodation: accommodation,
           employee_type: employeeType,
           signature: "",
-          project_manager: projectManager,
-          immediate_superior: immediateSuperior,
+          project_manager: projectManager.code,
+          immediate_superior: immediateSuperior.code,
           employment_status: employmentStatus,
-          createdBy: JSON.parse(sessionStorage.name),
-          createdAt: moment(new Date()).format("MM-DD-YYYY"),
-          updatedBy: JSON.parse(sessionStorage.name),
-          updatedAt: moment(new Date()).format("MM-DD-YYYY")
+          createdBy: name,
+          createdAt: moment(new Date()).format("MM/DD/YYYY"),
+          updatedBy: name,
+          updatedAt: moment(new Date()).format("MM/DD/YYYY")
         })
       })
         .then(res => res.json())
@@ -568,6 +632,15 @@ const Employees = () => {
             handleSignature={handleSignature}
             signatureUpload={signatureUpload}
             handleSubmit={handleSubmit}
+            hideListEmployees={hideListEmployees}
+            handleHideListEmployees={handleHideListEmployees}
+            handleFilterEmployee={handleFilterEmployee}
+            searchField={searchField}
+            projectManager={projectManager}
+            immediateSuperior={immediateSuperior}
+            handleFilterImmdiateSuperior={handleFilterImmdiateSuperior}
+            handleHideLisImmdiateSuperior={handleHideLisImmdiateSuperior}
+            hideListImmediateSuperior={hideListImmediateSuperior}
           />
         </div>
       </div>
@@ -603,6 +676,6 @@ const Employees = () => {
       {/* </div> */}
     </React.Fragment>
   )
-}
+})
 
 export default Employees;

@@ -6,30 +6,20 @@ import {
   FormGroup,
   Label,
   Input,
+  Spinner
 } from 'reactstrap';
 
-const LeaveStaff = ({isEdit,selectedLeave, ...props}) => {
-  const [employees, setEmployees] = useState([])
+const LeaveStaff = React.memo(({isEdit,selectedLeave, filteredEmployees, isLoading, ...props}) => {
 
-  useEffect(() => {
-    fetch('http://localhost:3000/employee')
-      .then(res => res.json())
-      .then(data => {
-        if (data) {
-          setEmployees(data)
-        }
-      })
-  }, [])
-
-  const selectedHandOverEmp = employees.map((employee, i) => {
+  const selectedHandOverEmp = filteredEmployees.map((employee, i) => {
       return (
-        <option key={i} value={`${employee.fullname} / ${employee.code}`} selected={isEdit && selectedLeave.application_data.handover_briefing_to_successor_employee_name === `${employee.fullname} / ${employee.code}` ? true : false}>{employee.fullname}</option>
+        <option key={i} value={`${employee.fullname} / ${employee.code}`} onClick={props.handleHandoverSuccessorName}>{employee.fullname}</option>
       )
   })
 
-  const selectedDocsEmp = employees.map((employee, i) => {
+  const selectedDocsEmp = filteredEmployees.map((employee, i) => {
     return (
-      <option key={i} value={`${employee.fullname} / ${employee.code}`} selected={isEdit && selectedLeave.application_data.handover_documents_employee_name === `${employee.fullname} / ${employee.code}` ? true : false}>{employee.fullname}</option>
+      <option key={i} value={`${employee.fullname} / ${employee.code}`} onClick={props.handleHandoverDocsName}>{employee.fullname}</option>
     )
 })
   return (
@@ -90,14 +80,15 @@ const LeaveStaff = ({isEdit,selectedLeave, ...props}) => {
           </FormGroup>
           <FormGroup>
             <Label for="">Name/Employee No.:</Label>
+            <Input bsSize="sm" type="text"
+              onChange={props.filterHandoverSuccessorName} onClick={props.handleHideListHandoverSuccessorName} id="handoverSuccessorName"
+              defaultValue={isEdit ? selectedLeave.application_data.handover_briefing_to_successor_employee_name : props.searchField}
+            />
             <Input bsSize="sm"
                 type="select"
-                name="employee"
-                id="employee"
-                onChange={props.handleHandoverSuccessorName}
-                defaultValue={isEdit ? selectedLeave.application_data.handover_briefing_to_successor_employee_name : ""}
+                multiple
+                hidden={props.hideListHandoverName}
               >
-                <option>-</option>
                 {selectedHandOverEmp}
               </Input>
           </FormGroup>
@@ -111,14 +102,15 @@ const LeaveStaff = ({isEdit,selectedLeave, ...props}) => {
           </FormGroup>
           <FormGroup>
             <Label for="handoverDocsName">Name/Employee No.:</Label>
+            <Input bsSize="sm" type="text"
+              onChange={props.filterHandoverDocsName} onClick={props.handleHideListHandoverDocsName} id="handoverDocsName"
+              defaultValue={isEdit ? selectedLeave.application_data.handover_documents_employee_name : props.searchField}
+            />
             <Input bsSize="sm"
                 type="select"
-                name="employee"
-                id="employee"
-                onChange={props.handleHandoverDocsName}
-                defaultValue={isEdit ? selectedLeave.application_data.handover_documents_employee_name : ""}
+                multiple
+                hidden={props.hideListHandoverDocsName}
               >
-                <option>-</option>
                 {selectedDocsEmp}
               </Input>
           </FormGroup>
@@ -204,8 +196,8 @@ const LeaveStaff = ({isEdit,selectedLeave, ...props}) => {
       <Row>
         <Col md={12}>
           <FormGroup>
-            <Label for="specifyItems">Others (Specify):</Label>
-            <Input bsSize="sm" type="text" name="specifyItems" id="specifyItems" placeholder="Specify" onBlur={props.handleSpecifyStaffOthers}
+            <Label>Others (Specify):</Label>
+            <Input bsSize="sm" type="text" placeholder="Specify" onBlur={props.handleSpecifyStaffOthers}
               defaultValue={isEdit ? selectedLeave.application_data.receive_others_remarks : ""}
             />
           </FormGroup>
@@ -267,28 +259,32 @@ const LeaveStaff = ({isEdit,selectedLeave, ...props}) => {
       <Row>
         <Col md={6}>
           <FormGroup>
-            <Label for="specifyItems">Accommodation:</Label>
-            <Input bsSize="sm" type="text" name="specifyItems" id="specifyItems" placeholder="Specify" onBlur={props.handleStaffAccommodation}
+            <Label>Accommodation:</Label>
+            <Input bsSize="sm" type="text" placeholder="Specify" onBlur={props.handleStaffAccommodation}
               defaultValue={isEdit ? selectedLeave.application_data.airport_transportation_accommodation : ""}
             />
           </FormGroup>
         </Col>
         <Col md={6}>
           <FormGroup>
-            <Label for="specifyItems">Mobile No.:</Label>
-            <Input bsSize="sm" type="text" name="specifyItems" id="specifyItems" placeholder="Specify" onBlur={props.handleStaffMobile}
+            <Label>Mobile No.:</Label>
+            <Input bsSize="sm" type="text" placeholder="Specify" onBlur={props.handleStaffMobile}
               defaultValue={isEdit ? selectedLeave.application_data.airport_transportation_mobile_number : ""}
             />
           </FormGroup>
         </Col>
       </Row>
       <Button type="button" className="mr-auto"
-        // disabled={props.isLoading ? true : false}
+        disabled={props.isLoading ? true : false}
         onClick={props.handleSubmitStaff}>
-        {isEdit ? "Update" : "Submit" }
+        {isEdit ? 
+          isLoading ? <div className="px-3"><Spinner size="sm" color="light" /></div> 
+          : "Update" 
+          : isLoading ? <div className="px-3"><Spinner size="sm" color="light" /></div> 
+          : "Submit" }
       </Button>
     </React.Fragment>
   )
-}
+})
 
 export default LeaveStaff;

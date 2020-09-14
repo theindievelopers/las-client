@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Sidebar from '../../Layout/Sidebar';
 import Topbar from '../../Layout/Topbar';
 import moment from 'moment';
@@ -6,8 +6,11 @@ import LeavesTable from './LeavesTable';
 import LeaveForm from './LeaveForm';
 import Swal from 'sweetalert2'
 import { Card, CardBody } from 'reactstrap';
+import { CredsContext } from '../../context/Context'
 
-const Leaves = () => {
+const Leaves = React.memo(props => {
+  const { saveCreds, empCode, accessLevel, isLoggedIn, name, username } = useContext(CredsContext)
+
   const [leaves, setLeaves] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isEdit, setIsEdit] = useState(false)
@@ -62,32 +65,38 @@ const Leaves = () => {
       employee_type: ""
     }
   ])
+  const [searchField, setSearchField] = useState("")
+  const [hideListEmployees, setHideListEmployees] = useState(true)
   const [accounting, setAccounting] = useState({})
   const [ceo, setCeo] = useState({})
   const [coo, setCoo] = useState({})
   const [logisticsOfficer, setLogisticsOfficer] = useState({})
   const [hraManager, setHraManager] = useState({})
+  const [hideListHandoverName, setHideListHandoverName] = useState(true)
+  const [hideListHandoverDocsName, setHideListHandoverDocsName] = useState(true)
 
   useEffect(() => {
-    if (!sessionStorage.isLoggedIn) {
+    if (!isLoggedIn) {
       window.location.replace('#/login')
     }
-    // Applications
-    fetch('http://localhost:3000/application')
+
+      // Applications
+      fetch('http://localhost:3000/application')
       .then(res => res.json())
       .then(data => {
         if (data) {
           let allData = []
           data.map(indivData => {
-            if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 3 || JSON.parse(sessionStorage.empCode) === indivData.employee_code) {
-              return allData.push(indivData)
-            }
-          })
-          setLeaves(allData)
-          setIsLoading(false)
-        }
-      })
-
+            if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.employee_code) {
+              if(indivData.application_form_code === "LEAVE_STAFF" || indivData.application_form_code === "LEAVE_WORKER")
+                return allData.push(indivData)
+              }
+            })
+            setLeaves(allData)
+            setIsLoading(false)
+          }
+        })
+        
     // Employees
     fetch('http://localhost:3000/employee')
       .then(res => res.json())
@@ -111,21 +120,21 @@ const Leaves = () => {
         fetch('http://localhost:3000/employee')
           .then(res => res.json())
           .then(data => {
-            data.map(inidvData => {
-              if(inidvData.code === approverCode.accounting){
-                 return accounting.push(inidvData)
+            data.map(indivData => {
+              if(indivData.code === approverCode.accounting){
+                 return accounting.push(indivData)
               } 
-              if(inidvData.code === approverCode.ceo){
-                return ceo.push(inidvData)
+              if(indivData.code === approverCode.ceo){
+                return ceo.push(indivData)
               } 
-              if(inidvData.code === approverCode.coo){
-                return coo.push(inidvData)
+              if(indivData.code === approverCode.coo){
+                return coo.push(indivData)
               }
-              if(inidvData.code === approverCode.hra_manager){
-                return hraManager.push(inidvData)
+              if(indivData.code === approverCode.hra_manager){
+                return hraManager.push(indivData)
               }
-              if(inidvData.code === approverCode.logistics_officer){
-                return logisticsOfficer.push(inidvData)
+              if(indivData.code === approverCode.logistics_officer){
+                return logisticsOfficer.push(indivData)
               }
             })
           })
@@ -147,8 +156,9 @@ const Leaves = () => {
         if (data) {
           let allData = []
           data.map(indivData => {
-            if (JSON.parse(sessionStorage.accessLevel) === 1 || JSON.parse(sessionStorage.accessLevel) === 3 || JSON.parse(sessionStorage.empCode) === indivData.employee_code) {
-              allData.push(indivData)
+            if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.employee_code) {
+              if(indivData.application_form_code === "LEAVE_STAFF" || indivData.application_form_code === "LEAVE_WORKER")
+                return allData.push(indivData)
             }
           })
           setLeaves(allData)
@@ -187,11 +197,16 @@ const Leaves = () => {
     setLeaveTo()
     setBackOn("")
     refetch()
+    setSearchField("")
+    setIsEdit(false)
   }
 
   const handleShowForm = () => {
     setShowForm(!showForm)
     setIsEdit(false)
+    setSearchField("")
+    setHideListHandoverDocsName(true)
+    setHideListHandoverName(true)
   }
 
   const handleEdit = (leave) => {
@@ -253,6 +268,8 @@ const Leaves = () => {
       return employee.id == e.target.value
     })
     setSelectedEmployee(selected)
+    setHideListEmployees(true)
+    setSearchField("")
   }
 
   const handleDepartureDate = (e) => {
@@ -320,6 +337,10 @@ const Leaves = () => {
 
   const handleHandoverSuccessorName = (e) => {
     setHandoverSuccessorName(e.target.value)
+    setHideListHandoverName(true)
+    setSearchField(e.target.value)
+    let handoverSuccessorName = document.getElementById("handoverSuccessorName")
+    handoverSuccessorName.value = e.target.value
   }
 
   const handleHandoverDocs = (e) => {
@@ -328,6 +349,10 @@ const Leaves = () => {
 
   const handleHandoverDocsName = (e) => {
     setHandoverDocsName(e.target.value)
+    setHideListHandoverDocsName(true)
+    setSearchField(e.target.value)
+    let handoverDocsName = document.getElementById("handoverDocsName")
+    handoverDocsName.value = e.target.value
   }
 
   const handleStaffItemsIssued1 = (e) => {
@@ -412,6 +437,35 @@ const Leaves = () => {
     setStaffMobile(e.target.value)
   }
 
+  const handleFilterEmployee = (e) => {
+    setSearchField(e.target.value)
+  }
+
+  const handleHideListEmployees = () => {
+    setHideListEmployees(false)
+    setSelectedEmployee([
+      {
+        employee_type: ""
+      }
+    ])
+  }
+
+  const handleHideListHandoverSuccessorName = () => {
+    setHideListHandoverName(false)
+  }
+
+  const filterHandoverSuccessorName = (e) => {
+    setSearchField(e.target.value)
+  }
+
+  const handleHideListHandoverDocsName = () => {
+    setHideListHandoverDocsName(false)
+  }
+
+  const filterHandoverDocsName = (e) => {
+    setSearchField(e.target.value)
+  }
+
   const handleSubmitWorker = () => {
     setIsLoading(true)
     if(departureDate === "" || returnDate === "" || leaveType === "") {
@@ -421,10 +475,13 @@ const Leaves = () => {
         text: 'Please make sure to input all required fields!',
       })
     }
+
+    const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
+
     if (isEdit) {
       fetch(`http://localhost:3000/application?id=${selectedLeave.id}`, {
         method: 'put',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({
           application_form_code: selectedLeave.application_form_code,
           employee_id: selectedLeave.employee_id,
@@ -455,14 +512,14 @@ const Leaves = () => {
             hr_manager_signature_and_date: "",
             createdby: selectedLeave.application_data.createdby,
             createdat: selectedLeave.application_data.createdat,
-            updatedby: "admin",
-            updatedat: moment(new Date()).format("MM-DD-YYYY")
+            updatedby: name,
+            updatedat: moment(new Date()).format("MM/DD/YYYY")
           },
           status: "PENDING",
           createdBy: selectedLeave.application_data.createdBy,
           createdAt: selectedLeave.application_data.createdAt,
-          updatedBy: "admin",
-          updatedAt: moment(new Date()).format("MM-DD-YYYY")
+          updatedBy: name,
+          updatedAt: moment(new Date()).format("MM/DD/YYYY")
         })
       })
         .then(res => res.json())
@@ -491,7 +548,7 @@ const Leaves = () => {
     } else {
       fetch('http://localhost:3000/application', {
         method: 'post',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({
           application_form_code: "LEAVE_WORKER",
           employee_id: selectedEmployee[0].id,
@@ -506,7 +563,7 @@ const Leaves = () => {
             contact_number: contact,
             items_issued_type: itemsIssued,
             items_issued_others_remarks: specify,
-            signature_and_date: moment(new Date()).format("MM-DD-YYYY"),
+            signature_and_date: moment(new Date()).format("MM/DD/YYYY"),
             immediate_supervisor_signature_and_date: "",
             accounting_department_signature_and_date: "",
             receive_passport: passport,
@@ -518,18 +575,18 @@ const Leaves = () => {
             leave_to: leaveTo,
             be_back_on: backOn,
             employee_signature: selectedEmployee[0].signature,
-            employee_signature_date: moment(new Date()).format("MM-DD-YYYY"),
+            employee_signature_date: moment(new Date()).format("MM/DD/YYYY"),
             hr_manager_signature_and_date: "",
-            createdby: JSON.parse(sessionStorage.user),
-            createdat: moment(new Date()).format("MM-DD-YYYY"),
-            updatedby: "admin",
-            updatedat: moment(new Date()).format("MM-DD-YYYY")
+            createdby: name,
+            createdat: moment(new Date()).format("MM/DD/YYYY"),
+            updatedby: name,
+            updatedat: moment(new Date()).format("MM/DD/YYYY")
           },
           status: "PENDING",
-          createdBy: "admin",
-          createdAt: moment(new Date()).format("MM-DD-YYYY"),
-          updatedBy: "admin",
-          updatedAt: moment(new Date()).format("MM-DD-YYYY")
+          createdBy: name,
+          createdAt: moment(new Date()).format("MM/DD/YYYY"),
+          updatedBy: name,
+          updatedAt: moment(new Date()).format("MM/DD/YYYY")
         })
       })
         .then(res => res.json())
@@ -559,10 +616,13 @@ const Leaves = () => {
         text: 'Please make sure to input all required fields!',
       })
     }
+
+    const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
+
     if (isEdit) {
       fetch(`http://localhost:3000/application?id=${selectedLeave.id}`, {
         method: 'put',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({
           application_form_code: selectedLeave.application_form_code,
           employee_id: selectedLeave.employee_id,
@@ -620,14 +680,14 @@ const Leaves = () => {
             ceo_sign_date: selectedLeave.ceo_sign_date,
             createdby: selectedLeave.application_data.createdby,
             createdat: selectedLeave.application_data.createdat,
-            updatedby: sessionStorage.name,
-            updatedat: moment(new Date()).format("MM-DD-YYYY")
+            updatedby: name,
+            updatedat: moment(new Date()).format("MM/DD/YYYY")
           },
           status: "PENDING",
           createdBy: selectedLeave.createdBy,
           createdAt: selectedLeave.createdAt,
-          updatedBy: JSON.parse(sessionStorage.name),
-          updatedAt: moment(new Date()).format("MM-DD-YYYY")
+          updatedBy: name,
+          updatedAt: moment(new Date()).format("MM/DD/YYYY")
         })
       })
         .then(res => res.json())
@@ -648,7 +708,7 @@ const Leaves = () => {
     } else {
       fetch('http://localhost:3000/application', {
         method: 'post',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({
           application_form_code: "LEAVE_STAFF",
           employee_code: selectedEmployee[0].code,
@@ -693,7 +753,7 @@ const Leaves = () => {
             leave_to: staffLeaveTo,
             be_back_on: staffBackOn,
             employee_signature: selectedEmployee[0].signature,
-            employee_signature_date: moment(new Date()).format("MM-DD-YYYY"),
+            employee_signature_date: moment(new Date()).format("MM/DD/YYYY"),
             airport_transportation_departure_date: staffDepartureDateAirport,
             airport_transportation_arrival_date: staffArrivalDateAirport,
             airport_transportation_accommodation: staffAccommodation,
@@ -704,16 +764,16 @@ const Leaves = () => {
             coo_sign_date: "",
             ceo_signature_and_date: "",
             ceo_sign_date: "",
-            createdby: JSON.parse(sessionStorage.name),
-            createdat: moment(new Date()).format("MM-DD-YYYY"),
-            updatedby: JSON.parse(sessionStorage.name),
-            updatedat: moment(new Date()).format("MM-DD-YYYY")
+            createdby: name,
+            createdat: moment(new Date()).format("MM/DD/YYYY"),
+            updatedby: name,
+            updatedat: moment(new Date()).format("MM/DD/YYYY")
           },
           status: "PENDING",
-          createdBy: JSON.parse(sessionStorage.name),
-          createdAt: moment(new Date()).format("MM-DD-YYYY"),
-          updatedBy: JSON.parse(sessionStorage.name),
-          updatedAt: moment(new Date()).format("MM-DD-YYYY")
+          createdBy: name,
+          createdAt: moment(new Date()).format("MM/DD/YYYY"),
+          updatedBy: name,
+          updatedAt: moment(new Date()).format("MM/DD/YYYY")
         })
       })
         .then(res => res.json())
@@ -746,6 +806,8 @@ const Leaves = () => {
       <div className="row">
         <div className="col-4 offset-8 text-right">
           <LeaveForm
+            empCode={empCode}
+            accessLevel={accessLevel}
             employees={employees}
             showForm={showForm}
             handleShowForm={handleShowForm}
@@ -799,6 +861,17 @@ const Leaves = () => {
             handleSubmitStaff={handleSubmitStaff}
             isEdit={isEdit}
             selectedLeave={selectedLeave}
+            handleFilterEmployee={handleFilterEmployee}
+            searchField={searchField}
+            handleHideListEmployees={handleHideListEmployees}
+            hideListEmployees={hideListEmployees}
+            hideListHandoverName={hideListHandoverName}
+            handleHideListHandoverSuccessorName={handleHideListHandoverSuccessorName}
+            filterHandoverSuccessorName={filterHandoverSuccessorName}
+            hideListHandoverDocsName={hideListHandoverDocsName}
+            handleHideListHandoverDocsName={handleHideListHandoverDocsName}
+            filterHandoverDocsName={filterHandoverDocsName}
+            isLoading={isLoading}
           />
         </div>
       </div>
@@ -826,6 +899,7 @@ const Leaves = () => {
                         coo={coo}
                         hraManager={hraManager}
                         logisticsOfficer={logisticsOfficer}
+                        accessLevel={accessLevel}
                       />
                     </CardBody>
                   </Card>
@@ -837,6 +911,6 @@ const Leaves = () => {
       {/* </div> */}
     </React.Fragment>
   )
-}
+})
 
 export default Leaves;

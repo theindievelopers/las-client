@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   CardTitle,
   Button,
@@ -9,8 +9,11 @@ import {
   FormInput
 } from '../globalcomponents';
 import Swal from 'sweetalert2';
+import { CredsContext } from '../context/Context'
 
 const Login = () => {
+  const { saveCreds } = useContext(CredsContext)
+
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [usernameRequired, setUsernameRequired] = useState(true)
@@ -37,6 +40,7 @@ const Login = () => {
   }
 
   const handleLogin = () => {
+    const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if (usernameRequired) {
       Swal.fire({
         icon: 'error',
@@ -53,7 +57,8 @@ const Login = () => {
       fetch('http://localhost:3000/login', {
         method: 'post',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${creds}`
         },
         body: JSON.stringify({
           username,
@@ -70,14 +75,13 @@ const Login = () => {
             })
             )
           }
-          sessionStorage.empCode = JSON.stringify(data.data.employeecode)
-          sessionStorage.accessLevel = JSON.stringify(data.data.accesslvl)
-          sessionStorage.name = JSON.stringify(data.data.fullname)
-          sessionStorage.isLoggedIn = true;
+          const token = Buffer.from(`${data.data.employeecode}:${data.data.accesslvl}:${data.data.fullname}:true:${username}`, 'utf8').toString('base64')
+          saveCreds(data.data.employeecode, data.data.accesslvl, data.data.fullname, true, username)
+          sessionStorage.token = token
           if (data.data.accesslvl === 1) {
             return window.location.replace('#/');
           } else if (data.data.accesslvl === 2) {
-            return window.location.replace('#/approvals');
+            return window.location.replace('#/leave/approvals');
           } else {
             return window.location.replace('#/leaves');
           }

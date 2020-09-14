@@ -10,7 +10,7 @@ import {
   // FormText
 } from 'reactstrap';
 
-const LeaveWorker = ({isEdit, selectedLeave, ...props}) => {
+const LeaveWorker = React.memo(({isEdit, selectedLeave, ...props}) => {
   return (
     <React.Fragment>
       <Row className="pt-3">
@@ -164,6 +164,6 @@ const LeaveWorker = ({isEdit, selectedLeave, ...props}) => {
       </Button>
     </React.Fragment>
   )
-}
+})
 
 export default LeaveWorker;

@@ -2,7 +2,8 @@ import React from 'react';
 import { Document, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import styled from '@react-pdf/styled-components';
 import Logo from '../../img/logo.jpg';
-import FooterImg from '../../img/footerimg.png'
+import FooterImg from '../../img/footerimg.png';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   image: {width: 130, height: 27}
@@ -147,7 +148,7 @@ const StaffPDF = React.memo(({
             <View>
               <Input1 style={{ borderBottom: 1, alignContent: 'center' }}>{name === "" ? " " : name}</Input1>
               <Input1 style={{ borderBottom: 1 }}>{department === "" ? " " : department}</Input1>
-              <Input1 style={{ borderBottom: 1 }}>{departureDate === "" ? " " : departureDate}</Input1>
+              <Input1 style={{ borderBottom: 1 }}>{departureDate === "" ? " " : moment(departureDate).format("MM/DD/YYYY")}</Input1>
             </View>
             <View style={{ paddingLeft: "10px" }}>
               <Label2>Employee No.:</Label2>
@@ -158,7 +159,7 @@ const StaffPDF = React.memo(({
             <View>
               <Input2 style={{ borderBottom: 1 }}>{employeeNum === "" ? " " : employeeNum}</Input2>
               <Input2 style={{ borderBottom: 1 }}>{position === "" ? " " : position}</Input2>
-              <Input2 style={{ borderBottom: 1 }}>{returnDate === "" ? " " : returnDate}</Input2>
+              <Input2 style={{ borderBottom: 1 }}>{returnDate === "" ? " " : moment(returnDate).format("MM/DD/YYYY")}</Input2>
               {contactNum === "" ? 
                 <Input2 style={{ borderBottom: 1, color: "white" }}>09201234567</Input2>
                 : 
@@ -298,7 +299,7 @@ const StaffPDF = React.memo(({
                 {logisticsSign ?
                   <View>
                     <Image source={"http://localhost:3000/fetch/signature?code=" + logisticsOfficerCode} style={{width: 130,height: 20}}/> 
-                    <Text>{logisticsSignDate}</Text>
+                    <Text>{moment(logisticsSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
@@ -315,7 +316,7 @@ const StaffPDF = React.memo(({
                 {immidiateSupSign ? 
                   <View>
                     <Image source={"http://localhost:3000/fetch/signature?code=" + immediateSuperiorCode} style={{width: 130, height: 20}}/>
-                    <Text>{immidiateSupSignDate}</Text>
+                    <Text>{moment(immidiateSupSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
@@ -337,7 +338,7 @@ const StaffPDF = React.memo(({
                 {projectManagerSign ?
                   <View>
                     <Image source={"http://localhost:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/>
-                    <Text>{projectManagerSignDate}</Text>
+                    <Text>{moment(projectManagerSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
@@ -354,7 +355,7 @@ const StaffPDF = React.memo(({
                 {acctSign ? 
                   <View>
                     <Image source={"http://localhost:3000/fetch/signature?code=" + accountingCode} style={{width: 130,height: 20}}/>
-                    <Text>{acctSignDate}</Text>
+                    <Text>{moment(acctSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
@@ -402,11 +403,11 @@ const StaffPDF = React.memo(({
               This is to confirm that I will be on leave from
             </Paragraph>
             <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 100, marginLeft: "5px" }}>
-              {airportDepartureDate}
+              {moment(airportDepartureDate).format("MM/YY/DDDD")}
             </Text>
             <Paragraph> to</Paragraph>
             <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 100, marginLeft: "5px" }}>
-              {airportArrivalDate}
+              {moment(airportArrivalDate).format("MM/YY/DDDD")}
             </Text>
             <Paragraph>
               and certify that I will be
@@ -415,7 +416,7 @@ const StaffPDF = React.memo(({
           <Row style={{ paddingTop: "2px" }}>
             <Paragraph> back on</Paragraph>
             <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 100, marginLeft: "5px" }}>
-              {backOn}
+              {moment(backOn).format("MM/DD/YYYY")}
             </Text>
           </Row>
           <View style={{ paddingTop: "5px" }}>
@@ -437,7 +438,7 @@ const StaffPDF = React.memo(({
             </View>
             <View style={{ paddingTop: "10px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 100 }}>
-                {employeeSignDate === "" ? " " : employeeSignDate}
+                {employeeSignDate === "" ? " " : moment(employeeSignDate).format("MM/DD/YYYY")}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 80, paddingTop: "2px" }}>
                 Date
@@ -453,7 +454,7 @@ const StaffPDF = React.memo(({
                 <CheckBox>{airportDepartureDate === "" ? " " : "X"}</CheckBox>
                 <CheckBoxLabel>Departure Date:</CheckBoxLabel>
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 200, marginLeft: "5px", paddingTop: "3px" }}>
-                  {airportDepartureDate === "" ? " " : airportDepartureDate}
+                  {airportDepartureDate === "" ? " " : moment(airportDepartureDate).format("MM/DD/YYYY")}
                 </Text>
               </Row>
             </View>
@@ -462,7 +463,7 @@ const StaffPDF = React.memo(({
                 <CheckBox>{airportArrivalDate === "" ? " " : "X"}</CheckBox>
                 <CheckBoxLabel>Arrival Date:</CheckBoxLabel>
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 90, marginLeft: "5px", paddingTop: "3px" }}>
-                  {airportArrivalDate === "" ? " " : airportArrivalDate}
+                  {airportArrivalDate === "" ? " " : moment(airportArrivalDate).format("MM/DD/YYYY")}
                 </Text>
               </Row>
             </View>
@@ -527,7 +528,7 @@ const StaffPDF = React.memo(({
                 {hraSign ?
                   <View>
                     <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
-                    <Text>{hraSignDate}</Text>
+                    <Text>{moment(hraSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
@@ -547,7 +548,7 @@ const StaffPDF = React.memo(({
                 {cooSign ? 
                   <View>
                     <Image source={"http://localhost:3000/fetch/signature?code=" + cooCode} style={{width: 130,height: 20}}/>
-                    <Text>{cooSignDate}</Text>
+                    <Text>{moment(cooSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
@@ -567,7 +568,7 @@ const StaffPDF = React.memo(({
                 {ceoSign ? 
                   <View>
                     <Image source={"http://localhost:3000/fetch/signature?code=" + ceoCode} style={{width: 130,height: 20}}/>
-                    <Text>{ceoSignDate}</Text>
+                    <Text>{moment(ceoSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>

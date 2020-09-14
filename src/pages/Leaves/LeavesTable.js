@@ -1,7 +1,6 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import MaterialTable from 'material-table';
-import moment from 'moment'
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
 import WorkerPDF from '../../components/PDForms/WorkerPDF';
 import StaffPDF from '../../components/PDForms/StaffPDF';
 
@@ -70,7 +69,7 @@ class LeavesTable extends Component {
             disabled: rowData.status === "DENIED" || rowData.status === "PROCESSING" || rowData.status === "REVIEW",
             render: rowData => {
               let appData = rowData.application_data
-              if (rowData.application_form_code == "LEAVE_WORKER") {
+              if (rowData.application_form_code === "LEAVE_WORKER") {
                 return (
                   <PDFViewer
                     width="500px" height="850px"
@@ -100,7 +99,7 @@ class LeavesTable extends Component {
                     />
                   </PDFViewer>
                 )
-              } else if (rowData.application_form_code == "LEAVE_STAFF") {
+              } else if (rowData.application_form_code === "LEAVE_STAFF") {
               return (
                 <PDFViewer
                   width="500px" height="850px"
@@ -188,7 +187,7 @@ class LeavesTable extends Component {
             onClick: (event, rowData) => {
               this.props.handleEdit(rowData)
             },
-            disabled: sessionStorage.accessLevel !== "1" && rowData.status !== "PENDING"
+            disabled: this.props.accessLevel !== 1 && rowData.status !== "PENDING"
           })
           // {isLoading: this.props.isLoading}
         ]}

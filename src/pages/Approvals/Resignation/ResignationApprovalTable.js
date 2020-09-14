@@ -2,17 +2,15 @@ import React, { Component } from 'react'
 import MaterialTable from 'material-table';
 import moment from 'moment'
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
-import WorkerPDF from '../../components/PDForms/WorkerPDF';
-import StaffPDF from '../../components/PDForms/StaffPDF';
 
-class ApprovalTable extends Component {
+class ResignationApprovalTable extends Component {
   state = {
     selectedRow: null
   }
   render() {
     return (
       <MaterialTable
-        title="Approval Lists"
+        title="Resignation Approval Lists"
         columns={[
           {
             title: 'ID',
@@ -32,6 +30,11 @@ class ApprovalTable extends Component {
           {
             title: 'Created By',
             field: 'createdBy',
+            width: 130
+          },
+          {
+            title: 'Application Type',
+            field: 'application_type',
             width: 130
           },
           {
@@ -61,7 +64,7 @@ class ApprovalTable extends Component {
             onClick: () => this.props.refetch(),
           },
           {
-            icon: props => <i class="far fa-eye"></i>,
+            icon: props => <i className="far fa-eye"></i>,
             tooltip: 'View',
             position: "row",
             width: '150px',
@@ -97,4 +100,4 @@ class ApprovalTable extends Component {
   }
 }
 
-export default ApprovalTable;
+export default ResignationApprovalTable;

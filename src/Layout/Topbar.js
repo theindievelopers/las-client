@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Navbar, Nav, NavItem, NavLink } from 'reactstrap';
+import { CredsContext } from '../context/Context';
 
 const Topbar = () => {
-
-  const [user, setUser] = useState("")
-  useEffect(() => {
-    let user = JSON.parse(sessionStorage.name)
-    setUser(user)
-  }, [])
+  const { name, accessLevel } = useContext(CredsContext)
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -20,7 +16,7 @@ const Topbar = () => {
         <Nav className='ml-auto'>
           <NavItem>
             <NavLink className='text-uppercase' href='#'>
-              Hello {user}
+              Hello {name}
             </NavLink>
           </NavItem>
           <NavItem>

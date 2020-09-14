@@ -1,20 +1,16 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { Collapse } from 'reactstrap';
 import logo from '../img/logo.jpg'
+import { CredsContext } from '../context/Context';
 
 const Sidebar = () => {
+  const { accessLevel } = useContext(CredsContext)
 
   const [isOpen, setIsOpen] = useState(false);
-  const [accessLevel, setAccessLevel] = useState()
-
-  useEffect(() => {
-    if(sessionStorage.isLoggedIn) {
-      let accessLevel = JSON.parse(sessionStorage.accessLevel)
-      setAccessLevel(accessLevel)
-    }
-  }, [])
+  const [approvalsOpen, setApprovalsOpen] = useState(false)
 
   const toggle = () => setIsOpen(!isOpen);
+  const toggleApprovals = () => setApprovalsOpen(!approvalsOpen);
 
   return (
     <Fragment>
@@ -32,12 +28,41 @@ const Sidebar = () => {
               Leaves
             </a>
           </li>
-          {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
+          <li>
+            <a href='#/resignation'>
+              Resignation
+            </a>
+          </li>
+          {/* {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
             <li>
               <a href='#/approvals'>
                 Approvals
               </a>
             </li>
+            : ""
+          } */}
+          {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
+            <li>
+            <a id="theLink" onClick={toggleApprovals}>
+              Approvals
+              <i className="fa fa-caret-down" style={{marginLeft: 78}} aria-hidden="true"></i>
+            </a>
+            
+            <Collapse isOpen={approvalsOpen}>
+              <ul className='list-unstyled'>
+                <li>
+                  <a href='#/leave/approvals'>
+                    Leave
+                  </a>
+                </li>
+                <li>
+                  <a href='#/resignation/approvals'>
+                    Resignation
+                  </a>
+                </li>
+              </ul>
+            </Collapse>
+          </li>
             : ""
           }
           {accessLevel === 1 ? 

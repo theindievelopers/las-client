@@ -10,26 +10,34 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText, Card, CardImg,
+  FormText,
   Spinner
 } from 'reactstrap';
 
-const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, selectedEmployee,employees, ...props }) => {
-  const selectProjectManager = employees.map((employee, i) => {
+const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, isEdit, selectedEmployee,employees,searchField,hideListEmployees,handleHideListEmployees,handleFilterEmployee,
+  handleProjectManagerChange,projectManager,immediateSuperior,handleImmediateSuperior,handleFilterImmdiateSuperior,
+  handleHideLisImmdiateSuperior,hideListImmediateSuperior, isLoading, ...props }) => {
+  
+  const filteredEmployees = employees.filter(employee => {
+    return employee.fullname.toLowerCase().includes(searchField.toLowerCase());
+  })
+
+  const selectProjectManager = filteredEmployees.map((employee, i) => {
     if(employee.signature !== ""){
       return (
-        <option key={i} value={employee.code} selected={isEdit && selectedEmployee.project_manager === employee.code ? true : false}>{employee.code}-{employee.fullname}</option>
+        <option key={i} value={employee.code} onClick={handleProjectManagerChange} >{employee.code}-{employee.fullname}</option>
       )
     }
   })
 
-  const selectImmediateSuperior = employees.map((employee, i) => {
+  const selectImmediateSuperior = filteredEmployees.map((employee, i) => {
     if(employee.signature !== ""){
       return (
-        <option key={i} value={employee.code} selected={isEdit && selectedEmployee.immediate_superior === employee.code ? true : false}>{employee.code}-{employee.fullname}</option>
+        <option key={i} value={employee.code} onClick={handleImmediateSuperior} >{employee.code}-{employee.fullname}</option>
       )
     }
   })
+
 
   return (
     <React.Fragment>
@@ -386,18 +394,17 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               <Col md={6}>
                 <FormGroup>
                   <Label for="projectManager">Project Manager:</Label>
-                  {/* <Input bsSize="sm" type="text" name="projectManager" id="projectManager" placeholder="Prject Manager" onBlur={props.handleProjectManagerChange}
-                    defaultValue={isEdit ? selectedEmployee.recruited_by : ""}
-                  /> */}
+                  <Input bsSize="sm" type="text" onChange={handleFilterEmployee} onClick={handleHideListEmployees} id="projectManager"
+                    // value={isEdit || projectManager.code === undefined ? `${projectManager.code}-${projectManager.fullname}` : searchField}
+                    defaultValue={projectManager.code === undefined ? "" : isEdit ? `${projectManager.code}-${projectManager.fullname}` : searchField}
+                  />
                   <Input bsSize="sm"
                     type="select"
-                    name="employee"
-                    id="employee"
-                    onChange={props.handleProjectManagerChange}
+                    multiple
+                    hidden={hideListEmployees}
+                    // onChange={props.handleProjectManagerChange}
                     // defaultValue={isEdit ? selectedEmployee.project_manager : ""}
                   >
-                    <option>-</option>
-                    <option>N/A</option>
                     {selectProjectManager}
                   </Input>
                 </FormGroup>
@@ -408,15 +415,17 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
                   {/* <Input bsSize="sm" type="text" name="immediateSuperior" id="immediateSuperior" placeholder="Immediate Superior" onBlur={props.handleImmediateSuperior}
                     defaultValue={isEdit ? selectedEmployee.recruited_by : ""}
                   /> */}
+                  <Input bsSize="sm" type="text" onChange={handleFilterImmdiateSuperior} onClick={handleHideLisImmdiateSuperior} id="immediateSuperior"
+                    // value={isEdit || projectManager.code === undefined ? `${projectManager.code}-${projectManager.fullname}` : searchField}
+                    defaultValue={immediateSuperior.code === undefined ? "" : isEdit ? `${immediateSuperior.code}-${immediateSuperior.fullname}` : searchField}
+                  />
                   <Input bsSize="sm"
                     type="select"
-                    name="employee"
-                    id="employee"
-                    onChange={props.handleImmediateSuperior}
+                    multiple
+                    hidden={hideListImmediateSuperior}
+                    // onChange={props.handleImmediateSuperior}
                     // defaultValue={isEdit ? selectedEmployee.immediate_superior : ""}
                   >
-                    <option>-</option>
-                    <option>N/A</option>
                     {selectImmediateSuperior}
                   </Input>
                 </FormGroup>
@@ -450,7 +459,11 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
               <Button type="button" className="mr-auto"
                 disabled={props.isLoading ? true : false}
                 onClick={props.handleSubmit}>
-                {isEdit ? "Update" : "Submit"}
+                {isEdit ? 
+                  isLoading ? <div className="px-3"><Spinner size="sm" color="secondary" /></div> 
+                  : "Update" 
+                  : isLoading ? <div className="px-3"><Spinner size="sm" color="secondary" /></div> 
+                  : "Submit"}
               </Button>
             </div>
           </Form>
@@ -458,6 +471,6 @@ const EmployeeForm = ({ showForm, handleShowForm, handleFnameChange, isEdit, sel
       </Modal>
     </React.Fragment>
   )
-}
+})
 
 export default EmployeeForm;
