@@ -47,13 +47,26 @@ const Resignation = React.memo(() => {
 
         if (data) {
           let allData = []
+          let approved = []
+          let denied = []
+          let review = []
+          let pending = []
           data.map(indivData => {
             if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.employee_code) {
               if(indivData.application_form_code === "RESIGNATION")
-                return allData.push(indivData)
+                if (indivData.status === "APPROVED") {
+                  approved.push(indivData)
+                } else if (indivData.status === "DENIED") {
+                  denied.push(indivData)
+                } else if (indivData.status === "REVIEW") {
+                  review.push(indivData)
+                } else if (indivData.status === "PENDING") {
+                  pending.push(indivData)
+                }
               }
             })
-            setResignations(allData)
+            // setResignations(allData)
+            setResignations([...pending, ...review, ...denied, ...approved])
             setIsLoading(false)
           }
         })

@@ -68,7 +68,8 @@ const LeaveApproval = React.memo(props => {
             }
           }
         })
-        setApprovals(allData)
+        setApprovals([...pending, ...review, ...denied, ...approved])
+        // setApprovals(allData)
         setForApproval(pending.length)
         setApproved(approved.length)
         setDenied(denied.length)

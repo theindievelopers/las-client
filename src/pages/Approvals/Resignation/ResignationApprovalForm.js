@@ -81,7 +81,7 @@ const ResignationApprovalForm = React.memo(props => {
                       {selectedApplicationData.hr_manager_commentL1 || selectedApplicationData.hr_manager_commentL2 ?
                         <DropdownItem onClick={handleEditHRCommentsInput}>EDIT HR MANAGER COMMENT</DropdownItem>
                         :
-                        <DropdownItem onClick={handleShowHRCommentsInput}>EDIT HR MANAGER COMMENT</DropdownItem>
+                        <DropdownItem onClick={handleShowHRCommentsInput}>ADD HR MANAGER COMMENT</DropdownItem>
                       }
                     </DropdownMenu>
                   </Dropdown>

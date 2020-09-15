@@ -82,7 +82,8 @@ const ResignationApproval = React.memo(props => {
             }
           }
         })
-        setApprovals(allData)
+        // setApprovals(allData)
+        setApprovals([...pending, ...review, ...denied, ...approved])
         setForApproval(pending.length)
         setApproved(approved.length)
         setDenied(denied.length)

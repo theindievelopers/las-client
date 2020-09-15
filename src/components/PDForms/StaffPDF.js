@@ -403,11 +403,11 @@ const StaffPDF = React.memo(({
               This is to confirm that I will be on leave from
             </Paragraph>
             <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 100, marginLeft: "5px" }}>
-              {moment(airportDepartureDate).format("MM/YY/DDDD")}
+              {moment(airportDepartureDate).format("MM/DD/YYYY")}
             </Text>
             <Paragraph> to</Paragraph>
             <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 9, width: 100, marginLeft: "5px" }}>
-              {moment(airportArrivalDate).format("MM/YY/DDDD")}
+              {moment(airportArrivalDate).format("MM/DD/YYYY")}
             </Text>
             <Paragraph>
               and certify that I will be
