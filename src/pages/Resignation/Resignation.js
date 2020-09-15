@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Sidebar from '../../Layout/Sidebar';
 import Topbar from '../../Layout/Topbar';
-import { PDFViewer } from '@react-pdf/renderer';
-import ResignationPDF from '../../components/PDForms/ResignationPDF';
 import { CredsContext } from '../../context/Context';
 import ResignationTable from './ResignationTable';
 import { Card, CardBody } from 'reactstrap';
@@ -41,6 +39,7 @@ const Resignation = React.memo(() => {
   }, [])
 
   const refetch = () => {
+    setIsLoading(true)
     //Applications
     fetch('http://localhost:3000/application')
       .then(res => res.json())
@@ -243,7 +242,7 @@ const Resignation = React.memo(() => {
               updatedby: name,
               updatedat: moment(new Date()).format("MM/DD/YYYY")
             },
-            status: "PENDING",
+            status: selectedResignation.status,
             createdBy: selectedResignation.createdBy,
             createdAt: selectedResignation.createdAt,
             updatedBy: name,
@@ -372,6 +371,7 @@ const Resignation = React.memo(() => {
             resignationReasonL3={resignationReasonL3}
             resignationReasonL4={resignationReasonL4}
             selectedResignation={selectedResignation}
+            isReady={isReady}
           />
         </div>
       </div>
@@ -386,14 +386,15 @@ const Resignation = React.memo(() => {
               <Card>
                 <CardBody>
                   <ResignationTable 
-                  handleShowForm={handleShowForm}
-                  data={resignations}
-                  refetch={refetch}
-                  handleEdit={handleEdit}
-                  ceo={ceo}
-                  coo={coo}
-                  hraManager={hraManager}
-                  accessLevel={accessLevel}
+                    handleShowForm={handleShowForm}
+                    data={resignations}
+                    refetch={refetch}
+                    handleEdit={handleEdit}
+                    ceo={ceo}
+                    coo={coo}
+                    hraManager={hraManager}
+                    accessLevel={accessLevel}
+                    isLoading={isLoading}
                   />
                 </CardBody>
               </Card>

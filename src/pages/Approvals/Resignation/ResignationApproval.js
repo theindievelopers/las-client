@@ -132,7 +132,6 @@ const ResignationApproval = React.memo(props => {
             setEmployees(data)
           })
           .then(() => {
-            console.log("SETHRA",hraManager[0])
             setAccounting(accounting[0])
             setCeo(ceo[0])
             setCoo(coo[0])
@@ -143,7 +142,6 @@ const ResignationApproval = React.memo(props => {
   }
 
   const handleShowForm = (data) => {
-    console.log("ViewDATA", data)
     setSelectedApproval(data)
     let projectManID = ""
     let immediateSupID = ""
@@ -185,7 +183,7 @@ const ResignationApproval = React.memo(props => {
     setHideSupervisorComments(!hideSupervisorComments)
   }
 
-  const handleSuvervisorCommentL1 = (e) => {
+  const handleSuvervisorCommentL1 = (e) => {  
     setSupervisorCommentL1(e.target.value)
   }
 
@@ -295,7 +293,7 @@ const ResignationApproval = React.memo(props => {
           updatedby: name,
           updatedat: moment(new Date()).format("MM/DD/YYYY")
         },
-        status: "PROCESSING",
+        status: selectedApplication.status,
         createdBy: selectedApplication.createdBy,
         createdAt: selectedApplication.createdAt,
         updatedBy: name,
@@ -335,7 +333,6 @@ const ResignationApproval = React.memo(props => {
             })
             setApplications(allData)
             allData.map(indivApplication => {
-              console.log(indivApplication)
               if (indivApplication.collateid === selectedApproval.collateid) {
                 setSelectedAppication(indivApplication)
                 setSelectedApplicaitonData(indivApplication.application_data)
@@ -397,7 +394,7 @@ const ResignationApproval = React.memo(props => {
           updatedby: name,
           updatedat: moment(new Date()).format("MM/DD/YYYY")
         },
-        status: "PROCESSING",
+        status: selectedApplication.status,
         createdBy: selectedApplication.createdBy,
         createdAt: selectedApplication.createdAt,
         updatedBy: name,
@@ -406,7 +403,6 @@ const ResignationApproval = React.memo(props => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log("AFTERSAVE",data)
         handleShowProjectManagerCommentsInput()
         fetch('http://localhost:3000/application')
           .then(res => res.json())
@@ -438,7 +434,6 @@ const ResignationApproval = React.memo(props => {
             })
             setApplications(allData)
             allData.map(indivApplication => {
-              console.log(indivApplication)
               if (indivApplication.collateid === selectedApproval.collateid) {
                 setSelectedAppication(indivApplication)
                 setSelectedApplicaitonData(indivApplication.application_data)
@@ -500,7 +495,7 @@ const ResignationApproval = React.memo(props => {
           updatedby: name,
           updatedat: moment(new Date()).format("MM/DD/YYYY")
         },
-        status: "PROCESSING",
+        status: selectedApplication.status,
         createdBy: selectedApplication.createdBy,
         createdAt: selectedApplication.createdAt,
         updatedBy: name,
@@ -540,7 +535,6 @@ const ResignationApproval = React.memo(props => {
             })
             setApplications(allData)
             allData.map(indivApplication => {
-              console.log(indivApplication)
               if (indivApplication.collateid === selectedApproval.collateid) {
                 setSelectedAppication(indivApplication)
                 setSelectedApplicaitonData(indivApplication.application_data)
@@ -686,7 +680,6 @@ const ResignationApproval = React.memo(props => {
 
   const handleDeny = () => {
     const creds = Buffer.from(`${name}:`, 'utf8').toString('base64')
-    console.log(name)
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",

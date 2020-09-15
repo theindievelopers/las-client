@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Modal,
   ModalHeader,
@@ -7,7 +7,8 @@ import {
   Col,
   Row,
   Spinner, ModalFooter,
-  Input, Label
+  Input, Label,
+  Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import { PDFViewer } from '@react-pdf/renderer';
 import ResignationPDF from '../../../components/PDForms/ResignationPDF'
@@ -15,14 +16,18 @@ import ResignationPDF from '../../../components/PDForms/ResignationPDF'
 const ResignationApprovalForm = React.memo(props => {
   const {
     showForm, handleShowForm, selectedApplication, selectedApplicationData, isReady, handleRefresh, accounting, ceo, coo, hraManager, logisticsOfficer,
-    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior, selectedApproval, accessLevel, empCode, handleProjectManagerCommentL1, 
+    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior, selectedApproval, accessLevel, empCode, handleProjectManagerCommentL1,
     handleProjectManagerCommentL2, handleProjectManagerCommentL3, handleProjectManagerCommentL4, handleSuvervisorCommentL1, handleSuvervisorCommentL2,
     handleSuvervisorCommentL3, handleSuvervisorCommentL4, hideProjectManagerComments, hideSupervisorComments, handleShowProjectManagerCommentsInput,
     handleShowSupervisorCommentsInput, handleSaveSupervisorComments, handleEditSupervisorCommentsInput, handleEditProjectManagerCommentsInput,
     isEdit, handleSaveProjectManagerComments, handleEditHRCommentsInput, handleShowHRCommentsInput, hideHRComments, handleHRCommentL1, handleHRCommentL2,
     handleSaveHRComments
   } = props
-  
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleAction = () => setDropdownOpen(prevState => !prevState);
+
   return (
     <React.Fragment>
       <Modal
@@ -56,95 +61,140 @@ const ResignationApprovalForm = React.memo(props => {
             </Col>
             <Col md={12}>
               <hr />
-              {empCode === selectedApplicationData.project_manager ? 
+              {accessLevel === 1 ?
+                <div className="float-right mb-3">
+                  <Dropdown isOpen={dropdownOpen} toggle={toggleAction}>
+                    <DropdownToggle>
+                      ACTIONS
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      {selectedApplicationData.supervisor_commentL1 || selectedApplicationData.supervisor_commentL2 || selectedApplicationData.supervisor_commentL3 ?
+                        <DropdownItem onClick={handleEditSupervisorCommentsInput}>EDIT SUPERVISOR COMMENT</DropdownItem>
+                        :
+                        <DropdownItem onClick={handleShowSupervisorCommentsInput}>ADD SUPERVISOR COMMENT</DropdownItem>
+                      }
+                      {selectedApplicationData.project_manager_commentL1 || selectedApplicationData.project_manager_commentL2 || selectedApplicationData.project_manager_commentL3 ?
+                        <DropdownItem onClick={handleEditProjectManagerCommentsInput}>EDIT PROJECT MANAGER COMMENT</DropdownItem>
+                        : 
+                        <DropdownItem onClick={handleShowProjectManagerCommentsInput}>ADD PROJECT MANAGER COMMENT</DropdownItem>
+                      }
+                      {selectedApplicationData.hr_manager_commentL1 || selectedApplicationData.hr_manager_commentL2 ?
+                        <DropdownItem onClick={handleEditHRCommentsInput}>EDIT HR MANAGER COMMENT</DropdownItem>
+                        :
+                        <DropdownItem onClick={handleShowHRCommentsInput}>EDIT HR MANAGER COMMENT</DropdownItem>
+                      }
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+                : ""
+              }
+              {empCode === selectedApplicationData.project_manager ?
                 <React.Fragment>
                   <div className="float-right mb-3">
-                  {selectedApplication.application_data.project_manager_commentL1 || selectedApplication.application_data.project_manager_commentL2 || selectedApplication.application_data.project_manager_commentL3 ?
-                    <Button color="secondary" onClick={handleEditProjectManagerCommentsInput}>EDIT COMMENTS</Button>
-                    :
-                    <Button color="secondary" onClick={handleShowProjectManagerCommentsInput}>ADD COMMENTS</Button>
-                  }
-                  </div>
-                  <div style={{ paddingBottom: 10, paddingTop: 10 }} hidden={hideProjectManagerComments}>
-                    <Label>Project Manger Comments:</Label>
-                    <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleProjectManagerCommentL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
-                      defaultValue={isEdit ? selectedApplication.application_data.project_manager_commentL1 : ""}
-                    />
-                    <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleProjectManagerCommentL2} style={{ borderRadius: 0 }}
-                      defaultValue={isEdit ? selectedApplication.application_data.project_manager_commentL2 : ""}
-                    />
-                    <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleProjectManagerCommentL3} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
-                      defaultValue={isEdit ? selectedApplication.application_data.project_manager_commentL3 : ""}
-                    />
-                    <div style={{ marginTop: 4 }}>
-                      <Button color="primary" onClick={handleSaveProjectManagerComments} style={{ marginRight: "4px" }}>SUBMIT</Button>
-                      <Button color="secondary" onClick={handleShowProjectManagerCommentsInput}>CANCEL</Button>
-                    </div>
+                    {selectedApplicationData.project_manager_commentL1 || selectedApplicationData.project_manager_commentL2 || selectedApplicationData.project_manager_commentL3 ?
+                      <Button color="secondary" onClick={handleEditProjectManagerCommentsInput}
+                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                      >EDIT COMMENTS</Button>
+                      :
+                      <Button color="secondary" onClick={handleShowProjectManagerCommentsInput}
+                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                      >ADD COMMENTS</Button>
+                    }
                   </div>
                 </React.Fragment>
-                : empCode === selectedApplicationData.immediate_supervisor ?
-                  <React.Fragment>
-                    <div className="float-right mb-3">
-                      {selectedApplication.application_data.supervisor_commentL1 || selectedApplication.application_data.supervisor_commentL2 || selectedApplication.application_data.supervisor_commentL3 ?
-                        <Button color="secondary" onClick={handleEditSupervisorCommentsInput}
-                          disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
-                        >
-                          EDIT COMMENT
+                : ""
+              }
+              {accessLevel === 1 || empCode === selectedApplicationData.project_manager ?
+                <div style={{ paddingBottom: 10, paddingTop: 10 }} hidden={hideProjectManagerComments}>
+                  <Label>Project Manger Comments:</Label>
+                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleProjectManagerCommentL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
+                    defaultValue={isEdit ? selectedApplication.application_data.project_manager_commentL1 : ""}
+                  />
+                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleProjectManagerCommentL2} style={{ borderRadius: 0 }}
+                    defaultValue={isEdit ? selectedApplication.application_data.project_manager_commentL2 : ""}
+                  />
+                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleProjectManagerCommentL3} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+                    defaultValue={isEdit ? selectedApplication.application_data.project_manager_commentL3 : ""}
+                  />
+                  <div style={{ marginTop: 4 }}>
+                    <Button color="primary" onClick={handleSaveProjectManagerComments} style={{ marginRight: "4px" }}
+                    >SUBMIT</Button>
+                    <Button color="secondary" onClick={handleShowProjectManagerCommentsInput}>CANCEL</Button>
+                  </div>
+                </div>
+                : ""}
+              {empCode === selectedApplicationData.immediate_supervisor ?
+                <React.Fragment>
+                  <div className="float-right mb-3">
+                    {selectedApplicationData.supervisor_commentL1 || selectedApplicationData.supervisor_commentL2 || selectedApplicationData.supervisor_commentL3 ?
+                      <Button color="secondary" onClick={handleEditSupervisorCommentsInput}
+                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                      >
+                        EDIT COMMENT
                         </Button>
-                        :
-                        <Button color="secondary" onClick={handleShowSupervisorCommentsInput}
-                          disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
-                        >ADD COMMENT</Button>
-                      }
-                    </div>
-                    <div style={{ paddingBottom: 10, paddingTop: 10 }} hidden={hideSupervisorComments}>
-                      <Label>Supervisor Comments:</Label>
-                      <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleSuvervisorCommentL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
-                        defaultValue={isEdit ? selectedApplication.application_data.supervisor_commentL1 : ""}
-                      />
-                      <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleSuvervisorCommentL2} style={{ borderRadius: 0 }}
-                        defaultValue={isEdit ? selectedApplication.application_data.supervisor_commentL2 : ""}
-                      />
-                      <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleSuvervisorCommentL3} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
-                        defaultValue={isEdit ? selectedApplication.application_data.supervisor_commentL3 : ""}
-                      />
-                      <div style={{ marginTop: 4 }}>
-                        <Button color="primary" onClick={handleSaveSupervisorComments} style={{ marginRight: "4px" }}>SUBMIT</Button>
-                        <Button color="secondary" onClick={handleShowSupervisorCommentsInput}>CANCEL</Button>
-                      </div>
-                    </div>
-                  </React.Fragment>
-                : empCode === hraManager.code ?
-                  <React.Fragment>
-                    <div className="float-right mb-3">
-                      {selectedApplicationData.hr_manager_commentL1 || selectedApplicationData.hr_manager_commentL2 ?
-                        <Button color="secondary" onClick={handleEditHRCommentsInput}
-                          disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
-                        >
-                          EDIT COMMENT
+                      :
+                      <Button color="secondary" onClick={handleShowSupervisorCommentsInput}
+                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                      >ADD COMMENT</Button>
+                    }
+                  </div>
+                </React.Fragment>
+                : ""
+              }
+              {accessLevel === 1 || empCode === selectedApplicationData.immediate_supervisor ?
+                <div style={{ paddingBottom: 10, paddingTop: 10 }} hidden={hideSupervisorComments}>
+                  <Label>Supervisor Comments:</Label>
+                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleSuvervisorCommentL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
+                    defaultValue={isEdit ? selectedApplication.application_data.supervisor_commentL1 : ""}
+                  />
+                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleSuvervisorCommentL2} style={{ borderRadius: 0 }}
+                    defaultValue={isEdit ? selectedApplication.application_data.supervisor_commentL2 : ""}
+                  />
+                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleSuvervisorCommentL3} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+                    defaultValue={isEdit ? selectedApplication.application_data.supervisor_commentL3 : ""}
+                  />
+                  <div style={{ marginTop: 4 }}>
+                    <Button color="primary" onClick={handleSaveSupervisorComments} style={{ marginRight: "4px" }}>SUBMIT</Button>
+                    <Button color="secondary" onClick={handleShowSupervisorCommentsInput}>CANCEL</Button>
+                  </div>
+                </div>
+
+                : ""}
+              {empCode === hraManager.code ?
+                <React.Fragment>
+                  <div className="float-right mb-3">
+                    {selectedApplicationData.hr_manager_commentL1 || selectedApplicationData.hr_manager_commentL2 ?
+                      <Button color="secondary" onClick={handleEditHRCommentsInput}
+                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                      >
+                        EDIT COMMENT
                         </Button>
-                        :
-                        <Button color="secondary" onClick={handleShowHRCommentsInput}
-                          disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
-                        >
-                          ADD COMMENT
+                      :
+                      <Button color="secondary" onClick={handleShowHRCommentsInput}
+                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                      >
+                        ADD COMMENT
                         </Button>
-                      }
-                    </div>
-                    <div style={{ paddingBottom: 10, paddingTop: 10 }} hidden={hideHRComments}>
-                      <Label>HRA Comments:</Label>
-                      <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleHRCommentL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
-                        defaultValue={isEdit ? selectedApplication.application_data.hr_manager_commentL1 : ""}
-                      />
-                      <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleHRCommentL2} style={{ borderRadius: 0 }}
-                        defaultValue={isEdit ? selectedApplication.application_data.hr_manager_commentL2 : ""}
-                      />
-                      <div style={{ marginTop: 4 }}>
-                        <Button color="primary" onClick={handleSaveHRComments} style={{ marginRight: "4px" }}>SUBMIT</Button>
-                        <Button color="secondary" onClick={handleShowHRCommentsInput}>CANCEL</Button>
-                      </div>
-                    </div>
-                  </React.Fragment>
+                    }
+                  </div>
+                </React.Fragment>
+                : ""
+              }
+              {accessLevel === 1 || empCode === hraManager.code ?
+                <div style={{ paddingBottom: 10, paddingTop: 10 }} hidden={hideHRComments}>
+                  <Label>HRA Comments:</Label>
+                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleHRCommentL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
+                    defaultValue={isEdit ? selectedApplication.application_data.hr_manager_commentL1 : ""}
+                  />
+                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleHRCommentL2} style={{ borderRadius: 0 }}
+                    defaultValue={isEdit ? selectedApplication.application_data.hr_manager_commentL2 : ""}
+                  />
+                  <div style={{ marginTop: 4 }}>
+                    <Button color="primary" onClick={handleSaveHRComments} style={{ marginRight: "4px" }}>SUBMIT</Button>
+                    <Button color="secondary" onClick={handleShowHRCommentsInput}>CANCEL</Button>
+                  </div>
+                </div>
+
                 : ""
               }
               {isReady ?

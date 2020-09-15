@@ -189,17 +189,14 @@ class LeavesTable extends Component {
             },
             disabled: this.props.accessLevel !== 1 && rowData.status !== "PENDING"
           })
-          // {isLoading: this.props.isLoading}
         ]}
         onRowClick={((evt, selectedRow) => this.setState({selectedRow : selectedRow.tableData.id}))}
         options={{
           search: true,
           cellStyle: {
             color: '#000000',
-            // backgroundColor: '#ffffff'
           },
           headerStyle: {
-            // backgroundColor: '#ffffff',
             color: '#000000'
           },
           pageSize: 5,

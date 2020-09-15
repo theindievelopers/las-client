@@ -114,7 +114,6 @@ class ResignationTable extends Component {
             },
             disabled: this.props.accessLevel !== 1 && rowData.status !== "PENDING"
           })
-          // {isLoading: this.props.isLoading}
         ]}
         onRowClick={((evt, selectedRow) => this.setState({selectedRow : selectedRow.tableData.id}))}
         options={{
