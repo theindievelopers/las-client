@@ -72,7 +72,7 @@ const Approvals = () => {
                   </Link>
                 </div>
                 <div className="col-md-3 justify-content-center">
-                  <Link to="/leave/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                  <Link to="/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
                     <Card>
                       <CardBody>
                         <CardTitle><strong>STAFF REQUISITION</strong></CardTitle>
@@ -82,7 +82,7 @@ const Approvals = () => {
                   </Link>
                 </div>
                 <div className="col-md-3 justify-content-center">
-                  <Link to="/leave/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                  <Link to="/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
                     <Card>
                       <CardBody>
                         <CardTitle><strong>CLEARANCE STAFF/WORKER</strong></CardTitle>
