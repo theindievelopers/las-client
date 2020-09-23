@@ -66,7 +66,7 @@ const LeaveForm = React.memo(({ showForm, handleShowForm, handleFnameChange, emp
                 </Input>
               </React.Fragment>
             }
-            {isEdit && selectedLeave.application_form_code == "LEAVE_WORKER" ?
+            {isEdit && selectedLeave.application_form_code === "LEAVE_WORKER" ?
               <LeaveWorker
                 handleDepartureDate={props.handleDepartureDate}
                 handleReturnDate={props.handleReturnDate}
@@ -88,7 +88,7 @@ const LeaveForm = React.memo(({ showForm, handleShowForm, handleFnameChange, emp
                 isLoading={isLoading}
               />
               :
-              isEdit && selectedLeave.application_form_code == "LEAVE_STAFF" ?
+              isEdit && selectedLeave.application_form_code === "LEAVE_STAFF" ?
                 <LeaveStaff
                   selectedEmployee={selectedEmployee[0]}
                   employees={props.employees}
@@ -125,19 +125,17 @@ const LeaveForm = React.memo(({ showForm, handleShowForm, handleFnameChange, emp
                   selectedLeave={selectedLeave}
                   isEdit={isEdit}
                   isLoading={isLoading}
-                  selectedLeave={selectedLeave}
                   hideListHandoverName={props.hideListHandoverName}
                   handleHideListHandoverSuccessorName={props.handleHideListHandoverSuccessorName}
                   searchField={props.searchField}
                   filterHandoverSuccessorName={props.filterHandoverSuccessorName}
-                  employees={props.employees}
                   filteredEmployees={filteredEmployees}
                   hideListHandoverDocsName={props.hideListHandoverDocsName}
                   handleHideListHandoverDocsName={props.handleHideListHandoverDocsName}
                   filterHandoverDocsName={props.filterHandoverDocsName}
                 />
                 :
-                selectedEmployee[0].employee_type == "worker"
+                selectedEmployee[0].employee_type === "worker"
                   ? <LeaveWorker
                     handleDepartureDate={props.handleDepartureDate}
                     handleReturnDate={props.handleReturnDate}
@@ -156,7 +154,7 @@ const LeaveForm = React.memo(({ showForm, handleShowForm, handleFnameChange, emp
                     handleRecievedOthers={props.handleRecievedOthers}
                     isLoading={isLoading}
                   />
-                  : selectedEmployee[0].employee_type == "staff"
+                  : selectedEmployee[0].employee_type === "staff"
                     ?
                     <LeaveStaff
                       selectedEmployee={selectedEmployee[0]}

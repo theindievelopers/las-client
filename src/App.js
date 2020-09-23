@@ -11,7 +11,7 @@ const HomePage = React.lazy(() => import('./pages/HomePage'))
 const Employees = React.lazy(() => import('./pages/Employees/Employees'))
 const Users = React.lazy(() => import('./pages/Users/Users'))
 const Leaves = React.lazy(() => import('./pages/Leaves/Leaves'))
-// const Approvals = React.lazy(() => import('./pages/Approvals/Approvals'))
+const Approvals = React.lazy(() => import('./pages/Approvals'))
 const Resignation = React.lazy(() => import('./pages/Resignation/Resignation'))
 const LeaveApproval = React.lazy(() => import('./pages/Approvals/Leave/LeaveApproval'))
 const ResignationApproval = React.lazy(() => import('./pages/Approvals/Resignation/ResignationApproval'))
@@ -59,12 +59,12 @@ function App() {
             name="Resignation"
             render={props => <Resignation {...props} />}
           />
-          {/* <Route
+          <Route
             path="/approvals"
             exact
             name="Approvals"
             render={props => <Approvals {...props} />}
-          /> */}
+          />
           <Route
             path="/leave/approvals"
             exact

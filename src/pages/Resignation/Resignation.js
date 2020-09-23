@@ -46,11 +46,11 @@ const Resignation = React.memo(() => {
       .then(data => {
 
         if (data) {
-          let allData = []
           let approved = []
           let denied = []
           let review = []
           let pending = []
+          let processing = []
           data.map(indivData => {
             if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.employee_code) {
               if(indivData.application_form_code === "RESIGNATION")
@@ -62,11 +62,12 @@ const Resignation = React.memo(() => {
                   review.push(indivData)
                 } else if (indivData.status === "PENDING") {
                   pending.push(indivData)
+                } else if (indivData.status === "PROCESSING") {
+                  processing.push(indivData)
                 }
               }
             })
-            // setResignations(allData)
-            setResignations([...pending, ...review, ...denied, ...approved])
+            setResignations([...pending, ...review, ...processing, ...denied, ...approved])
             setIsLoading(false)
           }
         })

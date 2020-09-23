@@ -47,7 +47,6 @@ const LeaveApproval = React.memo(props => {
     fetch('http://localhost:3000/approvals')
       .then(res => res.json())
       .then(data => {
-        let allData = []
         let approved = []
         let denied = []
         let review = []
@@ -55,7 +54,6 @@ const LeaveApproval = React.memo(props => {
         data.map(indivData => {
           if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.approver_id) {
             if (indivData.application_type === "LEAVE_STAFF" || indivData.application_type === "LEAVE_STAFF") {
-              allData.push(indivData)
               if (indivData.status === "APPROVED") {
                 approved.push(indivData)
               } else if (indivData.status === "DENIED") {
@@ -69,7 +67,6 @@ const LeaveApproval = React.memo(props => {
           }
         })
         setApprovals([...pending, ...review, ...denied, ...approved])
-        // setApprovals(allData)
         setForApproval(pending.length)
         setApproved(approved.length)
         setDenied(denied.length)

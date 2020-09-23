@@ -105,5 +105,3 @@ const ResignationForm = React.memo(({ showForm, handleShowForm, handleRefresh, i
 })
 
 export default ResignationForm
-{/* {isEdit ? isLoading ? <Spinner size="sm" color="secondary" /> : "Update" : isLoading ? <Spinner size="sm" color="secondary" /> : "Submit"} */}
-// disabled={isLoading ? true : false}

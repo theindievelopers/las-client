@@ -81,7 +81,7 @@ const Login = () => {
           if (data.data.accesslvl === 1) {
             return window.location.replace('#/');
           } else if (data.data.accesslvl === 2) {
-            return window.location.replace('#/leave/approvals');
+            return window.location.replace('#/approvals');
           } else {
             return window.location.replace('#/leaves');
           }

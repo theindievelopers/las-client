@@ -15,48 +15,48 @@ class ResignationTable extends Component {
           {
             title: 'ID',
             field: 'id',
-            width: 150
+            // width: 150
           },
           {
             title: 'Form Code',
             field: 'application_form_code',
-            width: 130
+            // width: 130
           },
           {
             title: 'Employee ID',
             field: 'employee_code',
-            width: 130
+            // width: 130
           },
           {
             title: 'Employee Name',
             field: 'application_data.name',
-            width: 130
+            // width: 130
           },
           {
             title: 'Status',
             field: 'status',
-            width: 130
+            // width: 130
           },
           {
             title: 'Created By',
             field: 'createdBy',
-            width: 130
+            // width: 130
           },
           {
             title: 'Created At',
             field: 'createdAt',
-            width: 130,
+            // width: 130,
             type: "date"
           },
           {
             title: 'Updated By',
             field: 'updatedBy',
-            width: 130
+            // width: 130
           },
           {
             title: 'Updated At',
             field: 'updatedAt',
-            width: 130,
+            // width: 130,
             type: "date"
           },
         ]}

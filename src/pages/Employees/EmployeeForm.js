@@ -25,7 +25,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
   const selectProjectManager = filteredEmployees.map((employee, i) => {
     if(employee.signature !== ""){
       return (
-        <option key={i} value={employee.code} onClick={handleProjectManagerChange} >{employee.code}-{employee.fullname}</option>
+        <option key={i} value={employee.code} onClick={handleProjectManagerChange} >{employee.fullname}</option>
       )
     }
   })
@@ -33,7 +33,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
   const selectImmediateSuperior = filteredEmployees.map((employee, i) => {
     if(employee.signature !== ""){
       return (
-        <option key={i} value={employee.code} onClick={handleImmediateSuperior} >{employee.code}-{employee.fullname}</option>
+        <option key={i} value={employee.code} onClick={handleImmediateSuperior} >{employee.fullname}</option>
       )
     }
   })
@@ -396,7 +396,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
                   <Label for="projectManager">Project Manager:</Label>
                   <Input bsSize="sm" type="text" onChange={handleFilterEmployee} onClick={handleHideListEmployees} id="projectManager"
                     // value={isEdit || projectManager.code === undefined ? `${projectManager.code}-${projectManager.fullname}` : searchField}
-                    defaultValue={projectManager.code === undefined ? "" : isEdit ? `${projectManager.code}-${projectManager.fullname}` : searchField}
+                    defaultValue={projectManager.code === undefined || !projectManager.code ? "" : isEdit ? `${projectManager.fullname}` : searchField}
                   />
                   <Input bsSize="sm"
                     type="select"
@@ -417,7 +417,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
                   /> */}
                   <Input bsSize="sm" type="text" onChange={handleFilterImmdiateSuperior} onClick={handleHideLisImmdiateSuperior} id="immediateSuperior"
                     // value={isEdit || projectManager.code === undefined ? `${projectManager.code}-${projectManager.fullname}` : searchField}
-                    defaultValue={immediateSuperior.code === undefined ? "" : isEdit ? `${immediateSuperior.code}-${immediateSuperior.fullname}` : searchField}
+                    defaultValue={immediateSuperior.code === undefined || !immediateSuperior.code  ? "" : isEdit ? `${immediateSuperior.fullname}` : searchField}
                   />
                   <Input bsSize="sm"
                     type="select"
@@ -443,7 +443,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
               <Row>
                 <Col md={6}>
                   {props.signatureUpload || selectedEmployee.signature ?
-                    <img className="signature" width="100px" src={`http://localhost:3000/fetch/signature?id=${selectedEmployee.id}`} />
+                    <img className="signature" width="100px" src={`http://localhost:3000/fetch/signature?id=${selectedEmployee.id}`}  alt="signature" />
                     :
                     ""
                   }

@@ -43,7 +43,7 @@ const Sidebar = () => {
           } */}
           {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
             <li>
-            <a id="theLink" onClick={toggleApprovals}>
+            <a id="theLink" onClick={toggleApprovals} href="#/approvals">
               Approvals
               <i className="fa fa-caret-down" style={{marginLeft: 78}} aria-hidden="true"></i>
             </a>
