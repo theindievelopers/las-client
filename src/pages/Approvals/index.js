@@ -12,7 +12,6 @@ const Approvals = () => {
     fetch('http://localhost:3000/application')
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         let leaves = 0;
         let resignation = 0;
         data.map(indivData => {
@@ -71,7 +70,7 @@ const Approvals = () => {
                     </Card>
                   </Link>
                 </div>
-                <div className="col-md-3 justify-content-center">
+                {/* <div className="col-md-3 justify-content-center">
                   <Link to="/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
                     <Card>
                       <CardBody>
@@ -90,7 +89,7 @@ const Approvals = () => {
                       </CardBody>
                     </Card>
                   </Link>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
