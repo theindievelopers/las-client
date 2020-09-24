@@ -15,11 +15,15 @@ import {
 } from 'reactstrap';
 
 const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, isEdit, selectedEmployee,employees,searchField,hideListEmployees,handleHideListEmployees,handleFilterEmployee,
-  handleProjectManagerChange,projectManager,immediateSuperior,handleImmediateSuperior,handleFilterImmdiateSuperior,
-  handleHideLisImmdiateSuperior,hideListImmediateSuperior, isLoading, ...props }) => {
+  handleProjectManagerChange,projectManager,immediateSuperior,handleImmediateSuperior,handleFilterImmdiateSuperior,searchSupervisor,
+  handleHideLisImmdiateSuperior,hideListImmediateSuperior, isLoading, handleRefresh, ...props }) => {
   
   const filteredEmployees = employees.filter(employee => {
     return employee.fullname.toLowerCase().includes(searchField.toLowerCase());
+  })
+
+  const filteredSupervisor = employees.filter(employee => {
+    return employee.fullname.toLowerCase().includes(searchSupervisor.toLowerCase());
   })
 
   const selectProjectManager = filteredEmployees.map((employee, i) => {
@@ -30,7 +34,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
     }
   })
 
-  const selectImmediateSuperior = filteredEmployees.map((employee, i) => {
+  const selectImmediateSuperior = filteredSupervisor.map((employee, i) => {
     if(employee.signature !== "" && employee.employment_status !== "RESIGNED"){
       return (
         <option key={i} value={employee.code} onClick={handleImmediateSuperior} >{employee.fullname}</option>
@@ -48,6 +52,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
         scrollable={true}
         keyboard={false}
         backdrop="static"
+        onClosed={handleRefresh}
       >
         <ModalHeader
           toggle={handleShowForm}

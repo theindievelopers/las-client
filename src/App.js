@@ -90,6 +90,11 @@ function App() {
             name="Employees"
             render={props => <Employees {...props} />}
           />
+          {/* <Route 
+            path="*"
+            name="404"
+            render={props => <h1>404</h1>}
+          /> */}
           </ContextProvider>
         </Switch>
       </React.Suspense>

@@ -36,7 +36,7 @@ const ResignationForm = React.memo(({ showForm, handleShowForm, handleRefresh, i
           {isEdit ? "Update Resignation" : "Apply Resignation"}
           {isEdit ? "" :
             <FormText color="muted">
-              All fields marked with <span style={{ color: "red" }}></span>* are required
+              All fields marked with <span style={{ color: "red" }}>*</span> are required
             </FormText>
           }
         </ModalHeader>

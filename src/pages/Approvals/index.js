@@ -1,30 +1,39 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import Sidebar from "../../Layout/Sidebar";
 import Topbar from "../../Layout/Topbar";
 import { Card, CardBody, CardTitle, CardText, Badge } from "reactstrap";
 import { Link } from "react-router-dom";
+import { CredsContext } from '../../context/Context'
 
 const Approvals = () => {
 
+  const { empCode, accessLevel, name, isLoggedIn, username } = useContext(CredsContext)
   const [applicationPendings, setApplicationPendings] = useState({})
 
   useEffect(() => {
-    fetch('http://localhost:3000/application')
+    fetch('http://localhost:3000/approvals')
       .then(res => res.json())
       .then(data => {
         let leaves = 0;
         let resignation = 0;
+        let staffrequisition = 0;
         data.map(indivData => {
-          if((indivData.application_form_code === "LEAVE_STAFF" || indivData.application_form_code === "LEAVE_WORKER") && indivData.status === "PENDING"){
-            leaves++
-          }
-          if(indivData.application_form_code === "RESIGNATION" && indivData.application_form_code === "RESIGNATION" && indivData.status === "PENDING"){
-            resignation++
+          if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.approver_id) {
+            if((indivData.application_type === "LEAVE_STAFF" || indivData.application_type === "LEAVE_WORKER") && indivData.status === "PENDING"){
+              leaves++
+            }
+            if(indivData.application_type === "RESIGNATION" && indivData.status === "PENDING"){
+              resignation++
+            }
+            if(indivData.application_type === "STAFF_REQUISITION" && indivData.status === "PENDING"){
+              staffrequisition++
+            }
           }
         })
         setApplicationPendings({
           leaves,
-          resignation
+          resignation,
+          staffrequisition
         })
       })
   }, [])
@@ -47,7 +56,7 @@ const Approvals = () => {
           <div className="row justify-content-center">
             <div className="col-md-12 ">
               <div className="text-center">
-                <h1 className="pt-5 pb-3">Approvals</h1>
+                <h1 className="pt-5 pb-3">Approvals Dashboard</h1>
               </div>
               <div className="row" style={{ color: 'black' }}>
                 <div className="col-md-3 justify-content-center">
@@ -71,11 +80,11 @@ const Approvals = () => {
                   </Link>
                 </div>
                 {/* <div className="col-md-3 justify-content-center">
-                  <Link to="/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                  <Link to="/staffrequisition/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
                     <Card>
                       <CardBody>
                         <CardTitle><strong>STAFF REQUISITION</strong></CardTitle>
-                        <CardText>Pendings: <Badge color="danger">4</Badge></CardText>
+                        <CardText>Pendings: <Badge color="danger">{applicationPendings.staffrequisition}</Badge></CardText>
                       </CardBody>
                     </Card>
                   </Link>

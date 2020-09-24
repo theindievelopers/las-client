@@ -64,6 +64,7 @@ const Employees = React.memo( props => {
   const [hideListEmployees, setHideListEmployees] = useState(true)
   const [hideListImmediateSuperior, setHideListImmediateSuperior] = useState(true)
   const [searchField, setSearchField] = useState("")
+  const [searchSupervisor, setSearchSupervisor] = useState("")
 
   useEffect(() => {
     if(!isLoggedIn) {
@@ -159,10 +160,9 @@ const Employees = React.memo( props => {
     setProjectManager([])
     setHideListEmployees(true)
     setSearchField("")
-  //   let projectManagerInput = document.getElementById("projectManager")
-  //   projectManagerInput.value = "";
-  //   let immediateSuperiorInput = document.getElementById("immediateSuperior")
-  //   immediateSuperiorInput.value = "";
+    setSearchSupervisor("")
+    setHideListEmployees(true)
+    setHideListImmediateSuperior(true)
   }
 
   const handleEdit = (employee) => {
@@ -344,9 +344,10 @@ const Employees = React.memo( props => {
     })
     setProjectManager(projectManager[0])
     setHideListEmployees(true)
-    setSearchField(`${projectManager[0].code}-${projectManager[0].fullname}`)
+    // setSearchField(`${projectManager[0].code}-${projectManager[0].fullname}`)
+    setSearchField("")
     let projectManagerInput = document.getElementById("projectManager")
-    projectManagerInput.value = `${projectManager[0].code}-${projectManager[0].fullname}`
+    projectManagerInput.value = `${projectManager[0].fullname}`
   }
 
   const handleImmediateSuperior = e => {
@@ -356,9 +357,10 @@ const Employees = React.memo( props => {
     })
     setImmediateSuperior(immediateSuperior[0])
     setHideListImmediateSuperior(true)
-    setSearchField(`${immediateSuperior[0].code}-${immediateSuperior[0].fullname}`)
+    // setSearchField(`${immediateSuperior[0].code}-${immediateSuperior[0].fullname}`)
+    setSearchSupervisor("")
     let immediateSuperiorInput = document.getElementById("immediateSuperior")
-    immediateSuperiorInput.value = `${immediateSuperior[0].code}-${immediateSuperior[0].fullname}`
+    immediateSuperiorInput.value = `${immediateSuperior[0].fullname}`
   }
 
   const handleSignature = e => {
@@ -412,7 +414,7 @@ const Employees = React.memo( props => {
   }
 
   const handleFilterImmdiateSuperior = (e) => {
-    setSearchField(e.target.value)
+    setSearchSupervisor(e.target.value)
   }
 
   const handleSubmit = () => {
@@ -636,6 +638,7 @@ const Employees = React.memo( props => {
             handleHideListEmployees={handleHideListEmployees}
             handleFilterEmployee={handleFilterEmployee}
             searchField={searchField}
+            searchSupervisor={searchSupervisor}
             projectManager={projectManager}
             immediateSuperior={immediateSuperior}
             handleFilterImmdiateSuperior={handleFilterImmdiateSuperior}
