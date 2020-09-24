@@ -23,7 +23,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
   })
 
   const selectProjectManager = filteredEmployees.map((employee, i) => {
-    if(employee.signature !== ""){
+    if(employee.signature !== "" && employee.employment_status !== "RESIGNED"){
       return (
         <option key={i} value={employee.code} onClick={handleProjectManagerChange} >{employee.fullname}</option>
       )
@@ -31,7 +31,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
   })
 
   const selectImmediateSuperior = filteredEmployees.map((employee, i) => {
-    if(employee.signature !== ""){
+    if(employee.signature !== "" && employee.employment_status !== "RESIGNED"){
       return (
         <option key={i} value={employee.code} onClick={handleImmediateSuperior} >{employee.fullname}</option>
       )

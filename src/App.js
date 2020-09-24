@@ -15,6 +15,7 @@ const Approvals = React.lazy(() => import('./pages/Approvals'))
 const Resignation = React.lazy(() => import('./pages/Resignation/Resignation'))
 const LeaveApproval = React.lazy(() => import('./pages/Approvals/Leave/LeaveApproval'))
 const ResignationApproval = React.lazy(() => import('./pages/Approvals/Resignation/ResignationApproval'))
+const StaffRequisition = React.lazy(()=> import('./pages/StaffRequisition/StaffRequisition'))
 
 function App() {
   const loading = () => {
@@ -58,6 +59,12 @@ function App() {
             exact
             name="Resignation"
             render={props => <Resignation {...props} />}
+          />
+          <Route
+            path="/staffrequisition"
+            exact
+            name="Staff Requisition"
+            render={props => <StaffRequisition {...props} />}
           />
           <Route
             path="/approvals"

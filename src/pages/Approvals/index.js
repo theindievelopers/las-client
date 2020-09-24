@@ -16,7 +16,7 @@ const Approvals = () => {
         let leaves = 0;
         let resignation = 0;
         data.map(indivData => {
-          if(indivData.application_form_code === "LEAVE_STAFF" && indivData.application_form_code === "LEAVE_WORKER" && indivData.status === "PENDING"){
+          if((indivData.application_form_code === "LEAVE_STAFF" || indivData.application_form_code === "LEAVE_WORKER") && indivData.status === "PENDING"){
             leaves++
           }
           if(indivData.application_form_code === "RESIGNATION" && indivData.application_form_code === "RESIGNATION" && indivData.status === "PENDING"){

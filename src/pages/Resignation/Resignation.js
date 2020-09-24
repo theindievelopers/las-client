@@ -170,7 +170,9 @@ const Resignation = React.memo(() => {
   }
 
   const selectEmployeeForResignation = filteredEmployees.map((employee, i) => {
-    if((employee.signature !== "" && employee.signature !== null) && (employee.project_manager !== "" && employee.project_manager !== null && employee.immediate_superior !== "" && employee.immediate_superior !== null)){
+    if((employee.signature !== "" && employee.signature !== null) && (employee.project_manager !== "" && employee.project_manager !== null && employee.immediate_superior !== "" && employee.immediate_superior !== null
+      && employee.employment_status !== "RESIGNED"
+    )){
       if (accessLevel === 1 || accessLevel === 3 || empCode === employee.code) {
         return (
           <option key={i} value={employee.id} onClick={handleEmployeeSelect}>{employee.fullname}</option>
@@ -219,6 +221,7 @@ const Resignation = React.memo(() => {
             application_form_code: selectedResignation.application_form_code,
             employee_code: selectedResignation.employee_code,
             application_data: {
+              employee_table_id: selectedResignation.application_data.employee_table_id,
               name: selectedResignation.application_data.name,
               employee_code: selectedResignation.application_data.employee_code,
               department: selectedResignation.application_data.department,
@@ -289,6 +292,7 @@ const Resignation = React.memo(() => {
             application_form_code: "RESIGNATION",
             employee_code: selectedEmployee[0].code,
             application_data: {
+              employee_table_id: selectedEmployee[0].id,
               name: selectedEmployee[0].fullname,
               employee_code: selectedEmployee[0].code,
               department: selectedEmployee[0].cost_allocation_site,

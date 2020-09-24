@@ -257,6 +257,7 @@ const ResignationApproval = React.memo(props => {
         application_form_code: selectedApplication.application_form_code,
         employee_code: selectedApplication.employee_code,
         application_data: {
+          employee_table_id: selectedApplication.application_data.employee_table_id,
           name: selectedApplication.application_data.name,
           employee_code: selectedApplication.application_data.employee_code,
           department: selectedApplication.application_data.department,
@@ -358,6 +359,7 @@ const ResignationApproval = React.memo(props => {
         application_form_code: selectedApplication.application_form_code,
         employee_code: selectedApplication.employee_code,
         application_data: {
+          employee_table_id: selectedApplication.application_data.employee_table_id,
           name: selectedApplication.application_data.name,
           employee_code: selectedApplication.application_data.employee_code,
           department: selectedApplication.application_data.department,
@@ -459,6 +461,7 @@ const ResignationApproval = React.memo(props => {
         application_form_code: selectedApplication.application_form_code,
         employee_code: selectedApplication.employee_code,
         application_data: {
+          employee_table_id: selectedApplication.application_data.employee_table_id,
           name: selectedApplication.application_data.name,
           employee_code: selectedApplication.application_data.employee_code,
           department: selectedApplication.application_data.department,
@@ -614,6 +617,7 @@ const ResignationApproval = React.memo(props => {
                 application_form_code: selectedApplication.application_form_code,
                 employee_id: selectedApplication.employee_id,
                 application_data: {
+                  employee_table_id: selectedApplication.application_data.employee_table_id,
                   name: selectedApplication.application_data.name,
                   employee_code: selectedApplication.application_data.employee_code,
                   department: selectedApplication.application_data.department,
@@ -652,12 +656,11 @@ const ResignationApproval = React.memo(props => {
                   updatedat: moment(new Date()).format("MM/DD/YYYY")
                 },
                 status: (
-                    selectedApplication.application_data.project_manager && selectedApplication.application_data.immediate_supervisor &&
-                    selectedApplication.application_data.immidiate_supervisor_manager_signature &&
-                    selectedApplication.application_data.project_manager_signature &&
-                    selectedApplication.application_data.hr_manager_signature &&
-                    selectedApplication.application_data.coo_signature &&
-                    selectedApplication.application_data.ceo_signature
+                    (selectedApplication.application_data.immidiate_supervisor_manager_signature || immSign) &&
+                    (selectedApplication.application_data.project_manager_signature || projSign) &&
+                    (selectedApplication.application_data.hr_manager_signature || hraSign) &&
+                    (selectedApplication.application_data.coo_signature || cooSign) &&
+                    (selectedApplication.application_data.ceo_signature || ceoSign)
                     ? "APPROVED"
                     : "PROCESSING"
                 ),
@@ -669,6 +672,21 @@ const ResignationApproval = React.memo(props => {
             })
               .then(res => res.json())
               .then(data => {
+                let empTblID = selectedApplication.application_data.employee_table_id
+                if(data.data.status === "APPROVED"){
+                  fetch(`http://localhost:3000/employees?id=${empTblID}`, {
+                    method: 'put',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
+                    body: JSON.stringify({
+                      employment_status: "RESIGNED",
+                      updatedBy: name,
+                      updatedAt: moment(new Date()).format("MM/DD/YYYY")
+                    })
+                  })
+                    .then(res => res.json())
+                    .then(data => {
+                    })
+                }
                 refetch()
                 handleRefresh()
               })
@@ -718,6 +736,7 @@ const ResignationApproval = React.memo(props => {
                 application_form_code: selectedApplication.application_form_code,
                 employee_id: selectedApplication.employee_id,
                 application_data: {
+                  employee_table_id: selectedApplication.application_data.employee_table_id,
                   name: selectedApplication.application_data.name,
                   employee_code: selectedApplication.application_data.employee_code,
                   department: selectedApplication.application_data.department,

@@ -19,7 +19,9 @@ const LeaveForm = React.memo(({ showForm, handleShowForm, handleFnameChange, emp
   })
 
   const selectEmployeeForLeave = filteredEmployees.map((employee, i) => {
-    if((employee.signature !== "" && employee.signature !== null) && (employee.project_manager !== "" && employee.project_manager !== null && employee.immediate_superior !== "" && employee.immediate_superior !== null)){
+    if((employee.signature !== "" && employee.signature !== null) && (employee.project_manager !== "" && employee.project_manager !== null && employee.immediate_superior !== "" && employee.immediate_superior !== null)
+      && employee.employment_status !== "RESIGNED"
+    ){
       if (accessLevel === 1 || accessLevel === 3 || empCode === employee.code) {
         return (
           <option key={i} value={employee.id} onClick={props.handleEmployeeSelect}>{employee.fullname}</option>

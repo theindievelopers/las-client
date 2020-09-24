@@ -33,6 +33,11 @@ const Sidebar = () => {
               Resignation
             </a>
           </li>
+          {/* <li>
+            <a href='#/staffrequisition'>
+              Staff Requisition
+            </a>
+          </li> */}
           {/* {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
             <li>
               <a href='#/approvals'>

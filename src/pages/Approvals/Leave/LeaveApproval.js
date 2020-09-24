@@ -203,11 +203,6 @@ const LeaveApproval = React.memo(props => {
       confirmButtonText: 'Yes, update it!'
     }).then((result) => {
       if (result.value) {
-        Swal.fire(
-          'Updated!',
-          'Application has been Approved.',
-          'success'
-        )
         fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
@@ -222,6 +217,11 @@ const LeaveApproval = React.memo(props => {
         })
           .then(res => res.json())
           .then(data => {
+            Swal.fire(
+              'Updated!',
+              'Application has been Approved.',
+              'success'
+            )
             fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
@@ -286,14 +286,14 @@ const LeaveApproval = React.memo(props => {
                   updatedat: selectedApplication.application_data.updatedAt
                 },
                 status: (
-                  selectedApplication.application_data.project_manager && selectedApplication.application_data.immediate_supervisor &&
-                    selectedApplication.application_data.logistics_officer_signature_and_date &&
-                    selectedApplication.application_data.immidiate_supervisor_manager_signature_and_date &&
-                    selectedApplication.application_data.project_manager_signature_and_date &&
-                    selectedApplication.application_data.accounting_department_signature_and_date &&
-                    selectedApplication.application_data.hr_manager_signature_and_date &&
-                    selectedApplication.application_data.coo_signature_and_date &&
-                    selectedApplication.application_data.ceo_signature_and_date
+                    selectedApplication.application_data.project_manager && selectedApplication.application_data.immediate_supervisor &&
+                    (selectedApplication.application_data.logistics_officer_signature_and_date || logisticsSign) &&
+                    (selectedApplication.application_data.immidiate_supervisor_manager_signature_and_date || immSign) &&
+                    (selectedApplication.application_data.project_manager_signature_and_date || projSign) &&
+                    (selectedApplication.application_data.accounting_department_signature_and_date || acctSign) &&
+                    (selectedApplication.application_data.hr_manager_signature_and_date || hraSign) &&
+                    (selectedApplication.application_data.coo_signature_and_date || cooSign) &&
+                    (selectedApplication.application_data.ceo_signature_and_date || ceoSign)
                     ? "APPROVED"
                     : "PROCESSING"
                 ),
