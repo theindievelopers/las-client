@@ -178,7 +178,7 @@ const LeaveApproval = React.memo(props => {
       ceoSign = ceo.signature
       ceoSignDate = moment(new Date()).format("MM/DD/YYYY")
     } else if (selectedApproval.approver_id === coo.code) {
-      cooSign = coo.code
+      cooSign = coo.signature
       cooSignDate = moment(new Date()).format("MM/DD/YYYY")
     } else if (selectedApproval.approver_id === logisticsOfficer.code) {
       logisticsSign = logisticsOfficer.signature

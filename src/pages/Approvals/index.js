@@ -17,6 +17,8 @@ const Approvals = () => {
         let leaves = 0;
         let resignation = 0;
         let staffrequisition = 0;
+        let changeProfession = 0;
+        let incrementRequest = 0;
         data.map(indivData => {
           if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.approver_id) {
             if((indivData.application_type === "LEAVE_STAFF" || indivData.application_type === "LEAVE_WORKER") && indivData.status === "PENDING"){
@@ -28,12 +30,20 @@ const Approvals = () => {
             if(indivData.application_type === "STAFF_REQUISITION" && indivData.status === "PENDING"){
               staffrequisition++
             }
+            if(indivData.application_type === "CHANGE_PROFESSION" && indivData.status === "PENDING"){
+              changeProfession++
+            }
+            if(indivData.application_type === "INCREMENT_REQUEST" && indivData.status === "PENDING"){
+              incrementRequest++
+            }
           }
         })
         setApplicationPendings({
           leaves,
           resignation,
-          staffrequisition
+          staffrequisition,
+          changeProfession,
+          incrementRequest
         })
       })
   }, [])
@@ -59,7 +69,7 @@ const Approvals = () => {
                 <h1 className="pt-5 pb-3">Approvals Dashboard</h1>
               </div>
               <div className="row" style={{ color: 'black' }}>
-                <div className="col-md-3 justify-content-center">
+                <div className="col-md-3 justify-content-center pb-2">
                   <Link to="/leave/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
                     <Card>
                       <CardBody>
@@ -69,7 +79,7 @@ const Approvals = () => {
                     </Card>
                   </Link>
                 </div>
-                <div className="col-md-3 justify-content-center">
+                <div className="col-md-3 justify-content-center pb-2">
                   <Link to="/resignation/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
                     <Card>
                       <CardBody>
@@ -79,7 +89,7 @@ const Approvals = () => {
                     </Card>
                   </Link>
                 </div>
-                {/* <div className="col-md-3 justify-content-center">
+                <div className="col-md-3 justify-content-center pb-2">
                   <Link to="/staffrequisition/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
                     <Card>
                       <CardBody>
@@ -89,7 +99,7 @@ const Approvals = () => {
                     </Card>
                   </Link>
                 </div>
-                <div className="col-md-3 justify-content-center">
+                <div className="col-md-3 justify-content-center pb-2">
                   <Link to="/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
                     <Card>
                       <CardBody>
@@ -98,7 +108,27 @@ const Approvals = () => {
                       </CardBody>
                     </Card>
                   </Link>
-                </div> */}
+                </div>
+                <div className="col-md-3 justify-content-center pb-2">
+                  <Link to="/changeprofession/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                    <Card>
+                      <CardBody>
+                        <CardTitle><strong>CHANGE PROFESSION REQUEST</strong></CardTitle>
+                        <CardText>Pendings: <Badge color="danger">{applicationPendings.changeProfession}</Badge></CardText>
+                      </CardBody>
+                    </Card>
+                  </Link>
+                </div>
+                <div className="col-md-3 justify-content-center pb-2">
+                  <Link to="/incrementrequest/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                    <Card>
+                      <CardBody>
+                        <CardTitle><strong>INCREMENT REQUEST</strong></CardTitle>
+                        <CardText>Pendings: <Badge color="danger">{applicationPendings.incrementRequest}</Badge></CardText>
+                      </CardBody>
+                    </Card>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

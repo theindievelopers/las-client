@@ -47,7 +47,7 @@ const ResignationForm = React.memo(({ showForm, handleShowForm, handleRefresh, i
               <Input bsSize="sm" type="text" readOnly={true} value={selectedResignation.application_data.name}/>
             :
               <React.Fragment>
-                <Input bsSize="sm" type="text" onChange={handleFilterEmployee} onClick={handleHideListEmployees} id="selecdEmployee" />
+                <Input bsSize="sm" type="text" onChange={handleFilterEmployee} onClick={handleHideListEmployees} id="selectedEmployee" />
                 <Input bsSize="sm"
                   type="select"
                   multiple

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import MaterialTable from 'material-table';
 import { PDFViewer } from '@react-pdf/renderer';
-import ResignationPDF from '../../components/PDForms/ResignationPDF'
+import ChangeProfessionPDF from '../../components/PDForms/ChangeProfessionPDF';
 
-class ResignationTable extends Component {
+class ChangeProfessionTable extends Component {
   state = {
     selectedRow: null
   }
@@ -67,20 +67,14 @@ class ResignationTable extends Component {
                   <PDFViewer
                     width="500px" height="850px"
                   >
-                    <ResignationPDF
+                    <ChangeProfessionPDF 
                       applicationData={appData}
                       selectedApplication={rowData}
                       ceoCode={this.props.ceo.code}
                       cooCode={this.props.coo.code}
                       hraManagerCode={this.props.hraManager.code}
                       projectManagerCode={appData.project_manager}
-                      immediateSuperiorCode={appData.immediate_supervisor}
-                      supervisorCommentL1={appData.supervisor_commentL1}
-                      supervisorCommentL2={appData.supervisor_commentL2}
-                      supervisorCommentL3={appData.supervisor_commentL3}
-                      projectManagerCommentL1={appData.project_manager_commentL1}
-                      projectManagerCommentL2={appData.project_manager_commentL2}
-                      projectManagerCommentL3={appData.project_manager_commentL3}
+                      immediateSupervisorCode={appData.immediate_supervisor}
                     />
                   </PDFViewer>
                 )
@@ -134,4 +128,4 @@ class ResignationTable extends Component {
   }
 }
 
-export default ResignationTable;
+export default ChangeProfessionTable;

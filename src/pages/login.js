@@ -20,6 +20,7 @@ const Login = () => {
   const [passwordRequired, setPasswordRequired] = useState(true)
 
   const handleUsernameChange = (e) => {
+    e.preventDefault()
     if (e.target.value === "") {
       setUsernameRequired(true)
       setUsername("")
@@ -30,6 +31,7 @@ const Login = () => {
   }
 
   const handlePasswordChange = (e) => {
+    e.preventDefault()
     if (e.target.value === "") {
       setPasswordRequired(true)
       setPassword("")
@@ -39,7 +41,8 @@ const Login = () => {
     }
   }
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault()
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if (usernameRequired) {
       Swal.fire({

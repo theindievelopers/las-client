@@ -3,14 +3,14 @@ import MaterialTable from 'material-table';
 import moment from 'moment'
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 
-class ResignationApprovalTable extends Component {
+class ChangeProfessionApprovalTable extends Component {
   state = {
     selectedRow: null
   }
   render() {
     return (
       <MaterialTable
-        title="Resignation Approval Lists"
+        title="Change Profession Approval Lists"
         columns={[
           {
             title: 'Status',
@@ -75,9 +75,6 @@ class ResignationApprovalTable extends Component {
           cellStyle: {
             color: '#000000',
           },
-          headerStyle: {
-            color: '#000000'
-          },
           pageSize: 5,
           pageSizeOptions: [5, 10, 20, 50, 100],
           headerStyle: {
@@ -95,4 +92,4 @@ class ResignationApprovalTable extends Component {
   }
 }
 
-export default ResignationApprovalTable;
+export default ChangeProfessionApprovalTable;

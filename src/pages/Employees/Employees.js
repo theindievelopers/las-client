@@ -42,6 +42,7 @@ const Employees = React.memo( props => {
   const [ticketAllowance, setTicketAllowance] = useState(0)
   const [foodAllowance, setFoodAllowance] = useState(0)
   const [medicalAllowance, setMedicalAllowance] = useState(0)
+  const [housingAllowance, setHousingAllowance] = useState(0)
   const [leaveTicketEntitlement, setLeaveTicketEntitlement] = useState(0)
   const [leaveTicketDaysPerYear, setLeaveTicketDaysPerYear] = useState(0)
   const [drivingLicenseIssueDate, setDrivingLicenseIssueDate] = useState("")
@@ -131,6 +132,7 @@ const Employees = React.memo( props => {
     setTicketAllowance(0)
     setFoodAllowance(0)
     setMedicalAllowance(0)
+    setHousingAllowance(0)
     setLeaveTicketEntitlement("")
     setLeaveTicketDaysPerYear("")
     setDrivingLicenseIssueDate("")
@@ -166,6 +168,7 @@ const Employees = React.memo( props => {
   }
 
   const handleEdit = (employee) => {
+    console.log(employee)
     setShowFrom(!showForm)
     setIsedit(true)
     setSelectedEmployee(employee)
@@ -194,6 +197,7 @@ const Employees = React.memo( props => {
     setTicketAllowance(employee.ticket_allowance)
     setFoodAllowance(employee.food_allowance)
     setMedicalAllowance(employee.medical_allowance)
+    setHousingAllowance(employee.housing_allowance)
     setLeaveTicketEntitlement(employee.leave_ticket_entitlement)
     setLeaveTicketDaysPerYear(employee.leave_ticket_days_per_year)
     setDrivingLicenseIssueDate(employee.driving_license_issue_date)
@@ -297,6 +301,12 @@ const Employees = React.memo( props => {
   const handleMedicalAllowanceChange = e => {
     setMedicalAllowance(parseInt(e.target.value, 10))
   }
+
+  const handleHousingAllowanceChange = e => {
+    console.log(e.target.value)
+    setHousingAllowance(parseInt(e.target.value, 10))
+  }
+
   const handleLeaveTicketEntitlementChange = e => {
     setLeaveTicketEntitlement(e.target.value)
   }
@@ -418,7 +428,8 @@ const Employees = React.memo( props => {
   }
 
   const handleSubmit = () => {
-    let calc = [basic, generalAllowance, hra, transportationAllowance, telAllowance, ticketAllowance, foodAllowance, medicalAllowance]
+    console.log(housingAllowance)
+    let calc = [basic, generalAllowance, hra, transportationAllowance, telAllowance, ticketAllowance, foodAllowance, medicalAllowance, housingAllowance]
     const total = calc.reduce((accumulator, currentValue) => accumulator + currentValue);
     if(fullname === "" || employeeCode === "" || dob === "" || nationality === "" || passportNum === "" || residencePermit === "" || healthCardNum === "") {
       return Swal.fire({
@@ -459,6 +470,7 @@ const Employees = React.memo( props => {
           ticket_allowance: ticketAllowance,
           food_allowance: foodAllowance,
           medical_allowance: medicalAllowance,
+          housing_allowance: housingAllowance,
           total: total,
           leave_ticket_entitlement: leaveTicketEntitlement,
           leave_ticket_days_per_year: leaveTicketDaysPerYear,
@@ -484,6 +496,7 @@ const Employees = React.memo( props => {
       })
         .then(res => res.json())
         .then(data => {
+          console.log("EDITED", data)
           if(data.success){
             setIsedit(false)
             handleRefresh()
@@ -529,6 +542,7 @@ const Employees = React.memo( props => {
           ticket_allowance: ticketAllowance,
           food_allowance: foodAllowance,
           medical_allowance: medicalAllowance,
+          housing_allowance: housingAllowance,
           total: total,
           leave_ticket_entitlement: leaveTicketEntitlement,
           leave_ticket_days_per_year: leaveTicketDaysPerYear,
@@ -554,6 +568,7 @@ const Employees = React.memo( props => {
       })
         .then(res => res.json())
         .then(data => {
+          console.log("NEW",data)
           setIsLoading(true)
           if(data.error){
             Swal.fire({
@@ -616,6 +631,7 @@ const Employees = React.memo( props => {
             handleTicketAllowanceChange={handleTicketAllowanceChange}
             handleFoodAllowanceChange={handleFoodAllowanceChange}
             handleMedicalAllowanceChange={handleMedicalAllowanceChange}
+            handleHousingAllowanceChange={handleHousingAllowanceChange}
             handleLeaveTicketEntitlementChange={handleLeaveTicketEntitlementChange}
             handleLeaveTicketDaysPerYearChange={handleLeaveTicketDaysPerYearChange}
             handleDrivingLicenseIssueDateChange={handleDrivingLicenseIssueDateChange}

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import MaterialTable from 'material-table';
 import { PDFViewer } from '@react-pdf/renderer';
-import ResignationPDF from '../../components/PDForms/ResignationPDF'
+import IncrementRequestPDF from '../../components/PDForms/IncrementRequestPDF';
 
-class ResignationTable extends Component {
+class IncrementRequestTable extends Component {
   state = {
     selectedRow: null
   }
@@ -60,27 +60,16 @@ class ResignationTable extends Component {
           rowData => ({
             icon: props => <i className="far fa-file-pdf"></i>,
             tooltip: 'Show PDF',
-            disabled: rowData.status === "DENIED" || rowData.status === "PROCESSING" || rowData.status === "REVIEW",
+            // disabled: rowData.status === "DENIED" || rowData.status === "PROCESSING" || rowData.status === "REVIEW" || this.props.accessLevel !== 1,
             render: rowData => {
               let appData = rowData.application_data
                 return (
                   <PDFViewer
                     width="500px" height="850px"
                   >
-                    <ResignationPDF
+                    <IncrementRequestPDF 
                       applicationData={appData}
-                      selectedApplication={rowData}
-                      ceoCode={this.props.ceo.code}
-                      cooCode={this.props.coo.code}
-                      hraManagerCode={this.props.hraManager.code}
-                      projectManagerCode={appData.project_manager}
-                      immediateSuperiorCode={appData.immediate_supervisor}
-                      supervisorCommentL1={appData.supervisor_commentL1}
-                      supervisorCommentL2={appData.supervisor_commentL2}
-                      supervisorCommentL3={appData.supervisor_commentL3}
-                      projectManagerCommentL1={appData.project_manager_commentL1}
-                      projectManagerCommentL2={appData.project_manager_commentL2}
-                      projectManagerCommentL3={appData.project_manager_commentL3}
+
                     />
                   </PDFViewer>
                 )
@@ -134,4 +123,4 @@ class ResignationTable extends Component {
   }
 }
 
-export default ResignationTable;
+export default IncrementRequestTable;

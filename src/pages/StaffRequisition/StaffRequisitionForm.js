@@ -15,8 +15,12 @@ import {
 } from 'reactstrap';
 
 const StaffRequisitionForm = ({showForm, handleRefresh,  handleShowForm,handleDepartmentChange,
-  handleDateRequestChange, handleJobTitleChange,handleRequestReasonsChange,handleSubmit,
+  handleDateRequestChange, handleJobTitleChange,handleRequestReasonsChange,handleSubmit,handleFilterEmployee,selectProjSupvsr,hideProjSvsrList,
+  handleHideProjSvsrList, handleTypeOfRequestChange, handleResourceAvailable,hideRequesterList, handleHideRequesterList, handleFilterRequester,
+  selectRequester, isEdit, selectedStaffRequisition, requestReasons, projectManager, searchField,
   ...props}) => {
+
+    console.log(projectManager)
   return (
     <React.Fragment>
       <Modal
@@ -37,7 +41,28 @@ const StaffRequisitionForm = ({showForm, handleRefresh,  handleShowForm,handleDe
         </ModalHeader>
         <ModalBody>
           <Row>
-            <Col md={6}>
+            <Col md={12}>
+              <FormGroup>
+                <Label>
+                  Requester: <span style={{ color: "red" }}>*</span>
+                </Label>
+                {isEdit ? 
+                  <Input bsSize="sm" type="text" readOnly={true} value={selectedStaffRequisition.application_data.name}/>
+                  :
+                  <React.Fragment>
+                    <Input bsSize="sm" type="text" onChange={handleFilterRequester} onClick={handleHideRequesterList} id="selectedRequester"/>
+                    <Input bsSize="sm"
+                      type="select"
+                      multiple
+                      hidden={hideRequesterList}
+                    >
+                      {selectRequester}
+                    </Input>
+                  </React.Fragment>
+                }
+              </FormGroup>
+            </Col>
+            <Col md={12}>
               <FormGroup>
                 <Label>
                   Department/Project: <span style={{ color: "red" }}>*</span>
@@ -46,18 +71,7 @@ const StaffRequisitionForm = ({showForm, handleRefresh,  handleShowForm,handleDe
                   bsSize="sm"
                   type="text"
                   onBlur={handleDepartmentChange}
-                />
-              </FormGroup>
-            </Col>
-            <Col md={6}>
-              <FormGroup>
-                <Label>
-                  Date Request: <span style={{ color: "red" }}>*</span>
-                </Label>
-                <Input
-                  bsSize="sm"
-                  type="date"
-                  onBlur={handleDateRequestChange}
+                  defaultValue={isEdit ? selectedStaffRequisition.application_data.department : ""} 
                 />
               </FormGroup>
             </Col>
@@ -66,7 +80,7 @@ const StaffRequisitionForm = ({showForm, handleRefresh,  handleShowForm,handleDe
                 <Label>
                   Job Title: <span style={{ color: "red" }}>*</span>
                 </Label>
-                <Input bsSize="sm" type="text" onBlur={handleJobTitleChange} />
+                <Input bsSize="sm" type="text" onBlur={handleJobTitleChange} defaultValue={isEdit ? selectedStaffRequisition.application_data.job_title : "" }/>
               </FormGroup>
             </Col>
             <Col md={6}>
@@ -74,7 +88,7 @@ const StaffRequisitionForm = ({showForm, handleRefresh,  handleShowForm,handleDe
                 <Label>
                   Type of Request: <span style={{ color: "red" }}>*</span>
                 </Label>
-                <Input bsSize="sm" type="select">
+                <Input bsSize="sm" type="select" onChange={handleTypeOfRequestChange} defaultValue={isEdit ? selectedStaffRequisition.application_data.request_type : ""}>
                   <option>-</option>
                   <option>New</option>
                   <option>Replacement</option>
@@ -92,8 +106,35 @@ const StaffRequisitionForm = ({showForm, handleRefresh,  handleShowForm,handleDe
                   onBlur={handleRequestReasonsChange}
                   rows="4"
                   maxLength="325"
+                  defaultValue={isEdit ? requestReasons : ""}
                 />
               </FormGroup>
+            </Col>
+            <Col md={6}>
+              <FormGroup>
+                <Label>
+                  Resource Availability: <span style={{ color: "red" }}>*</span>
+                </Label>
+                <Input bsSize="sm" type="select" onChange={handleResourceAvailable} defaultValue={isEdit ? selectedStaffRequisition.application_data.resource_availability : ""}>
+                  <option>-</option>
+                  <option>Non-available</option>
+                  <option>Full Time</option>
+                  <option>Part Time</option>
+                </Input>
+              </FormGroup>
+            </Col>
+            <Col md={6}>
+              <Label for="employee">Project Manager/Supervisor of Nominated Staff: <span style={{ color: "red" }}>*</span></Label>
+              <Input bsSize="sm" type="text" onChange={handleFilterEmployee} onClick={handleHideProjSvsrList} id="selecdEmployee" 
+                defaultValue={projectManager.code === undefined || !projectManager.code ? "" : isEdit ? `${projectManager.fullname}` : searchField}
+              />
+                <Input bsSize="sm"
+                  type="select"
+                  multiple
+                  hidden={hideProjSvsrList}
+                >
+                  {selectProjSupvsr}
+              </Input>
             </Col>
           </Row>
           <div className="pt-3">

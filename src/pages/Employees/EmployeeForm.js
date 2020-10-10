@@ -308,8 +308,14 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
                   />
                 </FormGroup>
               </Col>
-            </Row>
-            <Row form>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="housinglAllowance">Housing Allowance:</Label>
+                  <Input bsSize="sm" type="number" name="housingAllowance" id="housingAllowance" placeholder="Housing Allowance" onBlur={props.handleHousingAllowanceChange}
+                    defaultValue={isEdit ? selectedEmployee.housing_allowance : ""}
+                  />
+                </FormGroup>
+              </Col>
               <Col md={4}>
                 <FormGroup>
                   <Label for="leaveTicketEntitlement">Leave Ticket Entitlement:</Label>
@@ -321,7 +327,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
               <Col md={4}>
                 <FormGroup>
                   <Label for="leaveTicketDaysPerYear">Ticket Days Per Year:</Label>
-                  <Input bsSize="sm" type="number" name="leaveTicketDaysPerYear" id="leaveTicketDaysPerYear" placeholder="" onBlur={props.handleLeaveTicketDaysPerYearChange}
+                  <Input bsSize="sm" type="number" name="leaveTicketDaysPerYear" id="leaveTicketDaysPerYear" placeholder="Ticket Days Per Year" onBlur={props.handleLeaveTicketDaysPerYearChange}
                     defaultValue={isEdit ? selectedEmployee.leave_ticket_days_per_year : ""}
                   />
                 </FormGroup>
@@ -334,8 +340,6 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
                   />
                 </FormGroup>
               </Col>
-            </Row>
-            <Row form>
               <Col md={4}>
                 <FormGroup>
                   <Label for="drivingLicenseExpiryDate">Driving License Expiry Date: <span style={{color: "red"}}>*</span></Label>
@@ -360,8 +364,6 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
                   />
                 </FormGroup>
               </Col>
-            </Row>
-            <Row form>
               <Col md={4}>
                 <FormGroup>
                   <Label for="healthCardExpiryDate">Health Card Expiry Date: <span style={{color: "red"}}>*</span></Label>
@@ -378,6 +380,8 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
                   />
                 </FormGroup>
               </Col>
+            </Row>
+            <Row form>
               <Col md={4}>
                 <FormGroup>
                   <Label for="cardNumber">Card No.:</Label>
@@ -386,9 +390,15 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
                   />
                 </FormGroup>
               </Col>
-            </Row>
-            <Row form>
-              <Col md={6}>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="accommodation">Accommodation:</Label>
+                  <Input bsSize="sm" type="text" name="accommodation" id="accommodation" placeholder="Accommodation" onBlur={props.handleAccommodationChange}
+                    defaultValue={isEdit ? selectedEmployee.accommodation : ""}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
                 <FormGroup>
                   <Label for="recruitedBy">Recruited By:</Label>
                   <Input bsSize="sm" type="text" name="recruitedBy" id="recruitedBy" placeholder="Recruited By" onBlur={props.handleRecruitedByChange}
@@ -396,6 +406,8 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
                   />
                 </FormGroup>
               </Col>
+            </Row>
+            <Row form>
               <Col md={6}>
                 <FormGroup>
                   <Label for="projectManager">Project Manager:</Label>
@@ -433,14 +445,6 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
                   >
                     {selectImmediateSuperior}
                   </Input>
-                </FormGroup>
-              </Col>
-              <Col md={6}>
-                <FormGroup>
-                  <Label for="accommodation">Accommodation:</Label>
-                  <Input bsSize="sm" type="text" name="accommodation" id="accommodation" placeholder="Accommodation" onBlur={props.handleAccommodationChange}
-                    defaultValue={isEdit ? selectedEmployee.accommodation : ""}
-                  />
                 </FormGroup>
               </Col>
             </Row>

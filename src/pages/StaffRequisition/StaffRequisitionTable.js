@@ -13,11 +13,6 @@ class StaffRequisitionTable extends Component {
         title=""
         columns={[
           {
-            title: 'ID',
-            field: 'id',
-            // width: 150
-          },
-          {
             title: 'Form Code',
             field: 'application_form_code',
             // width: 130

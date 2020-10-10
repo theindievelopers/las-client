@@ -15,11 +15,6 @@ class LeaveApprovalTable extends Component {
         title="Leave Approval Lists"
         columns={[
           {
-            title: 'ID',
-            field: 'id',
-            width: 150
-          },
-          {
             title: 'Status',
             field: 'status',
             width: 130

@@ -411,7 +411,3 @@ const ResignationPDF = ({ selectedApplication, applicationData, ceoCode, cooCode
 );
 
 export default ResignationPDF;
-
-     // render={({ pageNumber, totalPages }) => (
-        //   `BGC-F-HRM14B V2.0, 21/12/2019                       Page ${pageNumber} / ${totalPages}`
-      // )} 

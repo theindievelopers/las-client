@@ -16,6 +16,11 @@ const Resignation = React.lazy(() => import('./pages/Resignation/Resignation'))
 const LeaveApproval = React.lazy(() => import('./pages/Approvals/Leave/LeaveApproval'))
 const ResignationApproval = React.lazy(() => import('./pages/Approvals/Resignation/ResignationApproval'))
 const StaffRequisition = React.lazy(()=> import('./pages/StaffRequisition/StaffRequisition'))
+const StaffRequisitionApproval = React.lazy(() => import('./pages/Approvals/StaffRequisition/StaffRequisitionApproval'))
+const ChangeProfession = React.lazy(() => import('./pages/ChangeProfession/ChangeProfession'))
+const ChangeProfessionApproval = React.lazy(() => import('./pages/Approvals/ChangeProfession/ChangeProfessionApproval'))
+const IncrementRequest = React.lazy(() => import('./pages/IncrementRequest/IncrementRequest'))
+const IncrementRequestApproval = React.lazy(() => import('./pages/Approvals/IncrementRequestApproval/IncrementRequestApproval'))
 
 function App() {
   const loading = () => {
@@ -67,6 +72,18 @@ function App() {
             render={props => <StaffRequisition {...props} />}
           />
           <Route
+            path="/changeprofession"
+            exact
+            name="Change Profession"
+            render={props => <ChangeProfession {...props} />}
+          />
+          <Route
+            path="/incrementrequest"
+            exact
+            name="Increment Request"
+            render={props => <IncrementRequest {...props} />}
+          />
+          <Route
             path="/approvals"
             exact
             name="Approvals"
@@ -83,6 +100,24 @@ function App() {
             exact
             name="Resignation Approvals"
             render={props => <ResignationApproval {...props} />}
+          />
+          <Route
+            path="/staffrequisition/approvals"
+            exact
+            name="Staff Requisition Approvals"
+            render={props => <StaffRequisitionApproval {...props} />}
+          />
+          <Route
+            path="/changeprofession/approvals"
+            exact
+            name="Change Profession Approvals"
+            render={props => <ChangeProfessionApproval {...props} />}
+          />
+          <Route
+            path="/incrementrequest/approvals"
+            exact
+            name="Increment Request Approvals"
+            render={props => <IncrementRequestApproval {...props} />}
           />
           <Route
             path="/admin/employees"

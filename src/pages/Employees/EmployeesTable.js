@@ -143,6 +143,11 @@ class EmployeesTable extends Component {
             // width: 130
           },
           {
+            title: 'Housing Allowance',
+            field: 'housing_allowance',
+            // width: 130
+          },
+          {
             title: 'Total',
             field: 'total',
             // width: 130

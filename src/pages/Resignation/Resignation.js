@@ -160,9 +160,9 @@ const Resignation = React.memo(() => {
       return setSelectedEmployee(e.target.value)
     }
     let selected = employees.filter(employee => {
-      return employee.id == e.target.value
+      return employee.id === parseInt(e.target.value)
     })
-    let selectedEmployeeInput = document.getElementById("selecdEmployee")
+    let selectedEmployeeInput = document.getElementById("selectedEmployee")
     selectedEmployeeInput.value = selected[0].fullname
     setSelectedEmployee(selected)
     setHideListEmployees(true)
