@@ -27,10 +27,9 @@ const IncrementRequestApprovalForm = React.memo(({
   handleShowCEONotes, hideCEONotes, handleCEONotesChange, handleSaveCEONotes, handleEditCOONotes, handleShowCOONotes,
   hideCOONotes, handleCOONotesChange, handleSaveCOONotes, handleReview, handleDeny, handleApproved,
   ...props}) => {
-  console.log(hideCEONotes)
-  // const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // const toggleAction = () => setDropdownOpen(prevState => !prevState);
+  const toggleAction = () => setDropdownOpen(prevState => !prevState);
   return(
     <React.Fragment>
       <Modal
@@ -64,6 +63,44 @@ const IncrementRequestApprovalForm = React.memo(({
             </Col>
             <Col md={12}>
               <hr />
+              {accessLevel === 1 ?
+                <div className="float-right mb-3">
+                  <Dropdown isOpen={dropdownOpen} toggle={toggleAction}>
+                    <DropdownToggle>
+                      ACTIONS
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      {selectedApplicationData.supervisor_notesL1 || selectedApplicationData.supervisor_notesL2 || selectedApplicationData.supervisor_notesL3 ?
+                        <DropdownItem onClick={handleEditSupervisorNotes}>EDIT SUPERVISOR JUSTIFICATION</DropdownItem>
+                        :
+                        <DropdownItem onClick={handleShowSupervisorNotes}>ADD SUPERVISOR JUSTIFICATION</DropdownItem>
+                      }
+                      {selectedApplicationData.project_manager_notesL1 || selectedApplicationData.project_manager_notesL2 || selectedApplicationData.project_manager_notesL3 ?
+                        <DropdownItem onClick={handleEditProjectManagerNotes}>EDIT PROJECT MANAGER NOTES</DropdownItem>
+                        : 
+                        <DropdownItem onClick={handleShowProjectManagerNotes}>ADD PROJECT MANAGER NOTES</DropdownItem>
+                      }
+                      {selectedApplicationData.new_basic || selectedApplicationData.new_food_allowance || selectedApplicationData.new_general_allowance || selectedApplicationData.new_housing_allowance || 
+                        selectedApplicationData.new_tel_allowance || selectedApplicationData.new_transportation_allowance ?
+                        <DropdownItem onClick={handleEditManagementDesicion}>EDIT MANAGEMENT DESICION</DropdownItem>
+                        :
+                        <DropdownItem onClick={handleShowManagementDesicion}>ADD MANAGEMENT DESICION</DropdownItem>
+                      }
+                      {selectedApplicationData.coo_notes ?
+                        <DropdownItem onClick={handleEditCOONotes}>EDIT COO NOTES</DropdownItem>
+                        :
+                        <DropdownItem onClick={handleShowCOONotes}>ADD COO NOTES</DropdownItem>
+                      }
+                      {selectedApplicationData.ceo_notes ?
+                        <DropdownItem onClick={handleEditCEONotes}>EDIT CEO NOTES</DropdownItem>
+                        :
+                        <DropdownItem onClick={handleShowCEONotes}>ADD CEO NOTES</DropdownItem>
+                      }
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+                : ""
+              }
               {selectedApplicationData.immediate_supervisor === empCode ?
                 <React.Fragment>
                   <div className="float-right mb-3 ml-2">
@@ -339,6 +376,11 @@ const IncrementRequestApprovalForm = React.memo(({
                   <IncrementRequestPDF 
                     applicationData={selectedApplicationData}
                     selectedApplication={selectedApplication}
+                    ceoCode={ceo.code}
+                    cooCode={coo.code}
+                    hraManagerCode={hraManager.code}
+                    immediateSupervisorCode={immediateSupervisor.code}
+                    projectManagerCode={projectManager.code}
                   />
                 </PDFViewer>
                 :

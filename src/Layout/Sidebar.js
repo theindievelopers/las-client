@@ -8,9 +8,11 @@ const Sidebar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [approvalsOpen, setApprovalsOpen] = useState(false)
+  const [applicationsOpen, setApplicationsOpen] = useState(false)
 
   const toggle = () => setIsOpen(!isOpen);
   const toggleApprovals = () => setApprovalsOpen(!approvalsOpen);
+  const toggleApplications = () => setApplicationsOpen(!applicationsOpen);
 
   return (
     <Fragment>
@@ -24,6 +26,37 @@ const Sidebar = () => {
         </div>
         <ul className='list-unstyled components'>
           <li>
+              <a id="theLink" onClick={toggleApplications} >
+                Applications
+                <i className="fa fa-caret-down" style={{marginLeft: 78}} aria-hidden="true"></i>
+              </a>
+            
+              <Collapse isOpen={applicationsOpen}>
+              <ul className='list-unstyled'>
+                <li>
+                  <a href='#/leaves'>
+                    Leaves
+                  </a>
+                </li>
+                <li>
+                  <a href='#/resignation'>
+                    Resignation
+                  </a>
+                </li>
+                <li>
+                  <a href='#/changeprofession'>
+                    Change Profession
+                  </a>
+                </li>
+                <li>
+                  <a href='#/incrementrequest'>
+                    Increment Request
+                  </a>
+                </li>
+              </ul>
+            </Collapse>
+          </li>
+          {/* <li>
             <a href='#/leaves'>
               Leaves
             </a>
@@ -32,13 +65,13 @@ const Sidebar = () => {
             <a href='#/resignation'>
               Resignation
             </a>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <a href='#/staffrequisition'>
               Staff Requisition
             </a>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <a href='#/changeprofession'>
               Change Profession
             </a>
@@ -47,7 +80,7 @@ const Sidebar = () => {
             <a href='#/incrementrequest'>
               Increment Request
             </a>
-          </li>
+          </li> */}
           {/* {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
             <li>
               <a href='#/approvals'>
@@ -58,31 +91,36 @@ const Sidebar = () => {
           } */}
           {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
             <li>
-            <a id="theLink" onClick={toggleApprovals} href="#/approvals">
-              Approvals
-              <i className="fa fa-caret-down" style={{marginLeft: 78}} aria-hidden="true"></i>
-            </a>
+              <a id="theLink" onClick={toggleApprovals} >
+                Approvals
+                <i className="fa fa-caret-down" style={{marginLeft: 78}} aria-hidden="true"></i>
+              </a>
             
-            <Collapse isOpen={approvalsOpen}>
-              <ul className='list-unstyled'>
-                <li>
-                  <a href='#/leave/approvals'>
-                    Leave
-                  </a>
-                </li>
-                <li>
-                  <a href='#/resignation/approvals'>
-                    Resignation
-                  </a>
-                </li>
-                <li>
-                  <a href='#/changeprofession/approvals'>
-                    Change Profession
-                  </a>
-                </li>
-              </ul>
-            </Collapse>
-          </li>
+              <Collapse isOpen={approvalsOpen}>
+                <ul className='list-unstyled'>
+                  <li>
+                    <a href='#/leave/approvals'>
+                      Leave
+                    </a>
+                  </li>
+                  <li>
+                    <a href='#/resignation/approvals'>
+                      Resignation
+                    </a>
+                  </li>
+                  <li>
+                    <a href='#/changeprofession/approvals'>
+                      Change Profession
+                    </a>
+                  </li>
+                  <li>
+                    <a href='#/incrementrequest/approvals'>
+                      Increment Request
+                    </a>
+                  </li>
+                </ul>
+              </Collapse>
+            </li>
             : ""
           }
           {accessLevel === 1 ? 

@@ -44,7 +44,6 @@ const IncrementRequest = () => {
     fetch('http://localhost:3000/application')
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if(data) {
           let approved = []
           let denied = []
@@ -119,7 +118,6 @@ const IncrementRequest = () => {
   }
 
   const handleEdit = (incrementRequest) => {
-    console.log(incrementRequest.application_data.grade)
     setShowForm(true)
     setIsEdit(true)
     setSelectedIncrementRequest(incrementRequest)
@@ -274,7 +272,6 @@ const IncrementRequest = () => {
           })
           setIsLoading(false)
         } else {
-          console.log(data)
           let newIncrementRequest = [...incrementRequests]
           newIncrementRequest.push(data)
           setIncrementRequests(newIncrementRequest)
@@ -372,7 +369,6 @@ const IncrementRequest = () => {
             })
             setIsLoading(false)
           } else {
-            console.log(data)
             let newIncrementRequest = [...incrementRequests]
             newIncrementRequest.push(data)
             setIncrementRequests(newIncrementRequest)
@@ -430,6 +426,10 @@ const IncrementRequest = () => {
                     handleShowForm={handleShowForm}
                     handleEdit={handleEdit}
                     refetch={fetchData}
+                    accessLevel={accessLevel}
+                    ceo={ceo}
+                    coo={coo}
+                    hraManager={hraManager}
                   />
                 </CardBody>
               </Card>

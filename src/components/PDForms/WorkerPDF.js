@@ -3,6 +3,7 @@ import { Document, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import styled from '@react-pdf/styled-components';
 import Logo from '../../img/logo.jpg';
 import FooterImg from '../../img/footerimg.png'
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   image: {width: 130, height: 27},
@@ -125,7 +126,9 @@ const Footer = styled.Text`
 `;
 
 // Create Document Component
-const WorkerPDF = ({ name, department, departureDate, employeeNum, position, returnDate, contactNum, typeOfLeave, itemIssued,employeeSignature, ...props }) => (
+const WorkerPDF = ({ name, department, departureDate, employeeNum, position, returnDate, contactNum, typeOfLeave, itemIssued,employeeSignature, applicationData, 
+  hraManagerCode, accountingCode, immediateSuperiorCode,
+  ...props }) => (
   <Document>
     <Body size="A4" wrap>
       <Border>
@@ -159,7 +162,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
               <Input2 style={{ borderBottom: 1 }}>{employeeNum === "" ? " " : employeeNum}</Input2>
               <Input2 style={{ borderBottom: 1 }}>{position === "" ? " " : position}</Input2>
               <Input2 style={{ borderBottom: 1 }}>{returnDate === "" ? " " : returnDate}</Input2>
-              <Input2 style={{ lineHeight: "1.8", borderBottom: 1 }}>{contactNum === "" ? " " : contactNum}</Input2>
+              <Input2 style={{ lineHeight: "1", borderBottom: 1 }}>{contactNum === "" ? " " : contactNum}</Input2>
               <Span>(Designation)</Span>
             </View>
           </Row>
@@ -212,10 +215,9 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
               </Row>
             </View>
           </Row>
-          <Row style={{ alignItems: "center", justifyContent: "center", paddingTop: "50px", paddingBottom: "10px" }}>
+          <Row style={{ alignItems: "center", justifyContent: "center", paddingTop: "30px", paddingBottom: "10px" }}>
             <View>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                {/* <Image source={"http://128.199.121.153:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/> */}
                 <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/>
                 {props.employeeSignDate}
               </Text>
@@ -230,7 +232,16 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
           <Row style={{ paddingTop: "20px", paddingBottom: "15px", justifyContent: "center" }}>
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                   
+                {applicationData.immidiate_supervisor_manager_signature ? 
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.immediate_supervisor} style={{width: 130,height: 20}}/>
+                    <Text>{moment(applicationData.immidiate_supervisor_sign_date).format("MM/DD/YYYY")}</Text>
+                  </View>
+                  : 
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Immediate Supervisor/Signature and Date
@@ -238,7 +249,16 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                  
+                {applicationData.accounting_department_signature ? 
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + accountingCode} style={{width: 130,height: 20}}/>
+                    <Text>{moment(applicationData.accounting_dept_sign_date).format("MM/DD/YYYY")}</Text>
+                  </View>
+                  : 
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 220, paddingTop: "2px" }}>
                 Accounting Department's Signature and Date
@@ -255,7 +275,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
           <Row style={{ paddingTop: "4px" }}>
             <View>
               <Row>
-                <CheckBox>{props.password === true ? "X" : " "}</CheckBox>
+                <CheckBox>{props.passport === true ? "X" : " "}</CheckBox>
                 <CheckBoxLabel>Passport</CheckBoxLabel>
               </Row>
             </View>
@@ -309,18 +329,18 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
               will result to the termination of my services and disqualification for the end of service gratuity.
             </Paragraph>
           </View>
-          <RowEnd style={{ paddingBottom: "5px", paddingTop: "80px" }}>
+          <RowEnd style={{ paddingBottom: "5px", paddingTop: "50px" }}>
             <View style={{ marginRight: "30px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 100 }}>
-                   
+                <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/>
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 120, paddingTop: "2px" }}>
                 Employee Signature
               </Text>
             </View>
-            <View>
+            <View style={{paddingTop: 11}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 100 }}>
-                   
+                {props.employeeSignDate}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 80, paddingTop: "2px" }}>
                 Date
@@ -338,7 +358,16 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                   
+                {applicationData.hr_manager_signature ? 
+                  <View>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
+                    <Text>{moment(applicationData.hr_manager_sign_date).format("MM/DD/YYYY")}</Text>
+                  </View>
+                  : 
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
+                    Placeholder
+                  </Text>
+                }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 230, paddingTop: "2px" }}>
                 HRA Manager Signature and Date

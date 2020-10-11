@@ -70,6 +70,7 @@ class LeavesTable extends Component {
                     width="500px" height="850px"
                   >
                     <WorkerPDF
+                      applicationData={appData}
                       name={appData.name}
                       department={appData.project}
                       employeeNum={appData.employee_code}
@@ -91,8 +92,8 @@ class LeavesTable extends Component {
                       backOn={appData.be_back_on}
                       employeeSignDate={appData.employee_signature_date}
 
-                    />
-                  </PDFViewer>
+                      />
+                    </PDFViewer>
                 )
               } else if (rowData.application_form_code === "LEAVE_STAFF") {
               return (
@@ -100,6 +101,7 @@ class LeavesTable extends Component {
                   width="500px" height="850px"
                 >
                   <StaffPDF
+                    applicationData={appData}
                     name={appData.name}
                     department={appData.project}
                     employeeNum={appData.employee_code}

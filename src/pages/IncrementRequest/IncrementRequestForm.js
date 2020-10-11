@@ -20,7 +20,6 @@ const IncrementRequestForm = React.memo(({
     hideListEmployees, selectEmployeeForIncrementRequest, isLoading, handleSubmit, handleGradeChange, selectedChangeProfessionRequest,
     designation, employeeCode, department, nationality, handleDateChange,
   ...props}) => {
-    console.log("SELECTED_FORM",selectedIncrementRequest)
   return(
     <React.Fragment>
       <Modal

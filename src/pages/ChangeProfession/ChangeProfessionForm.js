@@ -19,7 +19,6 @@ const ChangeProfessionForm = React.memo(({ showForm, handleShowForm, handleRefre
   handleSubmit, isLoading, handleNewDesinationChange, selectedChangeProfessionRequest, selectedEmployee,
   designation, employeeCode, department, nationality,
   ...props }) => {
-    console.log(designation)
   return (
     <React.Fragment>
       <Modal

@@ -53,7 +53,7 @@ const LeaveApproval = React.memo(props => {
         let pending = []
         data.map(indivData => {
           if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.approver_id) {
-            if (indivData.application_type === "LEAVE_STAFF" || indivData.application_type === "LEAVE_STAFF") {
+            if (indivData.application_type === "LEAVE_STAFF" || indivData.application_type === "LEAVE_WORKER") {
               if (indivData.status === "APPROVED") {
                 approved.push(indivData)
               } else if (indivData.status === "DENIED") {
@@ -174,22 +174,28 @@ const LeaveApproval = React.memo(props => {
     if (selectedApproval.approver_id === accounting.code) {
       acctSign = accounting.signature
       acctSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === ceo.code) {
+    } 
+    if (selectedApproval.approver_id === ceo.code) {
       ceoSign = ceo.signature
       ceoSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === coo.code) {
+    }
+    if (selectedApproval.approver_id === coo.code) {
       cooSign = coo.signature
       cooSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === logisticsOfficer.code) {
+    } 
+    if (selectedApproval.approver_id === logisticsOfficer.code) {
       logisticsSign = logisticsOfficer.signature
       logisticsSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === hraManager.code) {
+    } 
+    if (selectedApproval.approver_id === hraManager.code) {
       hraSign = hraManager.signature
       hraSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === immediateSuperior.code) {
+    }
+    if (selectedApproval.approver_id === immediateSuperior.code) {
       immSign = immediateSuperior.signature
       immSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === projectManager.code) {
+    }
+    if (selectedApproval.approver_id === projectManager.code) {
       projSign = projectManager.signature
       projSignDate = moment(new Date()).format("MM/DD/YYYY")
     }
@@ -227,7 +233,7 @@ const LeaveApproval = React.memo(props => {
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
                 application_form_code: selectedApplication.application_form_code,
-                employee_id: selectedApplication.employee_id,
+                employee_code: selectedApplication.employee_code,
                 application_data: {
                   name: selectedApplication.application_data.name,
                   employee_code: selectedApplication.application_data.employee_code,
@@ -351,7 +357,7 @@ const LeaveApproval = React.memo(props => {
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
                 application_form_code: selectedApplication.application_form_code,
-                employee_id: selectedApplication.employee_id,
+                employee_code: selectedApplication.employee_code,
                 application_data: {
                   name: selectedApplication.application_data.name,
                   employee_code: selectedApplication.application_data.employee_code,
@@ -465,7 +471,7 @@ const LeaveApproval = React.memo(props => {
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
                 application_form_code: selectedApplication.application_form_code,
-                employee_id: selectedApplication.employee_id,
+                employee_code: selectedApplication.employee_code,
                 application_data: {
                   name: selectedApplication.application_data.name,
                   employee_code: selectedApplication.application_data.employee_code,
@@ -542,6 +548,301 @@ const LeaveApproval = React.memo(props => {
     })
   }
 
+  const handleApproveWorker = () => {
+    const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
+    let acctSign = ""
+    let acctSignDate = ""
+    let hraSign = ""
+    let hraSignDate = ""
+    let immSign = ""
+    let immSignDate = ""
+    if (selectedApproval.approver_id === accounting.code) {
+      acctSign = accounting.signature
+      acctSignDate = moment(new Date()).format("MM/DD/YYYY")
+    } else if (selectedApproval.approver_id === hraManager.code) {
+      hraSign = hraManager.signature
+      hraSignDate = moment(new Date()).format("MM/DD/YYYY")
+    } else if (selectedApproval.approver_id === immediateSuperior.code) {
+      immSign = immediateSuperior.signature
+      immSignDate = moment(new Date()).format("MM/DD/YYYY")
+    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, update it!'
+    }).then((result) => {
+      if (result.value) {
+        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+          method: 'put',
+          headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
+          body: JSON.stringify({
+            approver_id: selectedApproval.approver_id,
+            createdBy: selectedApproval.createdBy,
+            createdAt: selectedApproval.createdAt,
+            updatedBy: name,
+            updatedAt: moment(new Date()).format("YYYY-MM-DD"),
+            status: "APPROVED"
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            Swal.fire(
+              'Updated!',
+              'Application has been Approved.',
+              'success'
+            )
+            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+              method: 'put',
+              headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
+              body: JSON.stringify({
+                application_form_code: selectedApplication.application_form_code,
+                employee_code: selectedApplication.employee_code,
+                application_data: {
+                  name: selectedApplication.application_data.name,
+                  employee_code: selectedApplication.application_data.employee_code,
+                  project: selectedApplication.application_data.project,
+                  position: selectedApplication.application_data.position,
+                  immediate_supervisor: selectedApplication.application_data.immediate_supervisor,
+                  departure_date: selectedApplication.application_data.departure_date,
+                  return_date: selectedApplication.application_data.return_date,
+                  leave_type: selectedApplication.application_data.leave_type,
+                  contact_number: selectedApplication.application_data.contact_number,
+                  items_issued_type: selectedApplication.application_data.items_issued_type,
+                  items_issued_others_remarks: selectedApplication.application_data.items_issued_others_remarks,
+                  signature_and_date: selectedApplication.application_data.employee_signature_date,
+                  immidiate_supervisor_manager_signature: (selectedApplication.application_data.immidiate_supervisor_manager_signature ? selectedApplication.application_data.immidiate_supervisor_manager_signature : immSign),
+                  immidiate_supervisor_sign_date: (selectedApplication.application_data.immidiate_supervisor_sign_date ? selectedApplication.application_data.immidiate_supervisor_sign_date : immSignDate),
+                  accounting_department_signature: (selectedApplication.application_data.accounting_department_signature ? selectedApplication.application_data.accounting_department_signature : acctSign),
+                  accounting_dept_sign_date: (selectedApplication.application_data.accounting_dept_sign_date ? selectedApplication.application_data.accounting_dept_sign_date : acctSignDate),
+                  hr_manager_signature: (selectedApplication.application_data.hr_manager_signature ? selectedApplication.application_data.hr_manager_signature : hraSign),
+                  hr_manager_sign_date: (selectedApplication.application_data.hr_manager_sign_date ? selectedApplication.application_data.hr_manager_sign_date : hraSignDate),
+                  receive_passport: selectedApplication.application_data.receive_passport,
+                  receive_ticket: selectedApplication.application_data.receive_ticket,
+                  receive_settlement: selectedApplication.application_data.receive_settlement,
+                  receive_others: selectedApplication.application_data.receive_others,
+                  receive_others_remarks: selectedApplication.application_data.receive_others_remarks,
+                  leave_from: selectedApplication.application_data.leave_from,
+                  leave_to: selectedApplication.application_data.leave_to,
+                  be_back_on: selectedApplication.application_data.be_back_on,
+                  employee_signature: selectedApplication.application_data.employee_signature,
+                  employee_signature_date: selectedApplication.application_data.employee_signature_date,
+                  createdby: selectedApplication.application_data.createdby,
+                  createdat: selectedApplication.application_data.createdat,
+                  updatedby: name,
+                  updatedat: moment(new Date()).format("MM/DD/YYYY")
+                },
+                status: (
+                    selectedApplication.application_data.project_manager && selectedApplication.application_data.immediate_supervisor &&
+                    (selectedApplication.application_data.immidiate_supervisor_manager_signature_and_date || immSign) &&
+                    (selectedApplication.application_data.accounting_department_signature_and_date || acctSign) &&
+                    (selectedApplication.application_data.hr_manager_signature_and_date || hraSign)
+                    ? "APPROVED"
+                    : "PROCESSING"
+                ),
+                createdBy: selectedApplication.createdBy,
+                createdAt: selectedApplication.createdAt,
+                updatedBy: name,
+                updatedAt: moment(new Date()).format("MM/DD/YYYY")
+              })
+            })
+              .then(res => res.json())
+              .then(data => {
+                refetch()
+                handleRefresh()
+              })
+            refetch()
+            handleRefresh()
+          })
+      }
+    })
+  }
+
+  const handleDenyWorker = () => {
+    const creds = Buffer.from(`${name}:`, 'utf8').toString('base64')
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, update it!'
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire(
+          'Updated!',
+          'Application has been tagged for Denied.',
+          'success'
+        )
+        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+          method: 'put',
+          headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
+          body: JSON.stringify({
+            approver_id: selectedApproval.approver_id,
+            collateid: selectedApproval.collateid,
+            createdBy: selectedApproval.createdBy,
+            createdAt: selectedApproval.createdAt,
+            updatedBy: name,
+            updatedAt: moment(new Date()).format("MM/DD/YYYY"),
+            status: "DENIED"
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+              method: 'put',
+              headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
+              body: JSON.stringify({
+                application_form_code: selectedApplication.application_form_code,
+                employee_code: selectedApplication.employee_code,
+                application_data: {
+                  name: selectedApplication.application_data.name,
+                  employee_code: selectedApplication.application_data.employee_code,
+                  project: selectedApplication.application_data.project,
+                  position: selectedApplication.application_data.position,
+                  immediate_supervisor: selectedApplication.application_data.immediate_supervisor,
+                  departure_date: selectedApplication.application_data.departure_date,
+                  return_date: selectedApplication.application_data.return_date,
+                  leave_type: selectedApplication.application_data.leave_type,
+                  contact_number: selectedApplication.application_data.contact_number,
+                  items_issued_type: selectedApplication.application_data.items_issued_type,
+                  items_issued_others_remarks: selectedApplication.application_data.items_issued_others_remarks,
+                  signature_and_date: selectedApplication.application_data.employee_signature_date,
+                  immediate_supervisor_signature: selectedApplication.application_data.immediate_supervisor_signature_and_date,
+                  immidiate_supervisor_sign_date: selectedApplication.application_data.immidiate_supervisor_sign_date,
+                  accounting_department_signature: selectedApplication.application_data.accounting_department_signature_and_date,
+                  accounting_dept_sign_date: selectedApplication.application_data.accounting_dept_sign_date,
+                  hr_manager_signature: selectedApplication.application_data.hr_manager_signature,
+                  hr_manager_sign_date: selectedApplication.application_data.hr_manager_sign_date,
+                  receive_passport: selectedApplication.application_data.receive_passport,
+                  receive_ticket: selectedApplication.application_data.receive_ticket,
+                  receive_settlement: selectedApplication.application_data.receive_settlement,
+                  receive_others: selectedApplication.application_data.receive_others,
+                  receive_others_remarks: selectedApplication.application_data.receive_others_remarks,
+                  leave_from: selectedApplication.application_data.leave_from,
+                  leave_to: selectedApplication.application_data.leave_to,
+                  be_back_on: selectedApplication.application_data.be_back_on,
+                  employee_signature: selectedApplication.application_data.employee_signature,
+                  employee_signature_date: selectedApplication.application_data.employee_signature_date,
+                  createdby: selectedApplication.application_data.createdby,
+                  createdat: selectedApplication.application_data.createdat,
+                  updatedby: name,
+                  updatedat: moment(new Date()).format("MM/DD/YYYY")
+                },
+                status: "DENIED",
+                createdBy: selectedApplication.createdBy,
+                createdAt: selectedApplication.createdAt,
+                updatedBy: name,
+                updatedAt: moment(new Date()).format("MM/DD/YYYY")
+              })
+            })
+              .then(res => res.json())
+              .then(data => {
+                refetch()
+                handleRefresh()
+              })
+            refetch()
+            handleRefresh()
+          })
+      }
+    })
+  }
+
+  const handleReviewWorker = () => {
+    const creds = Buffer.from(`${name}:`, 'utf8').toString('base64')
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, update it!'
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire(
+          'Updated!',
+          'Application has been tagged for Review.',
+          'success'
+        )
+        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+          method: 'put',
+          headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
+          body: JSON.stringify({
+            approver_id: selectedApproval.approver_id,
+            collateid: selectedApproval.collateid,
+            createdBy: selectedApproval.createdBy,
+            createdAt: selectedApproval.createdAt,
+            updatedBy: name,
+            updatedAt: moment(new Date()).format("MM/DD/YYYY"),
+            status: "REVIEW"
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+              method: 'put',
+              headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
+              body: JSON.stringify({
+                application_form_code: selectedApplication.application_form_code,
+                employee_code: selectedApplication.employee_code,
+                application_data: {
+                  name: selectedApplication.application_data.name,
+                  employee_code: selectedApplication.application_data.employee_code,
+                  project: selectedApplication.application_data.project,
+                  position: selectedApplication.application_data.position,
+                  immediate_supervisor: selectedApplication.application_data.immediate_supervisor,
+                  departure_date: selectedApplication.application_data.departure_date,
+                  return_date: selectedApplication.application_data.return_date,
+                  leave_type: selectedApplication.application_data.leave_type,
+                  contact_number: selectedApplication.application_data.contact_number,
+                  items_issued_type: selectedApplication.application_data.items_issued_type,
+                  items_issued_others_remarks: selectedApplication.application_data.items_issued_others_remarks,
+                  signature_and_date: selectedApplication.application_data.employee_signature_date,
+                  immediate_supervisor_signature: selectedApplication.application_data.immediate_supervisor_signature_and_date,
+                  immidiate_supervisor_sign_date: selectedApplication.application_data.immidiate_supervisor_sign_date,
+                  accounting_department_signature: selectedApplication.application_data.accounting_department_signature_and_date,
+                  accounting_dept_sign_date: selectedApplication.application_data.accounting_dept_sign_date,
+                  hr_manager_signature: selectedApplication.application_data.hr_manager_signature,
+                  hr_manager_sign_date: selectedApplication.application_data.hr_manager_sign_date,
+                  receive_passport: selectedApplication.application_data.receive_passport,
+                  receive_ticket: selectedApplication.application_data.receive_ticket,
+                  receive_settlement: selectedApplication.application_data.receive_settlement,
+                  receive_others: selectedApplication.application_data.receive_others,
+                  receive_others_remarks: selectedApplication.application_data.receive_others_remarks,
+                  leave_from: selectedApplication.application_data.leave_from,
+                  leave_to: selectedApplication.application_data.leave_to,
+                  be_back_on: selectedApplication.application_data.be_back_on,
+                  employee_signature: selectedApplication.application_data.employee_signature,
+                  employee_signature_date: selectedApplication.application_data.employee_signature_date,
+                  createdby: selectedApplication.application_data.createdby,
+                  createdat: selectedApplication.application_data.createdat,
+                  updatedby: name,
+                  updatedat: moment(new Date()).format("MM/DD/YYYY")
+                },
+                status: "REVIEW",
+                createdBy: selectedApplication.createdBy,
+                createdAt: selectedApplication.createdAt,
+                updatedBy: name,
+                updatedAt: moment(new Date()).format("MM/DD/YYYY")
+              })
+            })
+              .then(res => res.json())
+              .then(data => {
+                refetch()
+                handleRefresh()
+              })
+            refetch()
+            handleRefresh()
+          })
+      }
+    })
+  }
+
   return (
     <React.Fragment>
       <div className="row">
@@ -566,6 +867,9 @@ const LeaveApproval = React.memo(props => {
             handleDeny={handleDeny}
             handleReview={handleReview}
             selectedApproval={selectedApproval}
+            handleReviewWorker={handleReviewWorker}
+            handleDenyWorker={handleDenyWorker}
+            handleApproveWorker={handleApproveWorker}
           />
         </div>
       </div>

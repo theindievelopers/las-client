@@ -158,7 +158,6 @@ const IncrementRequestApproval = React.memo(() => {
       if(indivApplication.collateid === data.collateid) {
         setSelectedApplication(indivApplication)
         setSelectedApplicationData(indivApplication.application_data)
-        console.log(indivApplication.application_data)
         projectManID = indivApplication.application_data.project_manager
         immediateSupID = indivApplication.application_data.immediate_supervisor
       }
@@ -180,7 +179,9 @@ const IncrementRequestApproval = React.memo(() => {
   const handleShowSupervisorNotes = () => {
     setHideSupervisorNotes(!hideSupervisorNotes)
     setHideProjectManagerNotes(true)
-    setHideManagementDesicion(true)
+    setHideManagementDesicion(true)  
+    setHideCOONotes(true)
+    setHideCEONotes(true)
   }
 
   const handleSupervisorNotesChange = (e) => {
@@ -221,6 +222,10 @@ const IncrementRequestApproval = React.memo(() => {
     setSupervisorNotesL4(selectedApplicationData.supervisor_notesL4)
     setSupervisorNotesL5(selectedApplicationData.supervisor_notesL5)
     setHideSupervisorNotes(!hideSupervisorNotes)
+    setHideProjectManagerNotes(true)
+    setHideManagementDesicion(true)    
+    setHideCOONotes(true)
+    setHideCEONotes(true)
   }
 
   
@@ -228,6 +233,8 @@ const IncrementRequestApproval = React.memo(() => {
     setHideProjectManagerNotes(!hideProjectManagerNotes)
     setHideSupervisorNotes(true)
     setHideManagementDesicion(true)    
+    setHideCOONotes(true)
+    setHideCEONotes(true)
   }
   
   const handleEditProjectManagerNotes = () => {
@@ -242,6 +249,9 @@ const IncrementRequestApproval = React.memo(() => {
     setProjectManagerNotesL5(selectedApplicationData.project_manager_notesL5)
     setHideProjectManagerNotes(!hideProjectManagerNotes)
     setHideSupervisorNotes(true)
+    setHideManagementDesicion(true)    
+    setHideCOONotes(true)
+    setHideCEONotes(true)
   }
 
   const handleProjectManagerNotesChange = e => {
@@ -1295,7 +1305,6 @@ const IncrementRequestApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            console.log("DENIED", data)
             fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },

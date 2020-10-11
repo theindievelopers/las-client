@@ -16,8 +16,8 @@ import {
 
 const ResignationForm = React.memo(({ showForm, handleShowForm, handleRefresh, isEdit, employees, handleFilterEmployee, handleHideListEmployees, hideListEmployees, selectEmployeeForResignation,
   selectedEmployee, handleEffectiveResignationDate, handleResignationReasonL1, handleResignationReasonL2, handleResignationReasonL3, handleResignationReasonL4, handleSubmit, isLoading,
-  effectiveResignationDate, resignationReasonL1, resignationReasonL2, resignationReasonL3, resignationReasonL4, selectedResignation,
-  ...props }) => {
+  effectiveResignationDate, resignationReasonL1, resignationReasonL2, resignationReasonL3, resignationReasonL4, selectedResignation, handleResignationReasonChange, resignationReasons,
+  ...props }) => { 
 
   return (
     <React.Fragment>
@@ -73,17 +73,13 @@ const ResignationForm = React.memo(({ showForm, handleShowForm, handleRefresh, i
               <Row>
                 <Col>
                   <Label>Reason For Resignation <span style={{ color: "red" }}>*</span></Label>
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleResignationReasonL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }} 
-                    defaultValue={isEdit ? selectedResignation.application_data.reason_for_resignationL1 : ""}
-                  />
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleResignationReasonL2} style={{ borderRadius: 0 }} 
-                    defaultValue={isEdit ? selectedResignation.application_data.reason_for_resignationL2 : ""}
-                  />
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleResignationReasonL3} style={{ borderRadius: 0 }} 
-                    defaultValue={isEdit ? selectedResignation.application_data.reason_for_resignationL3 : ""}
-                  />
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleResignationReasonL4} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }} 
-                    defaultValue={isEdit ? selectedResignation.application_data.reason_for_resignationL4 : ""}
+                  <Input
+                    bsSize="sm"
+                    type="textarea"
+                    onBlur={handleResignationReasonChange}
+                    rows="4"
+                    maxLength="440"
+                    defaultValue={isEdit ? resignationReasons : ""}
                   />
                 </Col>
               </Row>

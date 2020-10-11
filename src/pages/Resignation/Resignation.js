@@ -24,6 +24,7 @@ const Resignation = React.memo(() => {
   const [resignationReasonL2, setResignationReasonL2] = useState("")
   const [resignationReasonL3, setResignationReasonL3] = useState("")
   const [resignationReasonL4, setResignationReasonL4] = useState("")
+  const [resignationReasons, setResignationReasons] = useState("")
   const [selectedResignation, setSelectedResignation] = useState({})
   const [ceo, setCeo] = useState({})
   const [coo, setCoo] = useState({})
@@ -141,6 +142,9 @@ const Resignation = React.memo(() => {
     setResignationReasonL2(data.reason_for_resignationL2)
     setResignationReasonL3(data.reason_for_resignationL3)
     setResignationReasonL4(data.reason_for_resignationL4)
+    setResignationReasons(
+      `${data.reason_for_resignationL1} ${data.reason_for_resignationL2} ${data.reason_for_resignationL3} ${data.reason_for_resignationL4}`
+    )
   }
 
   const filteredEmployees = employees.filter(employee => {
@@ -199,6 +203,29 @@ const Resignation = React.memo(() => {
 
   const handleResignationReasonL4 = (e) => {
     setResignationReasonL4(e.target.value)
+  }
+
+  const handleResignationReasonChange = (e) => {
+    let supervisorNotes = e.target.value.split(/[\s]+/)
+    let trimmedResignationReasonL1 = []
+    let trimmedResignationReasonL2 = []
+    let trimmedResignationReasonL3 = []
+    let trimmedResignationReasonL4 = []
+    supervisorNotes.map(word => {
+      if(trimmedResignationReasonL1.length <=17) {
+        return trimmedResignationReasonL1.push(word)
+      } else if(trimmedResignationReasonL2.length <=17) {
+        return trimmedResignationReasonL2.push(word)
+      } else if(trimmedResignationReasonL3.length <=17) {
+        return trimmedResignationReasonL3.push(word)
+      } else {
+        return trimmedResignationReasonL4.push(word)
+      }
+    })
+    setResignationReasonL1(trimmedResignationReasonL1.join(" "))
+    setResignationReasonL2(trimmedResignationReasonL2.join(" "))
+    setResignationReasonL3(trimmedResignationReasonL3.join(" "))
+    setResignationReasonL4(trimmedResignationReasonL4.join(" "))
   }
 
   const handleSubmit = () => {
@@ -390,6 +417,8 @@ const Resignation = React.memo(() => {
             resignationReasonL4={resignationReasonL4}
             selectedResignation={selectedResignation}
             isReady={isReady}
+            handleResignationReasonChange={handleResignationReasonChange}
+            resignationReasons={resignationReasons}
           />
         </div>
       </div>

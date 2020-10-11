@@ -126,7 +126,7 @@ const Footer = styled.Text`
 `;
 
 // Create Document Component
-const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, cooCode, hraManagerCode, projectManagerCode, immediateSuperiorCode, supervisorCommentL1,
+const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, cooCode, hraManagerCode, projectManagerCode, immediateSupervisorCode, supervisorCommentL1,
   supervisorCommentL2, supervisorCommentL3, projectManagerCommentL1, projectManagerCommentL2, projectManagerCommentL3, ...props }) => (
   <Document>
     <Body size="A4" wrap>
@@ -150,26 +150,26 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
             </Input1>
           </Row>
           <Row>
-            <Label1>Employee No.:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 90, paddingLeft: 3, marginLeft: 22}}>
+            <Label1 style={{ paddingTop: 10 }}>Employee No.:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 90, paddingLeft: 3, paddingTop: 10, marginLeft: 22}}>
               {applicationData.employee_code === "" ? " " : applicationData.employee_code}
             </Input1>
-            <Label1 style={{ marginLeft: 5 }}>Grade (if applicable):   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 70, paddingLeft: 3, marginLeft: 5 }}>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Grade (if applicable):   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 70, paddingLeft: 3, paddingTop: 10, marginLeft: 5 }}>
               {applicationData.grade === "" ? " " : applicationData.grade}
             </Input1>
-            <Label1 style={{ marginLeft: 5 }}>Designation:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 93, paddingLeft: 3, marginLeft: 2 }}>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Designation:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 93, paddingLeft: 3, paddingTop: 10, marginLeft: 2 }}>
               {applicationData.designation === "" ? " " : applicationData.designation}
             </Input1>
           </Row>
           <Row>
-            <Label1>Department/Project:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 260, paddingLeft: 3, marginRight: 5 }}>
+            <Label1 style={{ paddingTop: 10 }}>Department/Project:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 260, paddingLeft: 3, paddingTop: 10, marginRight: 5 }}>
               {applicationData.department === "" ? " " : applicationData.department}
             </Input1>
-            <Label1>Nationality:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 93, paddingLeft: 3, marginLeft: 7 }}>
+            <Label1 style={{ paddingTop: 10 }}>Nationality:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 93, paddingLeft: 3, paddingTop: 10, marginLeft: 7 }}>
               {applicationData.nationality === "" ? " " : applicationData.nationality}
             </Input1>
           </Row>
@@ -185,28 +185,28 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
               </Row>
               <Label1>Supervisor/Manager Justification:</Label1>
               <View style={{ marginLeft: 10 }}>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.supervisor_notesL1 ? applicationData.supervisor_notesL1 : " "}
                 </Input1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.supervisor_notesL2 ? applicationData.supervisor_notesL2 : " "}
                 </Input1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.supervisor_notesL3 ? applicationData.supervisor_notesL3 : " "}
                 </Input1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.supervisor_notesL4 ? applicationData.supervisor_notesL4 : " "}
                 </Input1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.supervisor_notesL5 ? applicationData.supervisor_notesL5 : " "}
                 </Input1>
               </View>
               <Row style={{ paddingTop: 10 }}>
-                <Label1>Signature:</Label1>
+                <Label1 style={{ paddingTop: 15 }}>Signature:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 112, paddingLeft: 3, }}>
                   {applicationData.immidiate_supervisor_manager_signature ?
                     <View>
-                      <Image source={"http://localhost:3000/fetch/signature?code=" + immediateSuperiorCode} style={{width: 130,height: 20}}/>
+                      <Image source={"http://localhost:3000/fetch/signature?code=" + immediateSupervisorCode} style={{width: 130,height: 20}}/>
                     </View>
                     :
                     <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
@@ -214,8 +214,8 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                     </Text>
                   }
                 </Input1>
-                <Label1>Date:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 75, paddingLeft: 3 }}>
+                <Label1 style={{ paddingTop: 15 }}>Date:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 75, paddingLeft: 3, paddingTop: 15 }}>
                   {applicationData.immidiate_supervisor_sign_date ? moment(applicationData.immidiate_supervisor_sign_date).format("MM/DD/YYYY") : " "}
                 </Input1>
               </Row>
@@ -229,27 +229,27 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                   </Input1>
                 </Row>
                 <Label1>Project Manager Notes:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.project_manager_notesL1 ? applicationData.project_manager_notesL1 : " "}
                 </Input1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.project_manager_notesL2 ? applicationData.project_manager_notesL2 : " "}
                 </Input1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.project_manager_notesL3 ? applicationData.project_manager_notesL3 : " "}
                 </Input1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.project_manager_notesL4 ? applicationData.project_manager_notesL4 : " "}
                 </Input1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3 }}>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.project_manager_notesL5 ? applicationData.project_manager_notesL5 : " "}
                 </Input1>
                 <Row style={{ paddingTop: 10 }}>
-                  <Label1>Signature:</Label1>
+                  <Label1 style={{ paddingTop: 15 }}>Signature:</Label1>
                   <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, }}>
                     {applicationData.project_manager_signature ?
                       <View>
-                        {/* <Image source={"http://localhost:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/> */}
+                        <Image source={"http://localhost:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/>
                       </View>
                       :
                       <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
@@ -257,16 +257,16 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                       </Text>
                     }
                   </Input1>
-                  <Label1>Date:</Label1>
-                  <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 70, paddingLeft: 3 }}>
+                  <Label1 style={{ paddingTop: 15 }}>Date:</Label1>
+                  <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 70, paddingLeft: 3, paddingTop: 15 }}>
                     {applicationData.project_manager_sign_date ? moment(applicationData.project_manager_sign_date).format("MM/DD/YYYY") : " "}
                   </Input1>
                 </Row>
                 <RowEnd>
                   <View>
-                    {/* <Text style={{ textAlign: "center", fontSize: 9, width: 100, marginTop: 5 }}>
+                    <Text style={{ textAlign: "center", fontSize: 9, width: 100, marginTop: 5 }}>
                       <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.employee_code} style={{width: 130, height: 20}}/>
-                    </Text> */}
+                    </Text>
                     <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 180, paddingTop: "2px" }}>
                       Employee Signature
                     </Text>
@@ -289,32 +289,32 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
             </Input1>
           </Row>
           <Row>
-            <Label1>Current Basic Salary:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, marginLeft: 2 }}>
+            <Label1 style={{ paddingTop: 10 }}>Current Basic Salary:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, paddingTop: 10, marginLeft: 2 }}>
               {applicationData.basic ? applicationData.basic : " "}
             </Input1>
-            <Label1 style={{ marginLeft: 5 }}>Tranportation Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3 }}>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Tranportation Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3, paddingTop: 10 }}>
               {applicationData.transportation_allowance ? applicationData.transportation_allowance : " "}
             </Input1>
           </Row>
           <Row>
-            <Label1>General Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, marginLeft: 10 }}>
+            <Label1 style={{ paddingTop: 10 }}>General Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, paddingTop: 10, marginLeft: 10 }}>
               {applicationData.general_allowance ? applicationData.general_allowance : " "}
             </Input1>
-            <Label1 style={{ marginLeft: 5 }}>Telephone Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3, marginLeft: 12 }}>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Telephone Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3, paddingTop: 10, marginLeft: 12 }}>
               {applicationData.tel_allowance ? applicationData.tel_allowance : " "}
             </Input1>
           </Row>
           <Row>
-            <Label1>Housing Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, marginLeft: 9 }}>
+            <Label1 style={{ paddingTop: 10 }}>Housing Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, paddingTop: 10, marginLeft: 9 }}>
               {applicationData.housing_allowance ? applicationData.housing_allowance : " "}
             </Input1>
-            <Label1 style={{ marginLeft: 5 }}>Food Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3, marginLeft: 33 }}>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Food Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3, paddingTop: 10, marginLeft: 33 }}>
               {applicationData.food_allowance ? applicationData.food_allowance : " "}
             </Input1>
           </Row>
@@ -323,17 +323,19 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
         <Section>
           <Row>
             <View>
-              <Text style={{ fontSize: 11 }}>
-                HRA Manager
-              </Text>
-              <Row>
-                <CheckBox>{applicationData.hr_manager_approved === true ? "X" : " "}</CheckBox>
-                <CheckBoxLabel>Approved</CheckBoxLabel>
-              </Row>
-              <Row>
-                <CheckBox>{applicationData.hr_manager_approved === false ? "X" : " "}</CheckBox>
-                <CheckBoxLabel>Dispproved</CheckBoxLabel>
-              </Row>
+              <View style={{ marginLeft: 10 }}>
+                <Text style={{ fontSize: 11, paddingLeft: 10, paddingBottom: 5 }}>
+                  HRA Manager
+                </Text>
+                <Row>
+                  <CheckBox>{applicationData.hr_manager_approved === true ? "X" : " "}</CheckBox>
+                  <CheckBoxLabel>Approved</CheckBoxLabel>
+                </Row>
+                <Row>
+                  <CheckBox>{applicationData.hr_manager_approved === false ? "X" : " "}</CheckBox>
+                  <CheckBoxLabel>Dispproved</CheckBoxLabel>
+                </Row>
+              </View>
               <Row>
                 <Label1>Notes:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 17 }}>
@@ -341,7 +343,7 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                 </Input1>
               </Row>
               <Row>
-                <Label1>Signature:</Label1>
+                <Label1 style={{ paddingTop: 15 }}>Signature:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 3 }}>
                   {applicationData.hr_manager_signature ?
                     <View>
@@ -355,24 +357,26 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                 </Input1>
               </Row>
               <Row>
-                <Label1>Date:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 22 }}>
+                <Label1 style={{ paddingTop: 10 }}>Date:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10, marginLeft: 22 }}>
                   {applicationData.hr_manager_sign_date ? moment(applicationData.hr_manager_sign_date).format("MM/DD/YYYY") : " "}
                 </Input1>
               </Row>
             </View>
             <View style={{ marginLeft: 20 }}>
-              <Text style={{ fontSize: 11 }}>
-                Chief Operating Officer
-              </Text>
-              <Row>
-                <CheckBox>{applicationData.coo_approved === true ? "X" : " "}</CheckBox>
-                <CheckBoxLabel>Approved</CheckBoxLabel>
-              </Row>
-              <Row>
-                <CheckBox>{applicationData.coo_approved === false ? "X" : " "}</CheckBox>
-                <CheckBoxLabel>Dispproved</CheckBoxLabel>
-              </Row>
+              <View style={{ marginLeft: 10 }}>
+                <Text style={{ fontSize: 11, paddingLeft: 10, paddingBottom: 5 }}>
+                  Chief Operating Officer
+                </Text>
+                <Row>
+                  <CheckBox>{applicationData.coo_approved === true ? "X" : " "}</CheckBox>
+                  <CheckBoxLabel>Approved</CheckBoxLabel>
+                </Row>
+                <Row>
+                  <CheckBox>{applicationData.coo_approved === false ? "X" : " "}</CheckBox>
+                  <CheckBoxLabel>Dispproved</CheckBoxLabel>
+                </Row>
+              </View>
               <Row>
                 <Label1>Notes:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 17 }}>
@@ -380,7 +384,7 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                 </Input1>
               </Row>
               <Row>
-                <Label1>Signature:</Label1>
+                <Label1 style={{ paddingTop: 15 }}>Signature:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 3 }}>
                   {applicationData.coo_signature ?
                     <View>
@@ -394,24 +398,26 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                 </Input1>
               </Row>
               <Row>
-                <Label1>Date:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 22 }}>
+                <Label1 style={{ paddingTop: 10 }}>Date:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10, marginLeft: 22 }}>
                   {applicationData.coo_sign_date ? moment(applicationData.coo_sign_date).format("MM/DD/YYYY") : " "}
                 </Input1>
               </Row>
             </View>
             <View style={{ marginLeft: 20 }}>
-              <Text style={{ fontSize: 11 }}>
-                Chief Executive Officer
-              </Text>
-              <Row>
-                <CheckBox>{applicationData.ceo_approved === true ? "X" : " "}</CheckBox>
-                <CheckBoxLabel>Approved</CheckBoxLabel>
-              </Row>
-              <Row>
-                <CheckBox>{applicationData.ceo_approved === false ? "X" : " "}</CheckBox>
-                <CheckBoxLabel>Dispproved</CheckBoxLabel>
-              </Row>
+              <View style={{ marginLeft: 10 }}>
+                <Text style={{ fontSize: 11, paddingLeft: 10, paddingBottom: 5 }}>
+                  Chief Executive Officer
+                </Text>
+                <Row>
+                  <CheckBox>{applicationData.ceo_approved === true ? "X" : " "}</CheckBox>
+                  <CheckBoxLabel>Approved</CheckBoxLabel>
+                </Row>
+                <Row>
+                  <CheckBox>{applicationData.ceo_approved === false ? "X" : " "}</CheckBox>
+                  <CheckBoxLabel>Dispproved</CheckBoxLabel>
+                </Row>
+              </View>
               <Row>
                 <Label1>Notes:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 17 }}>
@@ -419,7 +425,7 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                 </Input1>
               </Row>
               <Row>
-                <Label1>Signature:</Label1>
+                <Label1 style={{ paddingTop: 15 }}>Signature:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 3 }}>
                   {applicationData.ceo_signature ?
                     <View>
@@ -433,8 +439,8 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                 </Input1>
               </Row>
               <Row>
-                <Label1>Date:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 22 }}>
+                <Label1 style={{ paddingTop: 10 }}>Date:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10, marginLeft: 22 }}>
                   {applicationData.ceo_sign_date ? moment(applicationData.ceo_sign_date).format("MM/DD/YYYY") : " "}
                 </Input1>
               </Row>
@@ -454,28 +460,28 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
             </Input1>
           </Row>
           <Row>
-            <Label1>General Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, marginLeft: 10 }}>
+            <Label1 style={{ paddingTop: 10 }}>General Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, paddingTop: 10, marginLeft: 10 }}>
               {applicationData.new_general_allowance ? applicationData.new_general_allowance : " "}
             </Input1>
-            <Label1 style={{ marginLeft: 5 }}>Telephone Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3, marginLeft: 12 }}>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Telephone Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3, paddingTop: 10, marginLeft: 12 }}>
               {applicationData.new_tel_allowance ? applicationData.new_tel_allowance : " "}
             </Input1>
           </Row>
           <Row>
-            <Label1>Housing Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, marginLeft: 10 }}>
+            <Label1 style={{ paddingTop: 10 }}>Housing Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, paddingTop: 10, marginLeft: 10 }}>
               {applicationData.new_housing_allowance ? applicationData.new_housing_allowance : " "}
             </Input1>
-            <Label1 style={{ marginLeft: 5 }}>Food Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3, marginLeft: 32 }}>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Food Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 138, paddingLeft: 3, paddingTop: 10, marginLeft: 32 }}>
               {applicationData.new_food_allowance ? applicationData.new_food_allowance : " "}
             </Input1>
           </Row>
           <Row style={{ marginLeft: 150 }}>
-            <Label1>Effective Date:</Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, }}>
+            <Label1 style={{ paddingTop: 10 }}>Effective Date:</Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10 }}>
               {applicationData.effective_date ? moment(applicationData.effective_date).format("MM/DD/YYYY") : " "}
             </Input1>
           </Row>

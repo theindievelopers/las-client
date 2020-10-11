@@ -15,13 +15,12 @@ import ResignationPDF from '../../../components/PDForms/ResignationPDF'
 
 const ResignationApprovalForm = React.memo(props => {
   const {
-    showForm, handleShowForm, selectedApplication, selectedApplicationData, isReady, handleRefresh, accounting, ceo, coo, hraManager, logisticsOfficer,
-    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior, selectedApproval, accessLevel, empCode, handleProjectManagerCommentL1,
-    handleProjectManagerCommentL2, handleProjectManagerCommentL3, handleProjectManagerCommentL4, handleSuvervisorCommentL1, handleSuvervisorCommentL2,
-    handleSuvervisorCommentL3, handleSuvervisorCommentL4, hideProjectManagerComments, hideSupervisorComments, handleShowProjectManagerCommentsInput,
-    handleShowSupervisorCommentsInput, handleSaveSupervisorComments, handleEditSupervisorCommentsInput, handleEditProjectManagerCommentsInput,
-    isEdit, handleSaveProjectManagerComments, handleEditHRCommentsInput, handleShowHRCommentsInput, hideHRComments, handleHRCommentL1, handleHRCommentL2,
-    handleSaveHRComments
+    showForm, handleShowForm, selectedApplication, selectedApplicationData, isReady, handleRefresh, ceo, coo, hraManager,
+    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior, selectedApproval, accessLevel, empCode, hideProjectManagerComments, hideSupervisorComments, 
+    handleShowProjectManagerCommentsInput, handleShowSupervisorCommentsInput, handleSaveSupervisorComments, handleEditSupervisorCommentsInput, 
+    handleEditProjectManagerCommentsInput, isEdit, handleSaveProjectManagerComments, handleEditHRCommentsInput, handleShowHRCommentsInput, hideHRComments, 
+    handleSaveHRComments, handleProjectManagerNotesChange, projectManagerNotes, handleSupervisorCommentsChange, supervisorComments,
+    handleHraCommentsChange, hraComments,
   } = props
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -61,9 +60,10 @@ const ResignationApprovalForm = React.memo(props => {
             </Col>
             <Col md={12}>
               <hr />
-              {accessLevel === 1 ?
+              {isReady ?
+                accessLevel === 1 ?
                 <div className="float-right mb-3">
-                  <Dropdown isOpen={dropdownOpen} toggle={toggleAction}>
+                  <Dropdown isOpen={dropdownOpen} toggle={toggleAction} disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}>
                     <DropdownToggle>
                       ACTIONS
                     </DropdownToggle>
@@ -87,6 +87,7 @@ const ResignationApprovalForm = React.memo(props => {
                   </Dropdown>
                 </div>
                 : ""
+                : ""
               }
               {empCode === selectedApplicationData.project_manager ?
                 <React.Fragment>
@@ -107,14 +108,13 @@ const ResignationApprovalForm = React.memo(props => {
               {accessLevel === 1 || empCode === selectedApplicationData.project_manager ?
                 <div style={{ paddingBottom: 10, paddingTop: 10 }} hidden={hideProjectManagerComments}>
                   <Label>Project Manger Comments:</Label>
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleProjectManagerCommentL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
-                    defaultValue={isEdit ? selectedApplication.application_data.project_manager_commentL1 : ""}
-                  />
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleProjectManagerCommentL2} style={{ borderRadius: 0 }}
-                    defaultValue={isEdit ? selectedApplication.application_data.project_manager_commentL2 : ""}
-                  />
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleProjectManagerCommentL3} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
-                    defaultValue={isEdit ? selectedApplication.application_data.project_manager_commentL3 : ""}
+                  <Input
+                    bsSize="sm"
+                    type="textarea"
+                    onBlur={handleProjectManagerNotesChange}
+                    rows="4"
+                    maxLength="320"
+                    defaultValue={isEdit ? projectManagerNotes : ""}
                   />
                   <div style={{ marginTop: 4 }}>
                     <Button color="primary" onClick={handleSaveProjectManagerComments} style={{ marginRight: "4px" }}
@@ -144,14 +144,13 @@ const ResignationApprovalForm = React.memo(props => {
               {accessLevel === 1 || empCode === selectedApplicationData.immediate_supervisor ?
                 <div style={{ paddingBottom: 10, paddingTop: 10 }} hidden={hideSupervisorComments}>
                   <Label>Supervisor Comments:</Label>
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleSuvervisorCommentL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
-                    defaultValue={isEdit ? selectedApplication.application_data.supervisor_commentL1 : ""}
-                  />
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleSuvervisorCommentL2} style={{ borderRadius: 0 }}
-                    defaultValue={isEdit ? selectedApplication.application_data.supervisor_commentL2 : ""}
-                  />
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleSuvervisorCommentL3} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
-                    defaultValue={isEdit ? selectedApplication.application_data.supervisor_commentL3 : ""}
+                  <Input
+                    bsSize="sm"
+                    type="textarea"
+                    onBlur={handleSupervisorCommentsChange}
+                    rows="4"
+                    maxLength="320"
+                    defaultValue={isEdit ? supervisorComments : ""}
                   />
                   <div style={{ marginTop: 4 }}>
                     <Button color="primary" onClick={handleSaveSupervisorComments} style={{ marginRight: "4px" }}>SUBMIT</Button>
@@ -183,11 +182,13 @@ const ResignationApprovalForm = React.memo(props => {
               {accessLevel === 1 || empCode === hraManager.code ?
                 <div style={{ paddingBottom: 10, paddingTop: 10 }} hidden={hideHRComments}>
                   <Label>HRA Comments:</Label>
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleHRCommentL1} style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
-                    defaultValue={isEdit ? selectedApplication.application_data.hr_manager_commentL1 : ""}
-                  />
-                  <Input bsSize="sm" maxLength="120" type="text" placeholder="" onBlur={handleHRCommentL2} style={{ borderRadius: 0 }}
-                    defaultValue={isEdit ? selectedApplication.application_data.hr_manager_commentL2 : ""}
+                  <Input
+                    bsSize="sm"
+                    type="textarea"
+                    onBlur={handleHraCommentsChange}
+                    rows="4"
+                    maxLength="210"
+                    defaultValue={isEdit ? hraComments : ""}
                   />
                   <div style={{ marginTop: 4 }}>
                     <Button color="primary" onClick={handleSaveHRComments} style={{ marginRight: "4px" }}>SUBMIT</Button>

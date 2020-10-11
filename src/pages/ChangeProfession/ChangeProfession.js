@@ -42,7 +42,6 @@ const ChangeProfession = React.memo(() => {
     fetch('http://localhost:3000/application')
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if(data) {
           let approved = []
           let denied = []
@@ -144,7 +143,6 @@ const ChangeProfession = React.memo(() => {
     let selectedEmployeeInput = document.getElementById("selectedEmployee")
     selectedEmployeeInput.value = selected[0].fullname
     setSelectedEmployee(selected)
-    console.log(selected)
     setDesignation(selected[0].cost_allocation_actual_job_title)
     setEmployeeCode(selected[0].code)
     setDepartment(selected[0].cost_allocation_site)
@@ -356,7 +354,6 @@ const ChangeProfession = React.memo(() => {
               })
               setIsLoading(false)
             } else {
-              console.log(data)
               let newChangeProfessions = [...changeProfessions]
               newChangeProfessions.push(data)
               setChangeProfessions(newChangeProfessions)

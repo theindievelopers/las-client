@@ -47,7 +47,6 @@ const StaffRequisition = () => {
           data.map(indivData => {
             if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.employee_code) {
               if(indivData.application_form_code === "STAFF_REQUISITION"){
-                console.log(indivData)
                   if (indivData.status === "APPROVED") {
                     approved.push(indivData)
                   } else if (indivData.status === "DENIED") {
@@ -78,7 +77,6 @@ const StaffRequisition = () => {
   }
 
   const handleEdit = (staffRequisition) => {
-    console.log(staffRequisition)
     let data = staffRequisition.application_data
     setIsEdit(true)
     setSelectedStaffRequisition(staffRequisition)
@@ -211,8 +209,6 @@ const StaffRequisition = () => {
   }
 
   const handleSubmit = () => {
-    console.log(selectedRequester)
-    console.log(selectedProjSvsr)
     setIsLoading(true)
     if(department === "" || jobTitle === "" || typeOfRequest === "" || requestReasonsL1 === "" || 
       resourceAvailability === "" || selectedProjSvsr === "" || selectedRequester === ""
@@ -276,7 +272,6 @@ const StaffRequisition = () => {
         })
           .then(res => res.json())
           .then(data => {
-            console.log(data)
             if (data.error) {
               Swal.fire({
                 icon: 'error',
@@ -346,7 +341,6 @@ const StaffRequisition = () => {
         })
           .then(res => res.json())
           .then(data => {
-            console.log(data)
             if (data.error) {
               Swal.fire({
                 icon: 'error',

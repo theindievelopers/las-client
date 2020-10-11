@@ -15,9 +15,9 @@ import WorkerPDF from '../../../components/PDForms/WorkerPDF';
 const LeaveApprovalForm = React.memo(props => {
   const {
     showForm, handleShowForm, selectedApplication, selectedApplicationData, isReady, handleRefresh, accounting, ceo, coo, hraManager, logisticsOfficer,
-    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior, selectedApproval, accessLevel
+    handleApprove, handleDeny, handleReview, projectManager, immediateSuperior, selectedApproval, accessLevel, handleReviewWorker, handleDenyWorker,
+    handleApproveWorker
   } = props
-
   return (
     <React.Fragment>
       <Modal
@@ -55,6 +55,7 @@ const LeaveApprovalForm = React.memo(props => {
                   >
                     {selectedApplication.application_form_code === "LEAVE_STAFF" ?
                       <StaffPDF
+                        applicationData={selectedApplicationData}
                         name={selectedApplicationData.name}
                         department={selectedApplicationData.project}
                         employeeNum={selectedApplicationData.employee_code}
@@ -114,6 +115,7 @@ const LeaveApprovalForm = React.memo(props => {
                       />
                       : 
                         <WorkerPDF
+                          applicationData={selectedApplicationData}
                           name={selectedApplicationData.name}
                           department={selectedApplicationData.project}
                           employeeNum={selectedApplicationData.employee_code}
@@ -134,6 +136,9 @@ const LeaveApprovalForm = React.memo(props => {
                           leaveTo={selectedApplicationData.leave_to}
                           backOn={selectedApplicationData.be_back_on}
                           employeeSignDate={selectedApplicationData.employee_signature_date}
+                          hraManagerCode={hraManager.code}
+                          accountingCode={accounting.code}
+                          immediateSuperiorCode={immediateSuperior.code}
                         />
                     }
                   </PDFViewer>
@@ -150,13 +155,13 @@ const LeaveApprovalForm = React.memo(props => {
             <Button color="secondary" onClick={handleRefresh} style={{marginRight: "4px"}}>CANCEL</Button>
             {accessLevel !== 3 ?
               <React.Fragment>
-                <Button color="primary" onClick={handleReview} style={{marginRight: "4px"}}
+                <Button color="primary" onClick={selectedApplication.application_form_code === "LEAVE_STAFF" ? handleReview : handleReviewWorker} style={{marginRight: "4px"}}
                   disabled={selectedApplication.status === "DENIED" || selectedApplication.status === "APPROVED" || selectedApproval.status === "REVIEW" || selectedApproval.status === "APPROVED" || selectedApproval.status === "DENIED"}
                 >REVIEW</Button>  
-                <Button color="danger" onClick={handleDeny} style={{marginRight: "4px"}}
+                <Button color="danger" onClick={selectedApplication.application_form_code === "LEAVE_STAFF" ? handleDeny : handleDenyWorker} style={{marginRight: "4px"}}
                   disabled={selectedApplication.status === "APPROVED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                 >DENY</Button>  
-                <Button color="success" onClick={handleApprove}
+                <Button color="success" onClick={selectedApplication.application_form_code === "LEAVE_STAFF" ? handleApprove : handleApproveWorker}
                   disabled={selectedApplication.status === "DENIED" || selectedApplication.status === "APPROVED" || selectedApproval.status === "APPROVED"}
                 >APPROVE</Button>  
               </React.Fragment>

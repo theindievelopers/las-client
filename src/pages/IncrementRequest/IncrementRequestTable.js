@@ -60,7 +60,7 @@ class IncrementRequestTable extends Component {
           rowData => ({
             icon: props => <i className="far fa-file-pdf"></i>,
             tooltip: 'Show PDF',
-            // disabled: rowData.status === "DENIED" || rowData.status === "PROCESSING" || rowData.status === "REVIEW" || this.props.accessLevel !== 1,
+            disabled: rowData.status === "DENIED" || rowData.status === "PROCESSING" || rowData.status === "REVIEW" || this.props.accessLevel !== 1,
             render: rowData => {
               let appData = rowData.application_data
                 return (
@@ -69,7 +69,12 @@ class IncrementRequestTable extends Component {
                   >
                     <IncrementRequestPDF 
                       applicationData={appData}
-
+                      selectedApplication={rowData}
+                      ceoCode={this.props.ceo.code}
+                      cooCode={this.props.coo.code}
+                      hraManagerCode={this.props.hraManager.code}
+                      projectManagerCode={appData.project_manager}
+                      immediateSupervisorCode={appData.immediate_supervisor}
                     />
                   </PDFViewer>
                 )

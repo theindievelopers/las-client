@@ -146,14 +146,14 @@ const ChangeProfessionPDF = ({ selectedApplication, applicationData, ceoCode, co
             <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 91, paddingLeft: 3 }}>{applicationData.employee_code === "" ? " " : applicationData.employee_code}</Input1>
           </Row>
           <Row>
-            <Label1>Designation:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 255, paddingLeft: 3, marginLeft: 30}}>{applicationData.designation === "" ? " " : applicationData.designation}</Input1>
-            <Label1 style={{ marginLeft: 5 }}>Nationality:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 91, paddingLeft: 3, marginLeft: 13 }}>{applicationData.nationality === "" ? " " : applicationData.nationality}</Input1>
+            <Label1 style={{ paddingTop: 10 }}>Designation:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 255, paddingLeft: 3, paddingTop: 10, marginLeft: 30}}>{applicationData.designation === "" ? " " : applicationData.designation}</Input1>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Nationality:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 91, paddingLeft: 3, paddingTop: 10, marginLeft: 13 }}>{applicationData.nationality === "" ? " " : applicationData.nationality}</Input1>
           </Row>
           <Row>
-            <Label1>Department/Project:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 415, paddingLeft: 3 }}>{applicationData.department === "" ? " " : applicationData.department}</Input1>
+            <Label1 style={{ paddingTop: 10 }}>Department/Project:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 415, paddingLeft: 3,  paddingTop: 10 }}>{applicationData.department === "" ? " " : applicationData.department}</Input1>
           </Row>
         </Section>
         <Section>
@@ -323,28 +323,28 @@ const ChangeProfessionPDF = ({ selectedApplication, applicationData, ceoCode, co
             </Input1>
           </Row>
           <Row>
-            <Label1>General Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, marginLeft: 10 }}>
+            <Label1 style={{ paddingTop: 10 }}>General Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, paddingTop: 10, marginLeft: 10 }}>
               {applicationData.new_general_allowance ? applicationData.new_general_allowance : " "}
             </Input1>
-            <Label1 style={{ marginLeft: 5 }}>Telephone Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 133, paddingLeft: 3, marginLeft: 16 }}>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Telephone Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 133, paddingLeft: 3, paddingTop: 10, marginLeft: 16 }}>
               {applicationData.new_tel_allowance ? applicationData.new_tel_allowance : " "}
             </Input1>
           </Row>
           <Row>
-            <Label1>Housing Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, marginLeft: 10 }}>
+            <Label1 style={{ paddingTop: 10 }}>Housing Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 160, paddingLeft: 3, paddingTop: 10, marginLeft: 10 }}>
               {applicationData.new_housing_allowance ? applicationData.new_housing_allowance : " "}
             </Input1>
-            <Label1 style={{ marginLeft: 5 }}>Food Allowance:   </Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 133, paddingLeft: 3, marginLeft: 36 }}>
+            <Label1 style={{ marginLeft: 5, paddingTop: 10 }}>Food Allowance:   </Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 133, paddingLeft: 3, paddingTop: 10, marginLeft: 36 }}>
               {applicationData.new_food_allowance ? applicationData.new_food_allowance : " "}
             </Input1>
           </Row>
           <Row style={{ marginLeft: 150 }}>
-            <Label1>Effective Date:</Label1>
-            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, }}>
+            <Label1 style={{ paddingTop: 10 }}>Effective Date:</Label1>
+            <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10 }}>
               {applicationData.effective_date ? moment(applicationData.effective_date).format("MM/DD/YYYY") : " "}
             </Input1>
           </Row>
@@ -353,20 +353,22 @@ const ChangeProfessionPDF = ({ selectedApplication, applicationData, ceoCode, co
         <Section>
           <Row>
             <View>
-              <Text style={{ fontSize: 11 }}>
-                HRA Manager
-              </Text>
+              <View style={{ marginLeft: 10 }}>
+                <Text style={{ fontSize: 11, paddingLeft: 10, paddingBottom: 5  }}>
+                  HRA Manager
+                </Text>
+                <Row>
+                  <CheckBox></CheckBox>
+                  <CheckBoxLabel>Approved</CheckBoxLabel>
+                </Row>
+                <Row>
+                  <CheckBox></CheckBox>
+                  <CheckBoxLabel>Dispproved</CheckBoxLabel>
+                </Row>
+              </View>
               <Row>
-                <CheckBox></CheckBox>
-                <CheckBoxLabel>Approved</CheckBoxLabel>
-              </Row>
-              <Row>
-                <CheckBox></CheckBox>
-                <CheckBoxLabel>Dispproved</CheckBoxLabel>
-              </Row>
-              <Row>
-                <Label1>Notes:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 17 }}>
+                <Label1 style={{ paddingTop: 10}}>Notes:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10, marginLeft: 17 }}>
                   {applicationData.hr_manager_notes ? applicationData.hr_manager_notes : " "}
                 </Input1>
               </Row>
@@ -385,27 +387,29 @@ const ChangeProfessionPDF = ({ selectedApplication, applicationData, ceoCode, co
                 </Input1>
               </Row>
               <Row>
-                <Label1>Date:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 22 }}>
+                <Label1 style={{ paddingTop: 10 }}>Date:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10, marginLeft: 22 }}>
                   {applicationData.hr_manager_sign_date ? moment(applicationData.hr_manager_sign_date).format("MM/DD/YYYY") : " "}
                 </Input1>
               </Row>
             </View>
             <View style={{ marginLeft: 20 }}>
-              <Text style={{ fontSize: 11 }}>
-                Chief Operating Officer
-              </Text>
+              <View style={{ marginLeft: 10 }}>
+                <Text style={{ fontSize: 11, paddingLeft: 10, paddingBottom: 5  }}>
+                  Chief Operating Officer
+                </Text>
+                <Row>
+                  <CheckBox></CheckBox>
+                  <CheckBoxLabel>Approved</CheckBoxLabel>
+                </Row>
+                <Row>
+                  <CheckBox></CheckBox>
+                  <CheckBoxLabel>Dispproved</CheckBoxLabel>
+                </Row>
+              </View>
               <Row>
-                <CheckBox></CheckBox>
-                <CheckBoxLabel>Approved</CheckBoxLabel>
-              </Row>
-              <Row>
-                <CheckBox></CheckBox>
-                <CheckBoxLabel>Dispproved</CheckBoxLabel>
-              </Row>
-              <Row>
-                <Label1>Notes:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 17 }}>
+                <Label1 style={{ paddingTop: 10 }}>Notes:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10, marginLeft: 17 }}>
                   {applicationData.coo_notes ? applicationData.coo_notes : " "}
                 </Input1>
               </Row>
@@ -424,27 +428,29 @@ const ChangeProfessionPDF = ({ selectedApplication, applicationData, ceoCode, co
                 </Input1>
               </Row>
               <Row>
-                <Label1>Date:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 22 }}>
+                <Label1 style={{ paddingTop: 10 }}>Date:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10, marginLeft: 22 }}>
                   {applicationData.coo_sign_date ? moment(applicationData.coo_sign_date).format("MM/DD/YYYY") : " "}
                 </Input1>
               </Row>
             </View>
             <View style={{ marginLeft: 20 }}>
-              <Text style={{ fontSize: 11 }}>
-                Chief Executive Officer
-              </Text>
+              <View style={{ marginLeft: 10 }}>
+                <Text style={{ fontSize: 11, paddingLeft: 10, paddingBottom: 5  }}>
+                  Chief Executive Officer
+                </Text>
+                <Row>
+                  <CheckBox>{applicationData.ceo_signature ? "X" : " "}</CheckBox>
+                  <CheckBoxLabel>Approved</CheckBoxLabel>
+                </Row>
+                <Row>
+                  <CheckBox>{selectedApplication.status === "DENIED" ? "X" : " "}</CheckBox>
+                  <CheckBoxLabel>Dispproved</CheckBoxLabel>
+                </Row>
+              </View>
               <Row>
-                <CheckBox>{applicationData.ceo_signature ? "X" : " "}</CheckBox>
-                <CheckBoxLabel>Approved</CheckBoxLabel>
-              </Row>
-              <Row>
-                <CheckBox>{selectedApplication.status === "DENIED" ? "X" : " "}</CheckBox>
-                <CheckBoxLabel>Dispproved</CheckBoxLabel>
-              </Row>
-              <Row>
-                <Label1>Notes:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 17 }}>
+                <Label1 style={{ paddingTop: 10}}>Notes:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10, marginLeft: 17 }}>
                   {applicationData.ceo_notes ? applicationData.ceo_notes : " "}
                 </Input1>
               </Row>
@@ -463,8 +469,8 @@ const ChangeProfessionPDF = ({ selectedApplication, applicationData, ceoCode, co
                 </Input1>
               </Row>
               <Row>
-                <Label1>Date:</Label1>
-                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, marginLeft: 22 }}>
+                <Label1 style={{ paddingTop: 10}}>Date:</Label1>
+                <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 109, paddingLeft: 3, paddingTop: 10, marginLeft: 22 }}>
                   {applicationData.ceo_sign_date ? moment(applicationData.ceo_sign_date).format("MM/DD/YYYY") : " "}
                 </Input1>
               </Row>

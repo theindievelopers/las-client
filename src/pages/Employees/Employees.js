@@ -168,7 +168,6 @@ const Employees = React.memo( props => {
   }
 
   const handleEdit = (employee) => {
-    console.log(employee)
     setShowFrom(!showForm)
     setIsedit(true)
     setSelectedEmployee(employee)
@@ -303,7 +302,6 @@ const Employees = React.memo( props => {
   }
 
   const handleHousingAllowanceChange = e => {
-    console.log(e.target.value)
     setHousingAllowance(parseInt(e.target.value, 10))
   }
 
@@ -428,7 +426,6 @@ const Employees = React.memo( props => {
   }
 
   const handleSubmit = () => {
-    console.log(housingAllowance)
     let calc = [basic, generalAllowance, hra, transportationAllowance, telAllowance, ticketAllowance, foodAllowance, medicalAllowance, housingAllowance]
     const total = calc.reduce((accumulator, currentValue) => accumulator + currentValue);
     if(fullname === "" || employeeCode === "" || dob === "" || nationality === "" || passportNum === "" || residencePermit === "" || healthCardNum === "") {
@@ -496,7 +493,6 @@ const Employees = React.memo( props => {
       })
         .then(res => res.json())
         .then(data => {
-          console.log("EDITED", data)
           if(data.success){
             setIsedit(false)
             handleRefresh()
@@ -568,7 +564,6 @@ const Employees = React.memo( props => {
       })
         .then(res => res.json())
         .then(data => {
-          console.log("NEW",data)
           setIsLoading(true)
           if(data.error){
             Swal.fire({

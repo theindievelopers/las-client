@@ -19,8 +19,6 @@ const StaffRequisitionForm = ({showForm, handleRefresh,  handleShowForm,handleDe
   handleHideProjSvsrList, handleTypeOfRequestChange, handleResourceAvailable,hideRequesterList, handleHideRequesterList, handleFilterRequester,
   selectRequester, isEdit, selectedStaffRequisition, requestReasons, projectManager, searchField,
   ...props}) => {
-
-    console.log(projectManager)
   return (
     <React.Fragment>
       <Modal

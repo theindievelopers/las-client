@@ -162,7 +162,6 @@ const ChangeProfessionApproval = React.memo(() => {
       if(indivApplication.collateid === data.collateid) {
         setSelectedApplication(indivApplication)
         setSelectedApplicationData(indivApplication.application_data)
-        console.log(indivApplication.application_data)
         projectManID = indivApplication.application_data.project_manager
         immediateSupID = indivApplication.application_data.immediate_supervisor
       }

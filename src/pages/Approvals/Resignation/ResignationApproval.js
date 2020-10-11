@@ -37,12 +37,15 @@ const ResignationApproval = React.memo(props => {
   const [supervisorCommentL1, setSupervisorCommentL1] = useState("")
   const [supervisorCommentL2, setSupervisorCommentL2] = useState("")
   const [supervisorCommentL3, setSupervisorCommentL3] = useState("")
+  const [supervisorComments, setSupervisorComments] = useState("")
   const [projectManagerCommentL1, setProjectManagerCommentL1] = useState("")
   const [projectManagerCommentL2, setProjectManagerCommentL2] = useState("")
   const [projectManagerCommentL3, setProjectManagerCommentL3] = useState("")
+  const [projectManagerNotes, setProjectManagerNotes] = useState("")
   const [hideHRComments, setHideHRComments] = useState(true)
   const [hrCommentsL1, setHRCommentsL1] = useState("")
   const [hrCommentsL2, setHRCommentsL2] = useState("")
+  const [hraComments, setHraComments] = useState("")
   
 
   useEffect(() => {
@@ -184,27 +187,42 @@ const ResignationApproval = React.memo(props => {
     setHideSupervisorComments(!hideSupervisorComments)
   }
 
-  const handleSuvervisorCommentL1 = (e) => {  
-    setSupervisorCommentL1(e.target.value)
+  const handleSupervisorCommentsChange = (e) => {
+    let supervisorComments = e.target.value.split(/[\s]+/)
+    let trimmedSupervisorCommentsL1 = []
+    let trimmedSupervisorCommentsL2 = []
+    let trimmedSupervisorCommentsL3 = []
+    supervisorComments.map(word => {
+      if(trimmedSupervisorCommentsL1.length <=17) {
+        return trimmedSupervisorCommentsL1.push(word)
+      } else if(trimmedSupervisorCommentsL2.length <=17) {
+        return trimmedSupervisorCommentsL2.push(word)
+      } else {
+        return trimmedSupervisorCommentsL3.push(word)
+      }
+    })
+    setSupervisorCommentL1(trimmedSupervisorCommentsL1.join(" "))
+    setSupervisorCommentL2(trimmedSupervisorCommentsL2.join(" "))
+    setSupervisorCommentL3(trimmedSupervisorCommentsL3.join(" "))
   }
 
-  const handleSuvervisorCommentL2 = (e) => {
-    setSupervisorCommentL2(e.target.value)
-  }
-  const handleSuvervisorCommentL3 = (e) => {
-    setSupervisorCommentL3(e.target.value)
-  }
-
-  const handleProjectManagerCommentL1 = (e) => {
-    setProjectManagerCommentL1(e.target.value)
-  }
-
-  const handleProjectManagerCommentL2 = (e) => {
-    setProjectManagerCommentL2(e.target.value)
-  }
-
-  const handleProjectManagerCommentL3 = (e) => {
-    setProjectManagerCommentL3(e.target.value)
+  const handleProjectManagerNotesChange = (e) => {
+    let projectManagerNotes = e.target.value.split(/[\s]+/)
+    let trimmedProjManNotesL1 = []
+    let trimmedProjManNotesL2 = []
+    let trimmedProjManNotesL3 = []
+    projectManagerNotes.map(word => {
+      if(trimmedProjManNotesL1.length <=17) {
+        return trimmedProjManNotesL1.push(word)
+      } else if(trimmedProjManNotesL2.length <=17) {
+        return trimmedProjManNotesL2.push(word)
+      } else {
+        return trimmedProjManNotesL3.push(word)
+      }
+    })
+    setProjectManagerCommentL1(trimmedProjManNotesL1.join(" "))
+    setProjectManagerCommentL2(trimmedProjManNotesL2.join(" "))
+    setProjectManagerCommentL3(trimmedProjManNotesL3.join(" "))
   }
   
 
@@ -215,6 +233,9 @@ const ResignationApproval = React.memo(props => {
     setSupervisorCommentL1(applicationData.supervisor_commentL1)
     setSupervisorCommentL2(applicationData.supervisor_commentL2)
     setSupervisorCommentL3(applicationData.supervisor_commentL3)
+    setSupervisorComments(
+      `${applicationData.supervisor_commentL1} ${applicationData.supervisor_commentL2} ${applicationData.supervisor_commentL3}`
+    )
   }
 
   const handleEditProjectManagerCommentsInput = () => {
@@ -224,6 +245,9 @@ const ResignationApproval = React.memo(props => {
     setProjectManagerCommentL1(applicationData.project_manager_commentL1)
     setProjectManagerCommentL2(applicationData.project_manager_commentL2)
     setProjectManagerCommentL3(applicationData.project_manager_commentL3)
+    setProjectManagerNotes(
+      `${applicationData.project_manager_commentL1} ${applicationData.project_manager_commentL2} ${applicationData.project_manager_commentL3}`
+    )
   }
 
   const handleEditHRCommentsInput = () => {
@@ -232,6 +256,9 @@ const ResignationApproval = React.memo(props => {
     setHideHRComments(!hideHRComments)
     setHRCommentsL1(applicationData.hr_manager_commentL1)
     setHRCommentsL2(applicationData.hr_manager_commentL2)
+    setHraComments(
+      `${applicationData.hr_manager_commentL1} ${applicationData.hr_manager_commentL2}`
+    )
   }
   
   const handleShowHRCommentsInput = () => {
@@ -244,6 +271,21 @@ const ResignationApproval = React.memo(props => {
   
   const handleHRCommentL2 = (e) => {
     setHRCommentsL2(e.target.value)
+  }
+
+  const handleHraCommentsChange = (e) => {
+    let hraComments = e.target.value.split(/[\s]+/)
+    let trimmedHraCommentsL1 = []
+    let trimmedHraCommentsL2 = []
+    hraComments.map(word => {
+      if(trimmedHraCommentsL1.length <=17) {
+        return trimmedHraCommentsL1.push(word)
+      } else {
+        return trimmedHraCommentsL2.push(word)
+      }
+    })
+    setHRCommentsL1(trimmedHraCommentsL1.join(" "))
+    setHRCommentsL2(trimmedHraCommentsL2.join(" "))
   }
 
   const handleSaveHRComments = () => {
@@ -271,8 +313,8 @@ const ResignationApproval = React.memo(props => {
           employee_signature: selectedApplication.application_data.employee_signature,
           employee_signature_date: selectedApplication.application_data.employee_signature_date,
           supervisor_commentL1: selectedApplication.application_data.supervisor_commentL1,
-          supervisor_commentL2: selectedApplication.application_data.supervisor_commentL1,
-          supervisor_commentL3: selectedApplication.application_data.supervisor_commentL1,
+          supervisor_commentL2: selectedApplication.application_data.supervisor_commentL2,
+          supervisor_commentL3: selectedApplication.application_data.supervisor_commentL3,
           immediate_supervisor: selectedApplication.application_data.immediate_supervisor,
           immidiate_supervisor_manager_signature: selectedApplication.application_data.immidiate_supervisor_manager_signature,
           immidiate_supervisor_sign_date: selectedApplication.application_data.immidiate_supervisor_sign_date,
@@ -567,16 +609,20 @@ const ResignationApproval = React.memo(props => {
     if (selectedApproval.approver_id === ceo.code) {
       ceoSign = ceo.signature
       ceoSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === coo.code) {
+    }
+    if (selectedApproval.approver_id === coo.code) {
       cooSign = coo.signature
       cooSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === hraManager.code) {
+    }
+    if (selectedApproval.approver_id === hraManager.code) {
       hraSign = hraManager.signature
       hraSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === immediateSuperior.code) {
+    }
+    if (selectedApproval.approver_id === immediateSuperior.code) {
       immSign = immediateSuperior.signature
       immSignDate = moment(new Date()).format("MM/DD/YYYY")
-    } else if (selectedApproval.approver_id === projectManager.code) {
+    }
+    if (selectedApproval.approver_id === projectManager.code) {
       projSign = projectManager.signature
       projSignDate = moment(new Date()).format("MM/DD/YYYY")
     }
@@ -919,12 +965,6 @@ const ResignationApproval = React.memo(props => {
             handleShowProjectManagerCommentsInput={handleShowProjectManagerCommentsInput}
             handleShowSupervisorCommentsInput={handleShowSupervisorCommentsInput}
             handleSaveSupervisorComments={handleSaveSupervisorComments}
-            handleSuvervisorCommentL1={handleSuvervisorCommentL1}
-            handleSuvervisorCommentL2={handleSuvervisorCommentL2}
-            handleSuvervisorCommentL3={handleSuvervisorCommentL3}
-            handleProjectManagerCommentL1={handleProjectManagerCommentL1}
-            handleProjectManagerCommentL2={handleProjectManagerCommentL2}
-            handleProjectManagerCommentL3={handleProjectManagerCommentL3}
             supervisorCommentL1={supervisorCommentL1}
             supervisorCommentL2={supervisorCommentL2}
             supervisorCommentL3={supervisorCommentL3}
@@ -938,6 +978,12 @@ const ResignationApproval = React.memo(props => {
             handleHRCommentL1={handleHRCommentL1}
             handleHRCommentL2={handleHRCommentL2}
             handleSaveHRComments={handleSaveHRComments}
+            handleProjectManagerNotesChange={handleProjectManagerNotesChange}
+            projectManagerNotes={projectManagerNotes}
+            handleSupervisorCommentsChange={handleSupervisorCommentsChange}
+            supervisorComments={supervisorComments}
+            handleHraCommentsChange={handleHraCommentsChange}
+            hraComments={hraComments}
           />
         </div>
       </div>

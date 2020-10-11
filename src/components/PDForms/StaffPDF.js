@@ -119,7 +119,7 @@ const Footer = styled.Text`
 
 // Create Document Component
 const StaffPDF = React.memo(({ 
-    name, department, departureDate, employeeNum, position, returnDate,contactNum, typeOfLeave, handOverSuccessor,handOverSuccessorName,handOverSuccessorCode,
+    applicationData, name, department, departureDate, employeeNum, position, returnDate,contactNum, typeOfLeave, handOverSuccessor,handOverSuccessorName,handOverSuccessorCode,
     handOverDocsCode,handOverDocsName,itemIssued,itemIssued2,itemIssued3,itemIssued4,itemRemarks,itemRemarks2,itemRemarks3,itemRemarks4,recievedTicket,recievedSettlement,
     recievedOthers,leaveFrom,leaveTo,backOn,employeeSignature,recievedOthersRemarks,
     employeeSignDate,airportDepartureDate,airportArrivalDate,airportAccommodation,airportMobile, accountingCode, ceoCode, cooCode, hraManagerCode, logisticsOfficerCode, 
@@ -313,9 +313,9 @@ const StaffPDF = React.memo(({
             </View>
             <View style={{ paddingLeft: "20px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                {immidiateSupSign ? 
+                {applicationData.project_manager_signature_and_date ? 
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + immediateSuperiorCode} style={{width: 130, height: 20}}/>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.project_manager} style={{width: 130, height: 20}}/>
                     <Text>{moment(immidiateSupSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   :
@@ -335,9 +335,9 @@ const StaffPDF = React.memo(({
           <Row style={{ paddingTop: "0px", paddingBottom: "0px", justifyContent: "center" }}>
             <View style={{}}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                {projectManagerSign ?
+                {applicationData.immidiate_supervisor_manager_signature_and_date ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.immediate_supervisor} style={{width: 130,height: 20}}/>
                     <Text>{moment(projectManagerSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   :
@@ -531,8 +531,8 @@ const StaffPDF = React.memo(({
                     <Text>{moment(hraSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
-                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
-                    Placeholder
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 28, width: 220, marginLeft: "5px", color: "white" }}>
+                    P
                   </Text>
                 }
               </Text>
@@ -551,8 +551,8 @@ const StaffPDF = React.memo(({
                     <Text>{moment(cooSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
-                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
-                    Placeholder
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 28, width: 220, marginLeft: "5px", color: "white" }}>
+                    P
                   </Text>
                 }
               </Text>
@@ -571,9 +571,9 @@ const StaffPDF = React.memo(({
                     <Text>{moment(ceoSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
-                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 220, marginLeft: "5px", color: "white" }}>
-                    Placeholder
-                  </Text>
+                    <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 28, width: 10, marginLeft: "5px", color: "white" }}>
+                      P
+                    </Text>
                 }
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 150, paddingTop: "2px" }}>
