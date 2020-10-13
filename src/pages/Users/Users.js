@@ -4,7 +4,7 @@ import Topbar from '../../Layout/Topbar'
 import { CredsContext } from '../../context/Context';
 
 const Users = () => {
-  const { empCode, accessLevel, name, isLoggedIn, employees, username } = useContext(CredsContext)
+  const { isLoggedIn } = useContext(CredsContext)
 
   useEffect(() => {
     if(!isLoggedIn) {

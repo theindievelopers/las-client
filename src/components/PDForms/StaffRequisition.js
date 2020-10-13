@@ -37,11 +37,11 @@ const Row = styled.View`
   flex-direction: row;
 `;
 
-const RowEnd = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-`;
+// const RowEnd = styled.View`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: flex-end;
+// `;
 
 const Header = styled.Text`
   color: grey;
@@ -74,11 +74,11 @@ const Label1 = styled.Text`
   padding-top: 5px;
 `;
 
-const Label2 = styled.Text`
-  font-size: 9px;
-  width: 65px;
-  padding-top: 5px;
-`;
+// const Label2 = styled.Text`
+//   font-size: 9px;
+//   width: 65px;
+//   padding-top: 5px;
+// `;
 
 const Input1 = styled.Text`
   // width: 210px;
@@ -86,17 +86,17 @@ const Input1 = styled.Text`
   padding-top: 5px;
 `;
 
-const Input2 = styled.Text`
-  width: 105px;
-  font-size: 9px;
-  padding-top: 5px;
-`;
+// const Input2 = styled.Text`
+//   width: 105px;
+//   font-size: 9px;
+//   padding-top: 5px;
+// `;
 
-const Span = styled.Text`
-  font-size: 9px;
-  width: 80px;
-  text-align: center;
-`;
+// const Span = styled.Text`
+//   font-size: 9px;
+//   width: 80px;
+//   text-align: center;
+// `;
 
 const CheckBox = styled.Text`
   width: 23px;
@@ -112,9 +112,9 @@ const CheckBoxLabel = styled.Text`
   padding-left: 3px;
   padding-top: 1px;
 `;
-const Paragraph = styled.Text`
-  font-size: 9px;
-`;
+// const Paragraph = styled.Text`
+//   font-size: 9px;
+// `;
 
 const Footer = styled.Text`
   left: 35px;

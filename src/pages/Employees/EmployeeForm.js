@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable array-callback-return */
+import React from 'react'
 import {
   Modal,
   ModalHeader,
@@ -157,7 +158,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
               <Col md={4}>
                 <FormGroup>
                   <Label for="passportNumber">Passport No.: <span style={{color: "red"}}>*</span></Label>
-                  <Input bsSize="sm" type="text" name="passportNumber" id="passportNumber" placeholder="Passport Number" onBlur={props.handlePassportNumChange}
+                  <Input bsSize="sm" type="text" name="passportNumber" id="passportNumber" placeholder="Passport No." onBlur={props.handlePassportNumChange}
                     defaultValue={isEdit ? selectedEmployee.passport_number : ""}
                   />
                 </FormGroup>
@@ -351,7 +352,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
               <Col md={4}>
                 <FormGroup>
                   <Label for="healthCardNumber">Helath Card No.: <span style={{color: "red"}}>*</span></Label>
-                  <Input bsSize="sm" type="text" name="healthCardNumber" id="healthCardNumber" placeholder="Leave Ticket Entitlement" onBlur={props.handleHealthCardNumChange}
+                  <Input bsSize="sm" type="text" name="healthCardNumber" id="healthCardNumber" placeholder="Health Card No." onBlur={props.handleHealthCardNumChange}
                     defaultValue={isEdit ? selectedEmployee.health_card_number : ""}
                   />
                 </FormGroup>

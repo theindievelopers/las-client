@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import MaterialTable from 'material-table';
-import moment from 'moment'
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 
 class ResignationApprovalTable extends Component {
   state = {
@@ -74,9 +72,6 @@ class ResignationApprovalTable extends Component {
           search: true,
           cellStyle: {
             color: '#000000',
-          },
-          headerStyle: {
-            color: '#000000'
           },
           pageSize: 5,
           pageSizeOptions: [5, 10, 20, 50, 100],

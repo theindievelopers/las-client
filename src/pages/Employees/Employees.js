@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from 'react'
 import Sidebar from '../../Layout/Sidebar'
 import Topbar from '../../Layout/Topbar'
@@ -10,7 +12,7 @@ import { Card,CardBody } from 'reactstrap'
 import { CredsContext } from '../../context/Context'
 
 const Employees = React.memo( props => {
-  const { saveCreds, empCode, accessLevel, isLoggedIn, name, username } = useContext(CredsContext)
+  const { isLoggedIn, name, username } = useContext(CredsContext)
 
   const [signatureUpload, setSignatureUpload] = useState(false)
   const [employees, setEmployees] = useState([])

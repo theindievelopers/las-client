@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable array-callback-return */
 import React, {useEffect, useState, useContext} from "react";
 import Sidebar from "../../Layout/Sidebar";
 import Topbar from "../../Layout/Topbar";
@@ -7,7 +9,7 @@ import { CredsContext } from '../../context/Context'
 
 const Approvals = () => {
 
-  const { empCode, accessLevel, name, isLoggedIn, username } = useContext(CredsContext)
+  const { empCode, accessLevel } = useContext(CredsContext)
   const [applicationPendings, setApplicationPendings] = useState({})
 
   useEffect(() => {
@@ -48,9 +50,6 @@ const Approvals = () => {
       })
   }, [])
 
-  const handleRedirect = () => {
-    window.location.replace("#/leave/approvals");
-  };
   return (
     <React.Fragment>
       <div className="row">

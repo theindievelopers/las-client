@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import {
   FormGroup,
   Label,
-  Input, Form
+  Input,
 } from 'reactstrap';
 
 const FormInput = ({onBlur, label, name, type, placeholder, onChange, defaultValue, required, ...props}) => {

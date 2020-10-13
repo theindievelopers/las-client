@@ -1,4 +1,5 @@
-import React, { useState, } from 'react'
+/* eslint-disable array-callback-return */
+import React from 'react'
 import {
   Modal,
   ModalHeader,

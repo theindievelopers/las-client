@@ -62,7 +62,7 @@ const ResignationApprovalForm = React.memo(props => {
               <hr />
               {isReady ?
                 accessLevel === 1 ?
-                <div className="float-right mb-3">
+                <div className="float-right mb-3 ml-2">
                   <Dropdown isOpen={dropdownOpen} toggle={toggleAction} disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}>
                     <DropdownToggle>
                       ACTIONS
@@ -91,7 +91,7 @@ const ResignationApprovalForm = React.memo(props => {
               }
               {empCode === selectedApplicationData.project_manager ?
                 <React.Fragment>
-                  <div className="float-right mb-3">
+                  <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.project_manager_commentL1 || selectedApplicationData.project_manager_commentL2 || selectedApplicationData.project_manager_commentL3 ?
                       <Button color="secondary" onClick={handleEditProjectManagerCommentsInput}
                         disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
@@ -125,7 +125,7 @@ const ResignationApprovalForm = React.memo(props => {
                 : ""}
               {empCode === selectedApplicationData.immediate_supervisor ?
                 <React.Fragment>
-                  <div className="float-right mb-3">
+                  <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.supervisor_commentL1 || selectedApplicationData.supervisor_commentL2 || selectedApplicationData.supervisor_commentL3 ?
                       <Button color="secondary" onClick={handleEditSupervisorCommentsInput}
                         disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}

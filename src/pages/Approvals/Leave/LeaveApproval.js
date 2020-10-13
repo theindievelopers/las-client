@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect, useContext } from 'react'
 import Sidebar from '../../../Layout/Sidebar'
 import Topbar from '../../../Layout/Topbar'
@@ -41,6 +42,7 @@ const LeaveApproval = React.memo(props => {
     }
 
     refetch()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const refetch = () => {
@@ -95,6 +97,7 @@ const LeaveApproval = React.memo(props => {
         fetch('http://localhost:3000/employee')
           .then(res => res.json())
           .then(data => {
+            // eslint-disable-next-line array-callback-return
             data.map(inidvData => {
               if (inidvData.code === approverCode.accounting) {
                 accounting.push(inidvData)

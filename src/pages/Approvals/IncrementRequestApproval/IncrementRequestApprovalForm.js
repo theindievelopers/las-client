@@ -64,7 +64,7 @@ const IncrementRequestApprovalForm = React.memo(({
             <Col md={12}>
               <hr />
               {accessLevel === 1 ?
-                <div className="float-right mb-3">
+                <div className="float-right mb-3 ml-2">
                   <Dropdown isOpen={dropdownOpen} toggle={toggleAction}>
                     <DropdownToggle>
                       ACTIONS

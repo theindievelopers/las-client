@@ -1,6 +1,5 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import MaterialTable from 'material-table';
-import Employees from './Employees';
 
 
 class EmployeesTable extends Component {
@@ -278,10 +277,6 @@ class EmployeesTable extends Component {
           cellStyle: {
             color: '#000000',
             // backgroundColor: '#ffffff'
-          },
-          headerStyle: {
-            // backgroundColor: '#ffffff',
-            color: '#000000'
           },
           pageSize: 5,
           pageSizeOptions: [5, 10, 20, 50, 100],

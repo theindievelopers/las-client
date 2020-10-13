@@ -1,3 +1,6 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect, useContext } from 'react'
 import Sidebar from '../../Layout/Sidebar';
 import Topbar from '../../Layout/Topbar';
@@ -9,7 +12,7 @@ import { Card, CardBody } from 'reactstrap';
 import { CredsContext } from '../../context/Context'
 
 const Leaves = React.memo(props => {
-  const { saveCreds, empCode, accessLevel, isLoggedIn, name, username } = useContext(CredsContext)
+  const { empCode, accessLevel, isLoggedIn, name, username } = useContext(CredsContext)
 
   const [leaves, setLeaves] = useState([])
   const [isLoading, setIsLoading] = useState(true)

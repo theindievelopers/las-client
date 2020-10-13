@@ -1,3 +1,6 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect, useContext } from "react";
 import Sidebar from '../../Layout/Sidebar';
 import Topbar from '../../Layout/Topbar';

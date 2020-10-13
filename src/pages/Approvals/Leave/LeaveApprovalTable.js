@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
 import MaterialTable from 'material-table';
-import moment from 'moment'
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
-import WorkerPDF from '../../../components/PDForms/WorkerPDF';
-import StaffPDF from '../../../components/PDForms/StaffPDF';
 
 class LeaveApprovalTable extends Component {
   state = {
@@ -76,9 +72,6 @@ class LeaveApprovalTable extends Component {
           search: true,
           cellStyle: {
             color: '#000000',
-          },
-          headerStyle: {
-            color: '#000000'
           },
           pageSize: 5,
           pageSizeOptions: [5, 10, 20, 50, 100],

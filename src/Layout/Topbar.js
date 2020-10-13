@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 import { CredsContext } from '../context/Context';
 
 const Topbar = () => {
-  const { name, accessLevel } = useContext(CredsContext)
+  const { name } = useContext(CredsContext)
 
   const handleLogout = () => {
     sessionStorage.clear();

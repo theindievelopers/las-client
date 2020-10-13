@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, {useState, useEffect, useContext} from 'react';
 import Sidebar from '../../Layout/Sidebar';
 import Topbar from '../../Layout/Topbar';
@@ -17,7 +18,7 @@ const IncrementRequest = () => {
   const [coo, setCoo] = useState({})
   const [hraManager, setHraManager] = useState({})
   const [searchField, setSearchField] = useState("")
-  const [selectedEmployee, setSelectedEmployee] = useState({})
+  const [selectedEmployee, setSelectedEmployee] = useState([])
   const [designation, setDesignation] = useState("")
   const [employeeCode, setEmployeeCode] = useState("")
   const [department, setDepartment] = useState("")
@@ -186,6 +187,15 @@ const IncrementRequest = () => {
   }
 
   const handleSubmit = () => {
+    console.log(selectedEmployee)
+    setIsLoading(true)
+    if (selectedEmployee.length === 0) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please make sure to select Employee!",
+      });
+    }
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if(isEdit) {
       fetch(`http://localhost:3000/application?id=${selectedIncrementRequest.id}`, {
@@ -414,7 +424,7 @@ const IncrementRequest = () => {
         <Sidebar />
         <div className='main-panel'>
           <Topbar />
-          <div className='content'>
+          <div className='container'>
             <div className="text-center">
               <h1 className='col-lg-10 text-primary mt-5 py-3 ml-5'>Increment Request</h1>
             </div>

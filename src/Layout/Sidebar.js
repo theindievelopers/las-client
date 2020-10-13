@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment, useState, useContext } from 'react';
 import { Collapse } from 'reactstrap';
 import logo from '../img/logo.jpg'
@@ -28,7 +29,7 @@ const Sidebar = () => {
           <li>
               <a id="theLink" onClick={toggleApplications} >
                 Applications
-                <i className="fa fa-caret-down" style={{marginLeft: 78}} aria-hidden="true"></i>
+                <i className="fa fa-caret-down" style={{marginLeft: 57}} aria-hidden="true"></i>
               </a>
             
               <Collapse isOpen={applicationsOpen}>
@@ -56,44 +57,11 @@ const Sidebar = () => {
               </ul>
             </Collapse>
           </li>
-          {/* <li>
-            <a href='#/leaves'>
-              Leaves
-            </a>
-          </li>
-          <li>
-            <a href='#/resignation'>
-              Resignation
-            </a>
-          </li> */}
-          {/* <li>
-            <a href='#/staffrequisition'>
-              Staff Requisition
-            </a>
-          </li> */}
-          {/* <li>
-            <a href='#/changeprofession'>
-              Change Profession
-            </a>
-          </li>
-          <li>
-            <a href='#/incrementrequest'>
-              Increment Request
-            </a>
-          </li> */}
-          {/* {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
-            <li>
-              <a href='#/approvals'>
-                Approvals
-              </a>
-            </li>
-            : ""
-          } */}
           {accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
             <li>
               <a id="theLink" onClick={toggleApprovals} >
                 Approvals
-                <i className="fa fa-caret-down" style={{marginLeft: 78}} aria-hidden="true"></i>
+                <i className="fa fa-caret-down" style={{marginLeft: 77}} aria-hidden="true"></i>
               </a>
             
               <Collapse isOpen={approvalsOpen}>

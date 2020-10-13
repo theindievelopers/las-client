@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import MaterialTable from 'material-table';
-import moment from 'moment'
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 
 class ChangeProfessionApprovalTable extends Component {
   state = {

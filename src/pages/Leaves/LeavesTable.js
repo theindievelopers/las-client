@@ -193,16 +193,12 @@ class LeavesTable extends Component {
           cellStyle: {
             color: '#000000',
           },
-          headerStyle: {
-            color: '#000000'
-          },
           pageSize: 5,
           pageSizeOptions: [5, 10, 20, 50, 100],
           headerStyle: {
             backgroundColor: '#6787A9',
             color: '#FFF'
           },
-          tableLayout: "auto",
           tableLayout: "auto",
           rowStyle: rowData => ({
             backgroundColor: (this.state.selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF'
