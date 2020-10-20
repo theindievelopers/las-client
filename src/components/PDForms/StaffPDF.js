@@ -298,7 +298,7 @@ const StaffPDF = React.memo(({
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {logisticsSign ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + logisticsOfficerCode} style={{width: 130,height: 20}}/> 
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + logisticsOfficerCode} style={{width: 130,height: 20}}/> 
                     <Text>{moment(logisticsSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
@@ -315,7 +315,7 @@ const StaffPDF = React.memo(({
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {applicationData.project_manager_signature_and_date ? 
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.project_manager} style={{width: 130, height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + applicationData.project_manager} style={{width: 130, height: 20}}/>
                     <Text>{moment(immidiateSupSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   :
@@ -337,7 +337,7 @@ const StaffPDF = React.memo(({
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {applicationData.immidiate_supervisor_manager_signature_and_date ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.immediate_supervisor} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + applicationData.immediate_supervisor} style={{width: 130,height: 20}}/>
                     <Text>{moment(projectManagerSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   :
@@ -354,7 +354,7 @@ const StaffPDF = React.memo(({
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {acctSign ? 
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + accountingCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + accountingCode} style={{width: 130,height: 20}}/>
                     <Text>{moment(acctSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
@@ -430,7 +430,7 @@ const StaffPDF = React.memo(({
             <View style={{ marginRight: "30px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 100 }}>
                 {/* <Image source={"http://128.199.121.153:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/> */}
-                <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/>
+                <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + employeeNum} style={{width: 130, height: 20}}/>
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 120, paddingTop: "2px" }}>
                 Employee Signature
@@ -527,7 +527,7 @@ const StaffPDF = React.memo(({
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
                 {hraSign ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
                     <Text>{moment(hraSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
@@ -547,7 +547,7 @@ const StaffPDF = React.memo(({
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
                 {cooSign ? 
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + cooCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + cooCode} style={{width: 130,height: 20}}/>
                     <Text>{moment(cooSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
@@ -567,7 +567,7 @@ const StaffPDF = React.memo(({
               <Text style={{ textAlign: "center", fontSize: 9, width: 150 }}>
                 {ceoSign ? 
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + ceoCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + ceoCode} style={{width: 130,height: 20}}/>
                     <Text>{moment(ceoSignDate).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 

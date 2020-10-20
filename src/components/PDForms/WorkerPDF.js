@@ -218,7 +218,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
           <Row style={{ alignItems: "center", justifyContent: "center", paddingTop: "30px", paddingBottom: "10px" }}>
             <View>
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
-                <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/>
+                <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/>
                 {props.employeeSignDate}
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 230, paddingTop: "2px" }}>
@@ -234,7 +234,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {applicationData.immidiate_supervisor_manager_signature ? 
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.immediate_supervisor} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + applicationData.immediate_supervisor} style={{width: 130,height: 20}}/>
                     <Text>{moment(applicationData.immidiate_supervisor_sign_date).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
@@ -251,7 +251,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {applicationData.accounting_department_signature ? 
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + accountingCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + accountingCode} style={{width: 130,height: 20}}/>
                     <Text>{moment(applicationData.accounting_dept_sign_date).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 
@@ -332,7 +332,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
           <RowEnd style={{ paddingBottom: "5px", paddingTop: "50px" }}>
             <View style={{ marginRight: "30px" }}>
               <Text style={{ textAlign: "center", fontSize: 9, width: 100 }}>
-                <Image source={"http://localhost:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/>
+                <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + employeeNum} style={{width: 130,height: 20}}/>
               </Text>
               <Text style={{ textAlign: "center", borderTop: 1, fontSize: 9, width: 120, paddingTop: "2px" }}>
                 Employee Signature
@@ -360,7 +360,7 @@ const WorkerPDF = ({ name, department, departureDate, employeeNum, position, ret
               <Text style={{ textAlign: "center", fontSize: 9, width: 220 }}>
                 {applicationData.hr_manager_signature ? 
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
                     <Text>{moment(applicationData.hr_manager_sign_date).format("MM/DD/YYYY")}</Text>
                   </View>
                   : 

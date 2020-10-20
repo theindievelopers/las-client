@@ -187,7 +187,7 @@ const ResignationPDF = ({ selectedApplication, applicationData, ceoCode, cooCode
               <Text style={{ textAlign: "center", fontSize: 9, width: 200 }}>
                 {applicationData.employee_signature ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.employee_code} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + applicationData.employee_code} style={{width: 130,height: 20}}/>
                   </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
@@ -225,7 +225,7 @@ const ResignationPDF = ({ selectedApplication, applicationData, ceoCode, cooCode
               <Text style={{ textAlign: "center", fontSize: 9, width: 200 }}>
                 {applicationData.immidiate_supervisor_manager_signature ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + immediateSuperiorCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + immediateSuperiorCode} style={{width: 130,height: 20}}/>
                   </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
@@ -270,7 +270,7 @@ const ResignationPDF = ({ selectedApplication, applicationData, ceoCode, cooCode
               <Text style={{ textAlign: "center", fontSize: 9, width: 200 }}>
                 {applicationData.project_manager_signature ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + projectManagerCode} style={{width: 130,height: 20}}/>
                   </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
@@ -299,7 +299,7 @@ const ResignationPDF = ({ selectedApplication, applicationData, ceoCode, cooCode
               <Text style={{ textAlign: "center", fontSize: 9, width: 200 }}>
                 {applicationData.coo_signature ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + cooCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + cooCode} style={{width: 130,height: 20}}/>
                   </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
@@ -315,7 +315,7 @@ const ResignationPDF = ({ selectedApplication, applicationData, ceoCode, cooCode
               <Text style={{ textAlign: "center", fontSize: 9, width: 200 }}>
                 {applicationData.ceo_signature ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + ceoCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + ceoCode} style={{width: 130,height: 20}}/>
                   </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
@@ -379,7 +379,7 @@ const ResignationPDF = ({ selectedApplication, applicationData, ceoCode, cooCode
               <Text style={{ textAlign: "center", fontSize: 9, width: 200 }}>
                 {applicationData.hr_manager_signature ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + hraManagerCode} style={{width: 130,height: 20}}/>
                   </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>

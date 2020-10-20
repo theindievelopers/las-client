@@ -20,7 +20,7 @@ const ContextProvider = (props) => {
     const abortController = new AbortController()
     const signal = abortController.signal
 
-    fetch('http://localhost:3000/employee', { signal: signal })
+    fetch('http://192.168.0.200:3000/employee', { signal: signal })
       .then(res => res.json())
       .then(data => {
         if (data) {

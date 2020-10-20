@@ -38,7 +38,7 @@ const StaffRequisition = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    fetch('http://localhost:3000/application')
+    fetch('http://192.168.0.200:3000/application')
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -226,7 +226,7 @@ const StaffRequisition = () => {
 
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if(isEdit) {
-      fetch(`http://localhost:3000/application?id=${selectedStaffRequisition.id}`, {
+      fetch(`http://192.168.0.200:3000/application?id=${selectedStaffRequisition.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -295,7 +295,7 @@ const StaffRequisition = () => {
             handleRefresh()
           })
     }
-    fetch('http://localhost:3000/application', {
+    fetch('http://192.168.0.200:3000/application', {
           method: 'post',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({

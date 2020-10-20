@@ -54,7 +54,7 @@ const ChangeProfessionApproval = React.memo(() => {
   }, [])
 
   const fetchData = () => {
-    fetch('http://localhost:3000/approvals')
+    fetch('http://192.168.0.200:3000/approvals')
       .then(res => res.json())
       .then(data => {
         let allData = []
@@ -87,7 +87,7 @@ const ChangeProfessionApproval = React.memo(() => {
         setIsLoading(false)
       })
 
-    fetch('http://localhost:3000/application')
+    fetch('http://192.168.0.200:3000/application')
       .then(res => res.json())
       .then(data => {
         let allData = []
@@ -97,14 +97,14 @@ const ChangeProfessionApproval = React.memo(() => {
         setApplications(allData)
       })
 
-      fetch('http://localhost:3000/applicationform')
+      fetch('http://192.168.0.200:3000/applicationform')
       .then(res => res.json())
       .then(data => {
         let approverCode = data[0].data.approvers
         let ceo = []
         let coo = []
         let hraManager = []
-        fetch('http://localhost:3000/employee')
+        fetch('http://192.168.0.200:3000/employee')
           .then(res => res.json())
           .then(data => {
             data.map(inidvData => {
@@ -218,7 +218,7 @@ const ChangeProfessionApproval = React.memo(() => {
     setIsReady(false)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
 
-    fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+    fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -283,7 +283,7 @@ const ChangeProfessionApproval = React.memo(() => {
           .then(res => res.json())
           .then(data => {
             handleShowSupervisorNotes()
-            fetch('http://localhost:3000/application')
+            fetch('http://192.168.0.200:3000/application')
           .then(res => res.json())
           .then(data => {
             if (data.error) {
@@ -472,7 +472,7 @@ export default ChangeProfessionApproval
     //   }
     // }
     // try {
-    //   Axios.post('http://localhost:3000/employees', formData, config)
+    //   Axios.post('http://192.168.0.200:3000/employees', formData, config)
     //     .then(res => {
     //       console.log(res)
     //     })
@@ -668,7 +668,7 @@ export default ChangeProfessionApproval
               'Application has been Approved.',
               'success'
             )
-            fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+            fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'LAS': 'LAS', 'raihan': 'raihan' },
               body: JSON.stringify({
@@ -682,7 +682,7 @@ export default ChangeProfessionApproval
             })
               .then(res => res.json())
               .then(data => {
-                fetch(`http://localhost:3000/application?id=${selectedLeave.id}`, {
+                fetch(`http://192.168.0.200:3000/application?id=${selectedLeave.id}`, {
                   method: 'put',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({

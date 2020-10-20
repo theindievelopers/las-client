@@ -13,7 +13,7 @@ const Approvals = () => {
   const [applicationPendings, setApplicationPendings] = useState({})
 
   useEffect(() => {
-    fetch('http://localhost:3000/approvals')
+    fetch('http://192.168.0.200:3000/approvals')
       .then(res => res.json())
       .then(data => {
         let leaves = 0;

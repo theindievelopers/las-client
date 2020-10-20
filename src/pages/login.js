@@ -57,7 +57,7 @@ const Login = () => {
         text: 'Password Required!',
       })
     } else {
-      fetch('http://localhost:3000/login', {
+      fetch('http://192.168.0.200:3000/login', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',

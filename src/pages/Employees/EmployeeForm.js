@@ -453,7 +453,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
               <Row>
                 <Col md={6}>
                   {props.signatureUpload || selectedEmployee.signature ?
-                    <img className="signature" width="100px" src={`http://localhost:3000/fetch/signature?id=${selectedEmployee.id}`}  alt="signature" />
+                    <img className="signature" width="100px" src={`http://192.168.0.200:3000/fetch/signature?id=${selectedEmployee.id}`}  alt="signature" />
                     :
                     ""
                   }

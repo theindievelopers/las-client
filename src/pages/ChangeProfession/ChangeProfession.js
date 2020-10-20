@@ -40,7 +40,7 @@ const ChangeProfession = React.memo(() => {
 
   const fetchData = () => {
     setIsLoading(true)
-    fetch('http://localhost:3000/application')
+    fetch('http://192.168.0.200:3000/application')
       .then(res => res.json())
       .then(data => {
         if(data) {
@@ -71,14 +71,14 @@ const ChangeProfession = React.memo(() => {
       })
 
       // Approvers Data
-    fetch('http://localhost:3000/applicationform')
+    fetch('http://192.168.0.200:3000/applicationform')
     .then(res => res.json())
     .then(data => {
       let approverCode = data[0].data.approvers
       let ceo = []
       let coo = []
       let hraManager = [] 
-      fetch('http://localhost:3000/employee')
+      fetch('http://192.168.0.200:3000/employee')
         .then(res => res.json())
         .then(data => {
           data.map(indivData => {
@@ -171,7 +171,7 @@ const ChangeProfession = React.memo(() => {
   const handleSubmit = () => {
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if(isEdit) {
-      fetch(`http://localhost:3000/application?id=${selectedChangeProfessionRequest.id}`, {
+      fetch(`http://192.168.0.200:3000/application?id=${selectedChangeProfessionRequest.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -269,7 +269,7 @@ const ChangeProfession = React.memo(() => {
             }
           })
     } else {
-      fetch('http://localhost:3000/application', {
+      fetch('http://192.168.0.200:3000/application', {
           method: 'post',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({

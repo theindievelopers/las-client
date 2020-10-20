@@ -80,7 +80,7 @@ const Employees = React.memo( props => {
     // const abortController = new AbortController()
     // const signal = abortController.signal
 
-    fetch('http://localhost:3000/employee')
+    fetch('http://192.168.0.200:3000/employee')
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -96,7 +96,7 @@ const Employees = React.memo( props => {
 
   const refetch = () => {
     setIsLoading(true)
-    fetch('http://localhost:3000/employee')
+    fetch('http://192.168.0.200:3000/employee')
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -400,7 +400,7 @@ const Employees = React.memo( props => {
           'authorization': `Basic ${creds}`
         }
       }
-      Axios.post(`http://localhost:3000/upload/signature?id=${selectedEmployee.id}`, formData, config)
+      Axios.post(`http://192.168.0.200:3000/upload/signature?id=${selectedEmployee.id}`, formData, config)
         .then(res => {
           setSignature(res.data.data.signature)
           setSignatureUpload(true)
@@ -440,7 +440,7 @@ const Employees = React.memo( props => {
     setIsLoading(true)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if (isEdit) {
-      fetch(`http://localhost:3000/employees?id=${selectedEmployee.id}`, {
+      fetch(`http://192.168.0.200:3000/employees?id=${selectedEmployee.id}`, {
         method: 'put',
         headers: { 'Content-Type': 'application/json',  'authorization': `Basic ${creds}`},
         body: JSON.stringify({
@@ -511,7 +511,7 @@ const Employees = React.memo( props => {
         .catch(err => {
         })
     } else {
-      fetch('http://localhost:3000/employees', {
+      fetch('http://192.168.0.200:3000/employees', {
         method: 'post',
         headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
         body: JSON.stringify({

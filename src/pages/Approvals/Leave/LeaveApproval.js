@@ -46,7 +46,7 @@ const LeaveApproval = React.memo(props => {
   }, [])
 
   const refetch = () => {
-    fetch('http://localhost:3000/approvals')
+    fetch('http://192.168.0.200:3000/approvals')
       .then(res => res.json())
       .then(data => {
         let approved = []
@@ -75,7 +75,7 @@ const LeaveApproval = React.memo(props => {
         setReview(review.length)
       })
 
-    fetch('http://localhost:3000/application')
+    fetch('http://192.168.0.200:3000/application')
       .then(res => res.json())
       .then(data => {
         let allData = []
@@ -85,7 +85,7 @@ const LeaveApproval = React.memo(props => {
         setApplications(allData)
       })
 
-    fetch('http://localhost:3000/applicationform')
+    fetch('http://192.168.0.200:3000/applicationform')
       .then(res => res.json())
       .then(data => {
         let approverCode = data[0].data.approvers
@@ -94,7 +94,7 @@ const LeaveApproval = React.memo(props => {
         let coo = []
         let hraManager = []
         let logisticsOfficer = []
-        fetch('http://localhost:3000/employee')
+        fetch('http://192.168.0.200:3000/employee')
           .then(res => res.json())
           .then(data => {
             // eslint-disable-next-line array-callback-return
@@ -212,7 +212,7 @@ const LeaveApproval = React.memo(props => {
       confirmButtonText: 'Yes, update it!'
     }).then((result) => {
       if (result.value) {
-        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -231,7 +231,7 @@ const LeaveApproval = React.memo(props => {
               'Application has been Approved.',
               'success'
             )
-            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+            fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
@@ -341,7 +341,7 @@ const LeaveApproval = React.memo(props => {
           'Application has been Denied.',
           'success'
         )
-        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -355,7 +355,7 @@ const LeaveApproval = React.memo(props => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+            fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
@@ -454,7 +454,7 @@ const LeaveApproval = React.memo(props => {
           'Application has been tagged for Review.',
           'success'
         )
-        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -469,7 +469,7 @@ const LeaveApproval = React.memo(props => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+            fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
@@ -579,7 +579,7 @@ const LeaveApproval = React.memo(props => {
       confirmButtonText: 'Yes, update it!'
     }).then((result) => {
       if (result.value) {
-        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -598,7 +598,7 @@ const LeaveApproval = React.memo(props => {
               'Application has been Approved.',
               'success'
             )
-            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+            fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
@@ -681,7 +681,7 @@ const LeaveApproval = React.memo(props => {
           'Application has been tagged for Denied.',
           'success'
         )
-        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -696,7 +696,7 @@ const LeaveApproval = React.memo(props => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+            fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
@@ -772,7 +772,7 @@ const LeaveApproval = React.memo(props => {
           'Application has been tagged for Review.',
           'success'
         )
-        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -787,7 +787,7 @@ const LeaveApproval = React.memo(props => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+            fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({

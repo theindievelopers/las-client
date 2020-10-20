@@ -21,7 +21,7 @@ const HomePage = (props) => {
       window.location.replace('#/login')
     }
 
-    fetch('http://localhost:3000/approvals')
+    fetch('http://192.168.0.200:3000/approvals')
       .then(res => res.json())
       .then(data => {
         let leavesPending = 0;
