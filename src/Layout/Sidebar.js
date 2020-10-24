@@ -36,7 +36,12 @@ const Sidebar = () => {
               <ul className='list-unstyled'>
                 <li>
                   <a href='#/leaves'>
-                    Leaves
+                    Leave Clearance
+                  </a>
+                </li>
+                <li>
+                  <a href='#/leavesapplication'>
+                    Leave Application
                   </a>
                 </li>
                 <li>
@@ -68,7 +73,12 @@ const Sidebar = () => {
                 <ul className='list-unstyled'>
                   <li>
                     <a href='#/leave/approvals'>
-                      Leave
+                      Leave Clearance
+                    </a>
+                  </li>
+                  <li>
+                    <a href='#/leaveapplication/approvals'>
+                      Leave Application
                     </a>
                   </li>
                   <li>

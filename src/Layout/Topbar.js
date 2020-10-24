@@ -7,6 +7,7 @@ const Topbar = () => {
 
   const handleLogout = () => {
     sessionStorage.clear();
+    localStorage.clear();
     window.location.replace('#/login');
   };
 
