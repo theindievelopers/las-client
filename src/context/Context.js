@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect } from 'react';
+import { config } from '../config/config';
 
 export const CredsContext = createContext();
 
@@ -20,7 +21,7 @@ const ContextProvider = (props) => {
     const abortController = new AbortController()
     const signal = abortController.signal
 
-    fetch('http://localhost:3000/employee', { signal: signal })
+    fetch(`${config.baseURL}/employee`, { signal: signal })
       .then(res => res.json())
       .then(data => {
         if (data) {

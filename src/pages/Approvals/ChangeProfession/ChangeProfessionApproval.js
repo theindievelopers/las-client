@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
-import React, { useState, useEffect, useContext } from 'react'
-import Sidebar from '../../../Layout/Sidebar'
-import Topbar from '../../../Layout/Topbar'
-import moment from 'moment'
+import React, { useState, useEffect, useContext } from 'react';
+import Sidebar from '../../../Layout/Sidebar';
+import Topbar from '../../../Layout/Topbar';
+import moment from 'moment';
 import { Card, CardTitle, CardSubtitle, Row, Col, CardBody } from 'reactstrap';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { CredsContext } from '../../../context/Context'
 import ChangeProfessionApprovalTable from './ChangeProfessionApprovalTable';
 import ChangeProfessionApprovalForm from './ChangeProfessionApprovalForm';
+import { config } from '../../../config/config';
 
 const ChangeProfessionApproval = React.memo(() => {
   const { empCode, accessLevel, name, isLoggedIn, username } = useContext(CredsContext)
@@ -81,7 +82,7 @@ const ChangeProfessionApproval = React.memo(() => {
   }, [])
 
   const fetchData = () => {
-    fetch('http://localhost:3000/approvals')
+    fetch(`${config.baseURL}/approvals`)
       .then(res => res.json())
       .then(data => {
         let allData = []
@@ -114,7 +115,7 @@ const ChangeProfessionApproval = React.memo(() => {
         setIsLoading(false)
       })
 
-    fetch('http://localhost:3000/application')
+    fetch(`${config.baseURL}/application`)
       .then(res => res.json())
       .then(data => {
         let allData = []
@@ -124,14 +125,14 @@ const ChangeProfessionApproval = React.memo(() => {
         setApplications(allData)
       })
 
-      fetch('http://localhost:3000/applicationform')
+      fetch(`${config.baseURL}/applicationform`)
       .then(res => res.json())
       .then(data => {
         let approverCode = data[0].data.approvers
         let ceo = []
         let coo = []
         let hraManager = []
-        fetch('http://localhost:3000/employee')
+        fetch(`${config.baseURL}/employee`)
           .then(res => res.json())
           .then(data => {
             data.map(inidvData => {
@@ -329,7 +330,7 @@ const ChangeProfessionApproval = React.memo(() => {
     setIsReady(false)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
 
-    fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+    fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -408,48 +409,48 @@ const ChangeProfessionApproval = React.memo(() => {
           .then(res => res.json())
           .then(data => {
             handleShowSupervisorNotes()
-            fetch('http://localhost:3000/application')
-          .then(res => res.json())
-          .then(data => {
-            if (data.error) {
-              return Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: `${data.error}`,
+            fetch(`${config.baseURL}/application`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.error) {
+                  return Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: `${data.error}`,
+                  })
+                } else {
+                  if(isEdit){
+                    Swal.fire(
+                      'Success!',
+                      'Notes has been updated successfully!',
+                      'success'
+                    )
+                  } else {
+                    Swal.fire(
+                      'Success!',
+                      'Notes has been added successfully!',
+                      'success'
+                    )
+                  }
+                  setHideProjectManagerNotes(true)
+                  setHideSupervisorNotes(true)
+                }
+                let allData = []
+                data.map(indivData => {
+                  allData.push(indivData)
+                })
+                setApplications(allData)
+                allData.map(indivApplication => {
+                  if (indivApplication.collateid === selectedApproval.collateid) {
+                    setSelectedApplication(indivApplication)
+                    setSelectedApplicationData(indivApplication.application_data)
+                  }
+                })
               })
-            } else {
-              if(isEdit){
-                Swal.fire(
-                  'Success!',
-                  'Notes has been updated successfully!',
-                  'success'
-                )
-              } else {
-                Swal.fire(
-                  'Success!',
-                  'Notes has been added successfully!',
-                  'success'
-                )
-              }
-              setHideProjectManagerNotes(true)
-              setHideSupervisorNotes(true)
-            }
-            let allData = []
-            data.map(indivData => {
-              allData.push(indivData)
-            })
-            setApplications(allData)
-            allData.map(indivApplication => {
-              if (indivApplication.collateid === selectedApproval.collateid) {
-                setSelectedApplication(indivApplication)
-                setSelectedApplicationData(indivApplication.application_data)
-              }
-            })
-          })
-          .then(() => {
-            setIsReady(true)
-          })
-        
+              .then(() => {
+                setIsReady(true)
+              })
+            
           })
   }
 
@@ -457,7 +458,7 @@ const ChangeProfessionApproval = React.memo(() => {
     setIsReady(false)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
 
-    fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+    fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -536,47 +537,47 @@ const ChangeProfessionApproval = React.memo(() => {
           .then(res => res.json())
           .then(data => {
             handleShowSupervisorNotes()
-            fetch('http://localhost:3000/application')
-          .then(res => res.json())
-          .then(data => {
-            if (data.error) {
-              return Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: `${data.error}`,
+            fetch(`${config.baseURL}/application`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.error) {
+                  return Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: `${data.error}`,
+                  })
+                } else {
+                  if(isEdit){
+                    Swal.fire(
+                      'Success!',
+                      'Justification has been updated successfully!',
+                      'success'
+                    )
+                  } else {
+                    Swal.fire(
+                      'Success!',
+                      'Justification has been added successfully!',
+                      'success'
+                    )
+                  }
+                  setHideProjectManagerNotes(true)
+                  setHideSupervisorNotes(true)
+                }
+                let allData = []
+                data.map(indivData => {
+                  allData.push(indivData)
+                })
+                setApplications(allData)
+                allData.map(indivApplication => {
+                  if (indivApplication.collateid === selectedApproval.collateid) {
+                    setSelectedApplication(indivApplication)
+                    setSelectedApplicationData(indivApplication.application_data)
+                  }
+                })
               })
-            } else {
-              if(isEdit){
-                Swal.fire(
-                  'Success!',
-                  'Justification has been updated successfully!',
-                  'success'
-                )
-              } else {
-                Swal.fire(
-                  'Success!',
-                  'Justification has been added successfully!',
-                  'success'
-                )
-              }
-              setHideProjectManagerNotes(true)
-              setHideSupervisorNotes(true)
-            }
-            let allData = []
-            data.map(indivData => {
-              allData.push(indivData)
-            })
-            setApplications(allData)
-            allData.map(indivApplication => {
-              if (indivApplication.collateid === selectedApproval.collateid) {
-                setSelectedApplication(indivApplication)
-                setSelectedApplicationData(indivApplication.application_data)
-              }
-            })
-          })
-          .then(() => {
-            setIsReady(true)
-          })
+              .then(() => {
+                setIsReady(true)
+              })
         
           })
   }
@@ -685,7 +686,7 @@ const ChangeProfessionApproval = React.memo(() => {
     setIsReady(false)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
 
-    fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+    fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -764,7 +765,7 @@ const ChangeProfessionApproval = React.memo(() => {
           .then(res => res.json())
           .then(data => {
             handleShowSupervisorNotes()
-            fetch('http://localhost:3000/application')
+            fetch(`${config.baseURL}/application`)
           .then(res => res.json())
           .then(data => {
             if (data.error) {
@@ -816,7 +817,7 @@ const ChangeProfessionApproval = React.memo(() => {
     setIsReady(false)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
 
-    fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+    fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -895,50 +896,50 @@ const ChangeProfessionApproval = React.memo(() => {
           .then(res => res.json())
           .then(data => {
             handleShowSupervisorNotes()
-            fetch('http://localhost:3000/application')
-          .then(res => res.json())
-          .then(data => {
-            if (data.error) {
-              return Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: `${data.error}`,
+            fetch(`${config.baseURL}/application`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.error) {
+                  return Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: `${data.error}`,
+                  })
+                } else {
+                  if(isEdit){
+                    Swal.fire(
+                      'Success!',
+                      'Notes has been updated successfully!',
+                      'success'
+                    )
+                  } else {
+                    Swal.fire(
+                      'Success!',
+                      'Notes has been added successfully!',
+                      'success'
+                    )
+                  }
+                  setHideProjectManagerNotes(true)
+                  setHideSupervisorNotes(true)
+                  setHideChangeInSalary(true)
+                  setHideCEONotes(true)
+                }
+                let allData = []
+                data.map(indivData => {
+                  allData.push(indivData)
+                })
+                setApplications(allData)
+                allData.map(indivApplication => {
+                  if (indivApplication.collateid === selectedApproval.collateid) {
+                    setSelectedApplication(indivApplication)
+                    setSelectedApplicationData(indivApplication.application_data)
+                  }
+                })
               })
-            } else {
-              if(isEdit){
-                Swal.fire(
-                  'Success!',
-                  'Notes has been updated successfully!',
-                  'success'
-                )
-              } else {
-                Swal.fire(
-                  'Success!',
-                  'Notes has been added successfully!',
-                  'success'
-                )
-              }
-              setHideProjectManagerNotes(true)
-              setHideSupervisorNotes(true)
-              setHideChangeInSalary(true)
-              setHideCEONotes(true)
-            }
-            let allData = []
-            data.map(indivData => {
-              allData.push(indivData)
-            })
-            setApplications(allData)
-            allData.map(indivApplication => {
-              if (indivApplication.collateid === selectedApproval.collateid) {
-                setSelectedApplication(indivApplication)
-                setSelectedApplicationData(indivApplication.application_data)
-              }
-            })
-          })
-          .then(() => {
-            setIsReady(true)
-          })
-        
+              .then(() => {
+                setIsReady(true)
+              })
+            
           })
   }
 
@@ -946,7 +947,7 @@ const ChangeProfessionApproval = React.memo(() => {
     setIsReady(false)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
 
-    fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+    fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -1025,7 +1026,7 @@ const ChangeProfessionApproval = React.memo(() => {
           .then(res => res.json())
           .then(data => {
             handleShowSupervisorNotes()
-            fetch('http://localhost:3000/application')
+            fetch(`${config.baseURL}/application`)
           .then(res => res.json())
           .then(data => {
             if (data.error) {
@@ -1159,7 +1160,7 @@ const ChangeProfessionApproval = React.memo(() => {
           'Application has been Approved.',
           'success'
         )
-        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`${config.baseURL}/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -1174,7 +1175,7 @@ const ChangeProfessionApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+            fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
@@ -1263,7 +1264,7 @@ const ChangeProfessionApproval = React.memo(() => {
                 let applicationData = JSON.parse(data.data.application_data)
                 let empTblID = applicationData.employee_table_id
                 if(data.data.status === "APPROVED"){
-                  fetch(`http://localhost:3000/employees?id=${empTblID}`, {
+                  fetch(`${config.baseURL}/employees?id=${empTblID}`, {
                     method: 'put',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
                     body: JSON.stringify({
@@ -1309,7 +1310,7 @@ const ChangeProfessionApproval = React.memo(() => {
           'Application has been Denied.',
           'success'
         )
-        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`${config.baseURL}/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -1324,7 +1325,7 @@ const ChangeProfessionApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+            fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
@@ -1429,7 +1430,7 @@ const ChangeProfessionApproval = React.memo(() => {
           'Application has been tagged for Review.',
           'success'
         )
-        fetch(`http://localhost:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`${config.baseURL}/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -1445,7 +1446,7 @@ const ChangeProfessionApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://localhost:3000/application?id=${selectedApplication.id}`, {
+            fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({

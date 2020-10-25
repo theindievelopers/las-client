@@ -14,6 +14,7 @@ import {
   FormText,
   Spinner
 } from 'reactstrap';
+import { config } from '../../config/config';
 
 const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, isEdit, selectedEmployee,employees,searchField,hideListEmployees,handleHideListEmployees,handleFilterEmployee,
   handleProjectManagerChange,projectManager,immediateSuperior,handleImmediateSuperior,handleFilterImmdiateSuperior,searchSupervisor,
@@ -453,7 +454,7 @@ const EmployeeForm = React.memo(({ showForm, handleShowForm, handleFnameChange, 
               <Row>
                 <Col md={6}>
                   {props.signatureUpload || selectedEmployee.signature ?
-                    <img className="signature" width="100px" src={`http://localhost:3000/fetch/signature?id=${selectedEmployee.id}`}  alt="signature" />
+                    <img className="signature" width="100px" src={`${config.baseURL}/fetch/signature?id=${selectedEmployee.id}`}  alt="signature" />
                     :
                     ""
                   }

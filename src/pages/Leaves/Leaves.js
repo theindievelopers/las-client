@@ -9,7 +9,8 @@ import LeavesTable from './LeavesTable';
 import LeaveForm from './LeaveForm';
 import Swal from 'sweetalert2'
 import { Card, CardBody } from 'reactstrap';
-import { CredsContext } from '../../context/Context'
+import { CredsContext } from '../../context/Context';
+import { config } from '../../config/config';
 
 const Leaves = React.memo(props => {
   const { empCode, accessLevel, isLoggedIn, name, username } = useContext(CredsContext)
@@ -84,7 +85,7 @@ const Leaves = React.memo(props => {
     }
 
       // Applications
-      fetch('http://localhost:3000/application')
+      fetch(`${config.baseURL}/application`)
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -115,7 +116,7 @@ const Leaves = React.memo(props => {
         })
         
     // Employees
-    fetch('http://localhost:3000/employee')
+    fetch(`${config.baseURL}/employee`)
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -125,7 +126,7 @@ const Leaves = React.memo(props => {
 
 
     // Approvers Data
-    fetch('http://localhost:3000/applicationform')
+    fetch(`${config.baseURL}/applicationform`)
       .then(res => res.json())
       .then(data => {
         let approverCode = data[0].data.approvers
@@ -134,7 +135,7 @@ const Leaves = React.memo(props => {
         let coo = []
         let hraManager = [] 
         let logisticsOfficer = []
-        fetch('http://localhost:3000/employee')
+        fetch(`${config.baseURL}/employee`)
           .then(res => res.json())
           .then(data => {
             data.map(indivData => {
@@ -167,7 +168,7 @@ const Leaves = React.memo(props => {
 
   const refetch = () => {
     setIsLoading(true)
-    fetch('http://localhost:3000/application')
+    fetch(`${config.baseURL}/application`)
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -183,7 +184,7 @@ const Leaves = React.memo(props => {
         }
       })
 
-    fetch('http://localhost:3000/employee')
+    fetch(`${config.baseURL}/employee`)
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -496,7 +497,7 @@ const Leaves = React.memo(props => {
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
 
     if (isEdit) {
-      fetch(`http://localhost:3000/application?id=${selectedLeave.id}`, {
+      fetch(`${config.baseURL}/application?id=${selectedLeave.id}`, {
         method: 'put',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({
@@ -567,7 +568,7 @@ const Leaves = React.memo(props => {
         .catch(err => {
         })
     } else {
-      fetch('http://localhost:3000/application', {
+      fetch(`${config.baseURL}/application`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({
@@ -645,7 +646,7 @@ const Leaves = React.memo(props => {
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
 
     if (isEdit) {
-      fetch(`http://localhost:3000/application?id=${selectedLeave.id}`, {
+      fetch(`${config.baseURL}/application?id=${selectedLeave.id}`, {
         method: 'put',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({
@@ -731,7 +732,7 @@ const Leaves = React.memo(props => {
         .catch(err => {
         })
     } else {
-      fetch('http://localhost:3000/application', {
+      fetch(`${config.baseURL}/application`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({
