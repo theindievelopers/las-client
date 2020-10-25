@@ -21,6 +21,8 @@ const ChangeProfession = React.lazy(() => import('./pages/ChangeProfession/Chang
 const ChangeProfessionApproval = React.lazy(() => import('./pages/Approvals/ChangeProfession/ChangeProfessionApproval'))
 const IncrementRequest = React.lazy(() => import('./pages/IncrementRequest/IncrementRequest'))
 const IncrementRequestApproval = React.lazy(() => import('./pages/Approvals/IncrementRequestApproval/IncrementRequestApproval'))
+const LeaveApplications = React.lazy(() => import('./pages/LeaveApplication/LeaveApplications'))
+const LeaveApplicationsApproval = React.lazy(() => import('./pages/Approvals/LeaveApplication/LeaveApplicationApproval'))
 
 function App() {
   const loading = () => {
@@ -56,8 +58,14 @@ function App() {
           <Route
             path="/leaves"
             exact
-            name="Leaves"
+            name="Leaves Clearance"
             render={props => <Leaves {...props} />}
+          />
+          <Route
+            path="/leavesapplication"
+            exact
+            name="Leaves Application"
+            render={props => <LeaveApplications {...props} />}
           />
           <Route
             path="/resignation"
@@ -94,6 +102,12 @@ function App() {
             exact
             name="Leave Approvals"
             render={props => <LeaveApproval {...props} />}
+          />
+          <Route
+            path="/leaveapplication/approvals"
+            exact
+            name="Leave Application Approvals"
+            render={props => <LeaveApplicationsApproval {...props} />}
           />
           <Route
             path="/resignation/approvals"

@@ -94,7 +94,7 @@ const ResignationApprovalForm = React.memo(props => {
                   <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.project_manager_commentL1 || selectedApplicationData.project_manager_commentL2 || selectedApplicationData.project_manager_commentL3 ?
                       <Button color="secondary" onClick={handleEditProjectManagerCommentsInput}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >EDIT COMMENTS</Button>
                       :
                       <Button color="secondary" onClick={handleShowProjectManagerCommentsInput}
@@ -128,13 +128,13 @@ const ResignationApprovalForm = React.memo(props => {
                   <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.supervisor_commentL1 || selectedApplicationData.supervisor_commentL2 || selectedApplicationData.supervisor_commentL3 ?
                       <Button color="secondary" onClick={handleEditSupervisorCommentsInput}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT COMMENT
                         </Button>
                       :
                       <Button color="secondary" onClick={handleShowSupervisorCommentsInput}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >ADD COMMENT</Button>
                     }
                   </div>
@@ -164,13 +164,13 @@ const ResignationApprovalForm = React.memo(props => {
                   <div className="float-right mb-3">
                     {selectedApplicationData.hr_manager_commentL1 || selectedApplicationData.hr_manager_commentL2 ?
                       <Button color="secondary" onClick={handleEditHRCommentsInput}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT COMMENT
                         </Button>
                       :
                       <Button color="secondary" onClick={handleShowHRCommentsInput}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         ADD COMMENT
                         </Button>

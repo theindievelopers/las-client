@@ -187,7 +187,6 @@ const IncrementRequest = () => {
   }
 
   const handleSubmit = () => {
-    console.log(selectedEmployee)
     setIsLoading(true)
     if (selectedEmployee.length === 0) {
       return Swal.fire({

@@ -6,6 +6,8 @@ import Topbar from '../Layout/Topbar'
 import { CredsContext } from '../context/Context'
 import { Card, CardBody, CardTitle, CardText, Badge } from "reactstrap";
 import { Link } from "react-router-dom";
+import { PDFViewer } from '@react-pdf/renderer';
+import LeaveApplicationWorkerPDF from '../components/PDForms/LeaveApplicationWorkerPDF';
 
 const HomePage = (props) => {
 
@@ -16,7 +18,6 @@ const HomePage = (props) => {
 
 
   useEffect(() => {
-
     if (!isLoggedIn) {
       window.location.replace('#/login')
     }
@@ -34,6 +35,8 @@ const HomePage = (props) => {
         let changeProfessionReview = 0;
         let incrementRequestPending = 0;
         let incrementRequestReview = 0;
+        let leaveApplicationPending = 0;
+        let leaveApplicationReview = 0;
         data.map(indivData => {
           if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.approver_id) {
             if((indivData.application_type === "LEAVE_STAFF" || indivData.application_type === "LEAVE_WORKER") && indivData.status === "PENDING"){
@@ -66,6 +69,12 @@ const HomePage = (props) => {
             if(indivData.application_type === "INCREMENT_REQUEST" && indivData.status === "REVIEW"){
               incrementRequestReview++
             }
+            if(indivData.application_type === "LEAVE_WORKER_APPLICATION" && indivData.status === "PENDING"){
+              leaveApplicationPending++
+            }
+            if(indivData.application_type === "LEAVE_WORKER_APPLICATION" && indivData.status === "REVIEW"){
+              leaveApplicationReview++
+            }
           }
         })
         setApplicationPendings({
@@ -78,10 +87,15 @@ const HomePage = (props) => {
           changeProfessionPending,
           changeProfessionReview,
           incrementRequestPending,
-          incrementRequestReview
+          incrementRequestReview,
+          leaveApplicationPending,
+          leaveApplicationReview
         })
       })
 
+      setTimeout(() => {
+        setIsReady(true);
+      }, 1000);
   }, [])
 
   return (
@@ -97,68 +111,68 @@ const HomePage = (props) => {
                 </div>
                 { accessLevel === 1 || accessLevel === 2 || accessLevel === 3 ?
                   <div className="row" style={{ color: 'black' }}>
-                  <div className="col-md-4 justify-content-center pb-4">
-                    <Link to="/leave/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
-                      <Card h-100>
-                        <CardBody>
-                          <CardTitle><strong>LEAVES STAFF/WORKER</strong></CardTitle>
-                          <CardText>
-                              Pendings: <Badge color="danger">{applicationPendings.leavesPending} </Badge> Reviews: <Badge color="danger">{applicationPendings.leavesReview} </Badge>
-                          </CardText>
-                        </CardBody>
-                      </Card>
-                    </Link>
+                    <div className="col-md-4 justify-content-center pb-4">
+                      <Link to="/leave/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                        <Card>
+                          <CardBody>
+                            <CardTitle><strong>LEAVE CLEARANCE</strong></CardTitle>
+                            <CardText>
+                                Pendings: <Badge color="danger">{applicationPendings.leavesPending} </Badge> Reviews: <Badge color="danger">{applicationPendings.leavesReview} </Badge>
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </Link>
+                    </div>
+                    <div className="col-md-4 justify-content-center pb-4">
+                      <Link to="/leaveapplication/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                        <Card>
+                          <CardBody>
+                            <CardTitle><strong>LEAVE APPLICATION</strong></CardTitle>
+                            <CardText>
+                                Pendings: <Badge color="danger">{applicationPendings.leaveApplicationPending} </Badge> Reviews: <Badge color="danger">{applicationPendings.leaveApplicationReview} </Badge>
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </Link>
+                    </div>
+                    <div className="col-md-4 justify-content-center pb-4">
+                      <Link to="/resignation/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                        <Card>
+                          <CardBody>
+                            <CardTitle><strong>RESIGNATION</strong></CardTitle>
+                            <CardText>
+                              Pendings: <Badge color="danger">{applicationPendings.resignationPending}</Badge> Reviews: <Badge color="danger">{applicationPendings.resignationReview}</Badge>
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </Link>
+                    </div>
+                    <div className="col-md-4 justify-content-center pb-4">
+                      <Link to="/changeprofession/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                        <Card>
+                          <CardBody>
+                            <CardTitle><strong>CHANGE PROFESSION REQUEST</strong></CardTitle>
+                            <CardText>
+                              Pendings: <Badge color="danger">{applicationPendings.changeProfessionPending}</Badge> Reviews: <Badge color="danger">{applicationPendings.changeProfessionReview}</Badge>
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </Link>
+                    </div>
+                    <div className="col-md-4 justify-content-center pb-4">
+                      <Link to="/incrementrequest/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
+                        <Card>
+                          <CardBody>
+                            <CardTitle><strong>INCREMENT REQUEST</strong></CardTitle>
+                            <CardText>
+                              Pendings: <Badge color="danger">{applicationPendings.incrementRequestPending}</Badge> Reviews: <Badge color="danger">{applicationPendings.incrementRequestReview}</Badge>
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </Link>
+                    </div>
                   </div>
-                  <div className="col-md-4 justify-content-center pb-4">
-                    <Link to="/resignation/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
-                      <Card>
-                        <CardBody>
-                          <CardTitle><strong>RESIGNATION</strong></CardTitle>
-                          <CardText>
-                            Pendings: <Badge color="danger">{applicationPendings.resignationPending}</Badge> Reviews: <Badge color="danger">{applicationPendings.resignationReview}</Badge>
-                          </CardText>
-                        </CardBody>
-                      </Card>
-                    </Link>
-                  </div>
-                  {/* <div className="col-md-4 justify-content-center pb-4">
-                    <Link to="/staffrequisition/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
-                      <Card>
-                        <CardBody>
-                          <CardTitle><strong>STAFF REQUISITION</strong></CardTitle>
-                          <CardText>
-                            Pendings: <Badge color="danger">{applicationPendings.staffrequisitionPending}</Badge> Reviews: <Badge color="danger">{applicationPendings.staffrequisitionReview}</Badge>
-                          </CardText>
-                        </CardBody>
-                      </Card>
-                    </Link>
-                  </div> */}
-                  <div className="col-md-4 justify-content-center pb-4">
-                    <Link to="/changeprofession/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
-                      <Card>
-                        <CardBody>
-                          <CardTitle><strong>CHANGE PROFESSION REQUEST</strong></CardTitle>
-                          <CardText>
-                            Pendings: <Badge color="danger">{applicationPendings.changeProfessionPending}</Badge> Reviews: <Badge color="danger">{applicationPendings.changeProfessionReview}</Badge>
-                          </CardText>
-                        </CardBody>
-                      </Card>
-                    </Link>
-                  </div>
-                  <div className="col-md-4 justify-content-center pb-4">
-                    <Link to="/incrementrequest/approvals" style={{ textDecoration: 'none', color: '#373a3c' }}>
-                      <Card>
-                        <CardBody>
-                          <CardTitle><strong>INCREMENT REQUEST</strong></CardTitle>
-                          <CardText>
-                            Pendings: <Badge color="danger">{applicationPendings.incrementRequestPending}</Badge> Reviews: <Badge color="danger">{applicationPendings.incrementRequestReview}</Badge>
-                          </CardText>
-                        </CardBody>
-                      </Card>
-                    </Link>
-                  </div>
-                </div>
-                : ""
+                  : ""
                 }
               </div>
             </div>

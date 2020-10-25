@@ -907,7 +907,7 @@ const Leaves = React.memo(props => {
             <div className="row justify-content-center">
               <div className="col-md-12 ">
                 <div className="text-center">
-                  <h1 className='pt-5 pb-3'>Leaves</h1>
+                  <h1 className='pt-5 pb-3'>Leave Clearance</h1>
                 </div>
                 <div className='col-lg-12 justify-content-center'>
                   <Card>
