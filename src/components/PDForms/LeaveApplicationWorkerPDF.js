@@ -241,7 +241,7 @@ const LeaveApplicationWorkerPDF = ({ selectedApplication, applicationData, ceoCo
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 159, paddingLeft: 3, marginLeft: 3 }}>
                   {applicationData.employee_signature ?
                     <View>
-                      <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.employee_code} style={{width: 100,height: 17}}/>
+                      <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + applicationData.employee_code} style={{width: 100,height: 17}}/>
                     </View>
                     :
                     <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 17, width: 100, marginLeft: "5px", color: "white" }}>
@@ -282,7 +282,7 @@ const LeaveApplicationWorkerPDF = ({ selectedApplication, applicationData, ceoCo
             <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 122, paddingLeft: 3, marginLeft: 4 }}>
               {applicationData.supervisor_signature ?
                 <View>
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.immediate_supervisor} style={{width: 100,height: 17}}/>
+                  <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + applicationData.immediate_supervisor} style={{width: 100,height: 17}}/>
                 </View>
                 :
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 17, width: 100, marginLeft: "5px", color: "white" }}>
@@ -294,7 +294,7 @@ const LeaveApplicationWorkerPDF = ({ selectedApplication, applicationData, ceoCo
             <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 133, paddingLeft: 3, marginLeft: 9 }}>
               {applicationData.project_manager_signature ?
                 <View>
-                  <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.project_manager} style={{width: 100,height: 17}}/>
+                  <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + applicationData.project_manager} style={{width: 100,height: 17}}/>
                 </View>
                 :
                 <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 17, width: 100, marginLeft: "5px", color: "white" }}>
@@ -388,7 +388,7 @@ const LeaveApplicationWorkerPDF = ({ selectedApplication, applicationData, ceoCo
               <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 141, paddingLeft: 3, marginLeft: 3 }}>
                 {applicationData.hra_manager_signature ?
                   <View>
-                    <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 100,height: 17}}/>
+                    <Image source={"http://192.168.0.200:3000/fetch/signature?code=" + hraManagerCode} style={{width: 100,height: 17}}/>
                   </View>
                   :
                   <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 17, width: 100, marginLeft: "5px", color: "white" }}>
