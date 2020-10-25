@@ -10,6 +10,7 @@ import {
 } from '../globalcomponents';
 import Swal from 'sweetalert2';
 import { CredsContext } from '../context/Context'
+import { config } from '../config/config';
 
 const Login = () => {
   const { saveCreds } = useContext(CredsContext)
@@ -57,7 +58,7 @@ const Login = () => {
         text: 'Password Required!',
       })
     } else {
-      fetch('http://192.168.0.200:3000/login', {
+      fetch(`${config.baseURL}/login`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',

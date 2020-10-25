@@ -1,15 +1,16 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useContext } from 'react'
-import Sidebar from '../../Layout/Sidebar'
-import Topbar from '../../Layout/Topbar'
-import EmployeesTable from './EmployeesTable'
-import EmployeeForm from './EmployeeForm'
-import Axios from 'axios'
-import moment from 'moment'
-import Swal from 'sweetalert2'
-import { Card,CardBody } from 'reactstrap'
-import { CredsContext } from '../../context/Context'
+import React, { useState, useEffect, useContext } from 'react';
+import Sidebar from '../../Layout/Sidebar';
+import Topbar from '../../Layout/Topbar';
+import EmployeesTable from './EmployeesTable';
+import EmployeeForm from './EmployeeForm';
+import Axios from 'axios';
+import moment from 'moment';
+import Swal from 'sweetalert2';
+import { Card,CardBody } from 'reactstrap';
+import { CredsContext } from '../../context/Context';
+import { config } from '../../config/config';
 
 const Employees = React.memo( props => {
   const { isLoggedIn, name, username } = useContext(CredsContext)
@@ -80,7 +81,7 @@ const Employees = React.memo( props => {
     // const abortController = new AbortController()
     // const signal = abortController.signal
 
-    fetch('http://192.168.0.200:3000/employee')
+    fetch(`${config.baseURL}/employee`)
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -96,7 +97,7 @@ const Employees = React.memo( props => {
 
   const refetch = () => {
     setIsLoading(true)
-    fetch('http://192.168.0.200:3000/employee')
+    fetch(`${config.baseURL}/employee`)
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -400,7 +401,7 @@ const Employees = React.memo( props => {
           'authorization': `Basic ${creds}`
         }
       }
-      Axios.post(`http://192.168.0.200:3000/upload/signature?id=${selectedEmployee.id}`, formData, config)
+      Axios.post(`${config.baseURL}/upload/signature?id=${selectedEmployee.id}`, formData, config)
         .then(res => {
           setSignature(res.data.data.signature)
           setSignatureUpload(true)
@@ -440,7 +441,7 @@ const Employees = React.memo( props => {
     setIsLoading(true)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if (isEdit) {
-      fetch(`http://192.168.0.200:3000/employees?id=${selectedEmployee.id}`, {
+      fetch(`${config.baseURL}/employees?id=${selectedEmployee.id}`, {
         method: 'put',
         headers: { 'Content-Type': 'application/json',  'authorization': `Basic ${creds}`},
         body: JSON.stringify({
@@ -511,7 +512,7 @@ const Employees = React.memo( props => {
         .catch(err => {
         })
     } else {
-      fetch('http://192.168.0.200:3000/employees', {
+      fetch(`${config.baseURL}/employees`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
         body: JSON.stringify({

@@ -6,8 +6,7 @@ import Topbar from '../Layout/Topbar'
 import { CredsContext } from '../context/Context'
 import { Card, CardBody, CardTitle, CardText, Badge } from "reactstrap";
 import { Link } from "react-router-dom";
-import { PDFViewer } from '@react-pdf/renderer';
-import LeaveApplicationWorkerPDF from '../components/PDForms/LeaveApplicationWorkerPDF';
+import { config } from '../config/config';
 
 const HomePage = (props) => {
 
@@ -21,8 +20,8 @@ const HomePage = (props) => {
     if (!isLoggedIn) {
       window.location.replace('#/login')
     }
-
-    fetch('http://192.168.0.200:3000/approvals')
+    console.log(config)
+    fetch(`${config.baseURL}/approvals`)
       .then(res => res.json())
       .then(data => {
         let leavesPending = 0;

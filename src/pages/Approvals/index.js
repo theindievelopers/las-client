@@ -6,6 +6,7 @@ import Topbar from "../../Layout/Topbar";
 import { Card, CardBody, CardTitle, CardText, Badge } from "reactstrap";
 import { Link } from "react-router-dom";
 import { CredsContext } from '../../context/Context'
+import { config } from '../../config/config';
 
 const Approvals = () => {
 
@@ -13,7 +14,7 @@ const Approvals = () => {
   const [applicationPendings, setApplicationPendings] = useState({})
 
   useEffect(() => {
-    fetch('http://192.168.0.200:3000/approvals')
+    fetch(`${config.baseURL}/approvals`)
       .then(res => res.json())
       .then(data => {
         let leaves = 0;

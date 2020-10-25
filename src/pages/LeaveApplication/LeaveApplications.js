@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect, useContext } from 'react';
 import Sidebar from '../../Layout/Sidebar';
 import Topbar from '../../Layout/Topbar';
@@ -7,6 +8,7 @@ import LeaveApplicationTable from './LeaveApplicationTable';
 import LeaveApplicationForm from './LeaveApplicationForm';
 import moment from 'moment';
 import Swal from 'sweetalert2';
+import { config } from '../../config/config';
 
 const LeaveApplications = React.memo(() => {
   const { empCode, accessLevel, isLoggedIn, employees, name, username } = useContext(CredsContext)
@@ -42,7 +44,7 @@ const LeaveApplications = React.memo(() => {
   const refetch = () => {
     setIsLoading(true)
     //Applications
-    fetch('http://192.168.0.200:3000/application')
+    fetch(`${config.baseURL}/application`)
       .then(res => res.json())
       .then(data => {
 
@@ -74,12 +76,12 @@ const LeaveApplications = React.memo(() => {
         })
 
     // Approvers Data
-    fetch('http://192.168.0.200:3000/applicationform')
+    fetch(`${config.baseURL}/applicationform`)
     .then(res => res.json())
     .then(data => {
       let approverCode = data[0].data.approvers
       let hraManager = [] 
-      fetch('http://192.168.0.200:3000/employee')
+      fetch(`${config.baseURL}/employee`)
         .then(res => res.json())
         .then(data => {
           data.map(indivData => {
@@ -224,7 +226,7 @@ const LeaveApplications = React.memo(() => {
     }
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if(isEdit){
-      fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
+      fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
         method: 'put',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({
@@ -295,7 +297,7 @@ const LeaveApplications = React.memo(() => {
           }
         })
     } else {
-      fetch('http://192.168.0.200:3000/application', {
+      fetch(`${config.baseURL}/application`, {
           method: 'post',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({

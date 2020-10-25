@@ -8,6 +8,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2'
 import IncrementRequestTable from './IncrementRequestTable';
 import IncrementRequestForm from './IncrementRequestForm';
+import { config } from '../../config/config';
 
 const IncrementRequest = () => {
   const { empCode, accessLevel, name, isLoggedIn, employees, username } = useContext(CredsContext)
@@ -42,7 +43,7 @@ const IncrementRequest = () => {
   
   const fetchData = () => {
     setIsLoading(true)
-    fetch('http://192.168.0.200:3000/application')
+    fetch(`${config.baseURL}/application`)
       .then(res => res.json())
       .then(data => {
         if(data) {
@@ -73,14 +74,14 @@ const IncrementRequest = () => {
       })
 
       // Approvers Data
-      fetch('http://192.168.0.200:3000/applicationform')
+      fetch(`${config.baseURL}/applicationform`)
       .then(res => res.json())
       .then(data => {
         let approverCode = data[0].data.approvers
         let ceo = []
         let coo = []
         let hraManager = [] 
-        fetch('http://192.168.0.200:3000/employee')
+        fetch(`${config.baseURL}/employee`)
           .then(res => res.json())
           .then(data => {
             data.map(indivData => {
@@ -197,7 +198,7 @@ const IncrementRequest = () => {
     }
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if(isEdit) {
-      fetch(`http://192.168.0.200:3000/application?id=${selectedIncrementRequest.id}`, {
+      fetch(`${config.baseURL}/application?id=${selectedIncrementRequest.id}`, {
       method: 'put',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
       body: JSON.stringify({
@@ -294,7 +295,7 @@ const IncrementRequest = () => {
       })
     } else {
 
-      fetch('http://192.168.0.200:3000/application', {
+      fetch(`${config.baseURL}/application`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
         body: JSON.stringify({

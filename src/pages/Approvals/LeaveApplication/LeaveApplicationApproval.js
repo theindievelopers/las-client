@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { CredsContext } from '../../../context/Context';
 import LeaveApplicationApprovalTable from './LeaveApplicationApprovalTable';
 import LeaveApplicationApprovalForm from './LeaveApplicationApprovalForm';
+import { config } from '../../../config/config';
 
 const LeaveApplicationApproval = React.memo(() => {
   const { empCode, accessLevel, name, isLoggedIn, username } = useContext(CredsContext)
@@ -56,7 +57,7 @@ const LeaveApplicationApproval = React.memo(() => {
   }, [])
 
   const refetch = () => {
-    fetch('http://192.168.0.200:3000/approvals')
+    fetch(`${config.baseURL}/approvals`)
       .then(res => res.json())
       .then(data => {
         let allData = []
@@ -90,7 +91,7 @@ const LeaveApplicationApproval = React.memo(() => {
         setIsLoading(false)
       })
 
-    fetch('http://192.168.0.200:3000/application')
+    fetch(`${config.baseURL}/application`)
       .then(res => res.json())
       .then(data => {
         let allData = []
@@ -100,12 +101,12 @@ const LeaveApplicationApproval = React.memo(() => {
         setApplications(allData)
       })
 
-    fetch('http://192.168.0.200:3000/applicationform')
+    fetch(`${config.baseURL}/applicationform`)
       .then(res => res.json())
       .then(data => {
         let approverCode = data[0].data.approvers
         let hraManager = []
-        fetch('http://192.168.0.200:3000/employee')
+        fetch(`${config.baseURL}/employee`)
           .then(res => res.json())
           .then(data => {
             data.map(inidvData => {
@@ -264,7 +265,7 @@ const LeaveApplicationApproval = React.memo(() => {
   const handleSaveHraRemarks = () => {
     setIsReady(false)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
-    fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
+    fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -321,48 +322,48 @@ const LeaveApplicationApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch('http://192.168.0.200:3000/application')
-          .then(res => res.json())
-          .then(data => {
-            if (data.error) {
-              return Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: `${data.error}`,
+            fetch(`${config.baseURL}/application`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.error) {
+                  return Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: `${data.error}`,
+                  })
+                } else {
+                  if(isEdit){
+                    Swal.fire(
+                      'Success!',
+                      'Comments has been updated successfully!',
+                      'success'
+                    )
+                  } else {
+                    Swal.fire(
+                      'Success!',
+                      'Comments has been added successfully!',
+                      'success'
+                    )
+                  }
+                  setHideProjectManagerComments(true)
+                  setHideSupervisorComments(true)
+                  setHideHraRemarks(true)
+                }
+                let allData = []
+                data.map(indivData => {
+                  allData.push(indivData)
+                })
+                setApplications(allData)
+                allData.map(indivApplication => {
+                  if (indivApplication.collateid === selectedApproval.collateid) {
+                    setSelectedApplication(indivApplication)
+                    setSelectedApplicationData(indivApplication.application_data)
+                  }
+                })
               })
-            } else {
-              if(isEdit){
-                Swal.fire(
-                  'Success!',
-                  'Comments has been updated successfully!',
-                  'success'
-                )
-              } else {
-                Swal.fire(
-                  'Success!',
-                  'Comments has been added successfully!',
-                  'success'
-                )
-              }
-              setHideProjectManagerComments(true)
-              setHideSupervisorComments(true)
-              setHideHraRemarks(true)
-            }
-            let allData = []
-            data.map(indivData => {
-              allData.push(indivData)
-            })
-            setApplications(allData)
-            allData.map(indivApplication => {
-              if (indivApplication.collateid === selectedApproval.collateid) {
-                setSelectedApplication(indivApplication)
-                setSelectedApplicationData(indivApplication.application_data)
-              }
-            })
-          })
-          .then(() => {
-            setIsReady(true)
-          })
+              .then(() => {
+                setIsReady(true)
+              })
         
           })
   }
@@ -370,7 +371,7 @@ const LeaveApplicationApproval = React.memo(() => {
   const handleSaveProjectManagerComments = () => {
     setIsReady(false)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
-    fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
+    fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -427,7 +428,7 @@ const LeaveApplicationApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch('http://192.168.0.200:3000/application')
+            fetch(`${config.baseURL}/application`)
           .then(res => res.json())
           .then(data => {
             if (data.error) {
@@ -475,7 +476,7 @@ const LeaveApplicationApproval = React.memo(() => {
   const handleSaveSupervisorComments = () => {
     setIsReady(false)
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
-    fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
+    fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -532,7 +533,7 @@ const LeaveApplicationApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch('http://192.168.0.200:3000/application')
+            fetch(`${config.baseURL}/application`)
           .then(res => res.json())
           .then(data => {
             if (data.error) {
@@ -634,7 +635,7 @@ const LeaveApplicationApproval = React.memo(() => {
           'Application has been Approved.',
           'success'
         )
-        fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`${config.baseURL}/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -649,7 +650,7 @@ const LeaveApplicationApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
+            fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
@@ -739,7 +740,7 @@ const LeaveApplicationApproval = React.memo(() => {
           'Application has been Denied.',
           'success'
         )
-        fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`${config.baseURL}/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -754,7 +755,7 @@ const LeaveApplicationApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
+            fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({
@@ -838,7 +839,7 @@ const LeaveApplicationApproval = React.memo(() => {
           'Application has been tagged for Review.',
           'success'
         )
-        fetch(`http://192.168.0.200:3000/approvals?id=${selectedApproval.id}`, {
+        fetch(`${config.baseURL}/approvals?id=${selectedApproval.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -854,7 +855,7 @@ const LeaveApplicationApproval = React.memo(() => {
         })
           .then(res => res.json())
           .then(data => {
-            fetch(`http://192.168.0.200:3000/application?id=${selectedApplication.id}`, {
+            fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
               method: 'put',
               headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${creds}` },
               body: JSON.stringify({

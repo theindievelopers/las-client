@@ -7,7 +7,8 @@ import { CredsContext } from '../../context/Context';
 import ChangeProfessionTable from '../ChangeProfession/ChangeProfessionTable';
 import ChangeProfessionForm from './ChangeProfessionForm';
 import moment from 'moment';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { config } from '../../config/config';
 
 const ChangeProfession = React.memo(() => {
 
@@ -40,7 +41,7 @@ const ChangeProfession = React.memo(() => {
 
   const fetchData = () => {
     setIsLoading(true)
-    fetch('http://192.168.0.200:3000/application')
+    fetch(`${config.baseURL}/application`)
       .then(res => res.json())
       .then(data => {
         if(data) {
@@ -71,14 +72,14 @@ const ChangeProfession = React.memo(() => {
       })
 
       // Approvers Data
-    fetch('http://192.168.0.200:3000/applicationform')
+    fetch(`${config.baseURL}/applicationform`)
     .then(res => res.json())
     .then(data => {
       let approverCode = data[0].data.approvers
       let ceo = []
       let coo = []
       let hraManager = [] 
-      fetch('http://192.168.0.200:3000/employee')
+      fetch(`${config.baseURL}/employee`)
         .then(res => res.json())
         .then(data => {
           data.map(indivData => {
@@ -171,7 +172,7 @@ const ChangeProfession = React.memo(() => {
   const handleSubmit = () => {
     const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
     if(isEdit) {
-      fetch(`http://192.168.0.200:3000/application?id=${selectedChangeProfessionRequest.id}`, {
+      fetch(`${config.baseURL}/application?id=${selectedChangeProfessionRequest.id}`, {
           method: 'put',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
@@ -269,7 +270,7 @@ const ChangeProfession = React.memo(() => {
             }
           })
     } else {
-      fetch('http://192.168.0.200:3000/application', {
+      fetch(`${config.baseURL}/application`, {
           method: 'post',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
           body: JSON.stringify({
