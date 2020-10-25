@@ -61,19 +61,19 @@ const LeaveApplicationForm = React.memo(({
           }
           {isEdit && selectedApplication.application_form_code === "LEAVE_WORKER_APPLICATION" ?
             <LeaveApplicationWorker 
-            selectedEmployee={selectedEmployee}
-            handleCountryDestinationChange={handleCountryDestinationChange}
-            handleContactCountryDestinationChange={handleContactCountryDestinationChange}
-            handleLeaveTypeChange={handleLeaveTypeChange}
-            handleLeaveStartDate={handleLeaveStartDate}
-            handleLeaveEndDate={handleLeaveEndDate}
-            handleActualTravelDate={handleActualTravelDate}
-            handleNoOfDaysApplied={handleNoOfDaysApplied}
-            handleDestination={handleDestination}
-            submitWorker={submitWorker}
-            isEdit={isEdit}
-            noOfDaysApplied={noOfDaysApplied}
-            selectedApplication={selectedApplication}
+              selectedEmployee={selectedEmployee}
+              handleCountryDestinationChange={handleCountryDestinationChange}
+              handleContactCountryDestinationChange={handleContactCountryDestinationChange}
+              handleLeaveTypeChange={handleLeaveTypeChange}
+              handleLeaveStartDate={handleLeaveStartDate}
+              handleLeaveEndDate={handleLeaveEndDate}
+              handleActualTravelDate={handleActualTravelDate}
+              handleNoOfDaysApplied={handleNoOfDaysApplied}
+              handleDestination={handleDestination}
+              submitWorker={submitWorker}
+              isEdit={isEdit}
+              noOfDaysApplied={noOfDaysApplied}
+              selectedApplication={selectedApplication}
             />
             :
             isEdit && selectedApplication.application_form_code === "LEAVE_STAFF_APPLICATION" ?

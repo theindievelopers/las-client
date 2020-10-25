@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Modal,
   ModalHeader,
@@ -6,7 +6,8 @@ import {
   Button,
   Col,
   Row,
-  Spinner, Input, FormGroup, Label
+  Spinner, Input, FormGroup, Label,
+  Dropdown, DropdownToggle, DropdownMenu, DropdownItem,
 } from 'reactstrap';
 import { PDFViewer } from '@react-pdf/renderer';
 import LeaveApplicationWorkerPDF from '../../../components/PDForms/LeaveApplicationWorkerPDF'
@@ -19,7 +20,12 @@ const LeaveApplicationApprovalForm = React.memo(props => {
     hideProjectManagerComments, handleProjectManagerCommentsChange, projectManagerComments, handleSaveProjectManagerComments,
     handleEditHraRemarks, handleShowHraRemarks, hideHraRemarks, handleSaveHraRemarks,
     handlePreviousLeaveDateChange, handlePreviousLeaveTypeChange, handlePreviousAnnualLeave, handleHraRemarksChange, hraRemarks,
-  } = props
+  } = props;  
+  
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleAction = () => setDropdownOpen(prevState => !prevState);
+
   return (
     <React.Fragment>
       <Modal
@@ -52,18 +58,45 @@ const LeaveApplicationApprovalForm = React.memo(props => {
             </Col>
             <Col md={12}>
               <hr />
+              {accessLevel === 1 ?
+                <div className="float-right mb-3 ml-2">
+                  <Dropdown isOpen={dropdownOpen} toggle={toggleAction}>
+                    <DropdownToggle>
+                      ACTIONS
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      {selectedApplicationData.supervisor_commentL1 || selectedApplicationData.supervisor_commentL2 ?
+                        <DropdownItem onClick={handleEditSupervisorComments}>EDIT SUPERVISOR COMMENTS</DropdownItem>
+                        :
+                        <DropdownItem onClick={handleShowSupervisorComments}>ADD SUPERVISOR COMMENTS</DropdownItem>
+                      }
+                      {selectedApplicationData.project_manager_comment ?
+                        <DropdownItem onClick={handleEditProjectManagerComments}>EDIT PROJECT MANAGER COMMENT</DropdownItem>
+                        : 
+                        <DropdownItem onClick={handleShowProjectManagerComments}>ADD PROJECT MANAGER COMMENT</DropdownItem>
+                      }
+                      {selectedApplicationData.hra_remarksL1 || selectedApplicationData.hra_remarksL2 || selectedApplicationData.hra_remarksL3 ?
+                        <DropdownItem onClick={handleEditHraRemarks}>EDIT HR REMARKS</DropdownItem>
+                        :
+                        <DropdownItem onClick={handleShowHraRemarks}>ADD HR REMARKS</DropdownItem>
+                      }
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+                : ""
+              }
               {selectedApplicationData.immediate_supervisor === empCode ?
                 <React.Fragment>
                   <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.supervisor_commentL1 || selectedApplicationData.supervisor_commentL2 ?
                       <Button color="secondary" onClick={handleEditSupervisorComments}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT SUPERVISOR COMMENTS
                         </Button>
                       :
                       <Button color="secondary" onClick={handleShowSupervisorComments}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >ADD SUPERVISOR COMMENTS</Button>
                     }
                   </div>
@@ -98,13 +131,13 @@ const LeaveApplicationApprovalForm = React.memo(props => {
                   <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.project_manager_comment ?
                       <Button color="secondary" onClick={handleEditProjectManagerComments}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT PROJECT MANAGER COMMENTS
                         </Button>
                       :
                       <Button color="secondary" onClick={handleShowProjectManagerComments}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >ADD PROJECT MANAGER COMMENTS</Button>
                     }
                   </div>
@@ -142,13 +175,13 @@ const LeaveApplicationApprovalForm = React.memo(props => {
                   <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.hra_remarksL1 || selectedApplicationData.hra_remarksL2 || selectedApplicationData.hra_remarksL3 ?
                       <Button color="secondary" onClick={handleEditHraRemarks}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT HR REMARKS
                         </Button>
                       :
                       <Button color="secondary" onClick={handleShowHraRemarks}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >ADD HR REMARKS</Button>
                     }
                   </div>

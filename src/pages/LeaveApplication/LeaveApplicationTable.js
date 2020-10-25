@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import MaterialTable from 'material-table';
 import { PDFViewer } from '@react-pdf/renderer';
-import WorkerPDF from '../../components/PDForms/WorkerPDF';
 import StaffPDF from '../../components/PDForms/StaffPDF';
+import LeaveApplicationWorkerPDF from '../../components/PDForms/LeaveApplicationWorkerPDF';
 
 class LeaveApplicationTable extends Component {
   state = {
@@ -64,36 +64,19 @@ class LeaveApplicationTable extends Component {
             disabled: rowData.status === "DENIED" || rowData.status === "PROCESSING" || rowData.status === "REVIEW",
             render: rowData => {
               let appData = rowData.application_data
-              if (rowData.application_form_code === "LEAVE_WORKER") {
+              if (rowData.application_form_code === "LEAVE_WORKER_APPLICATION") {
                 return (
                   <PDFViewer
                     width="500px" height="850px"
                   >
-                    <WorkerPDF
+                    <LeaveApplicationWorkerPDF 
                       applicationData={appData}
-                      name={appData.name}
-                      department={appData.project}
-                      employeeNum={appData.employee_code}
-                      position={appData.position}
-                      departureDate={appData.departure_date}
-                      returnDate={appData.return_date}
-                      contactNum={appData.contact_number}
-                      typeOfLeave={appData.leave_type}
-                      itemIssued={appData.items_issued_type}
-                      employeeSignature={appData.employee_signature}
-                      itemIssuedOthers={appData.items_issued_others_remarks}
-                      passport={appData.receive_passport}
-                      settlement={appData.receive_settlement}
-                      ticket={appData.receive_ticket}
-                      recievedOthers={appData.receive_others}
-                      recievedOthersRemarks={appData.receive_others_remarks}
-                      leaveFrom={appData.leave_from}
-                      leaveTo={appData.leave_to}
-                      backOn={appData.be_back_on}
-                      employeeSignDate={appData.employee_signature_date}
-
-                      />
-                    </PDFViewer>
+                      selectedApplication={rowData}
+                      hraManagerCode={this.props.hraManager.code}
+                      projectManagerCode={appData.project_manager}
+                      immediateSuperiorCode={appData.immediate_supervisor}  
+                    />
+                  </PDFViewer>
                 )
               } else if (rowData.application_form_code === "LEAVE_STAFF") {
               return (

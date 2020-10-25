@@ -244,7 +244,7 @@ const LeaveApplicationWorkerPDF = ({ selectedApplication, applicationData, ceoCo
                       <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.employee_code} style={{width: 100,height: 17}}/>
                     </View>
                     :
-                    <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
+                    <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 17, width: 100, marginLeft: "5px", color: "white" }}>
                       Placeholder
                     </Text>
                   }
@@ -285,7 +285,7 @@ const LeaveApplicationWorkerPDF = ({ selectedApplication, applicationData, ceoCo
                   <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.immediate_supervisor} style={{width: 100,height: 17}}/>
                 </View>
                 :
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 17, width: 100, marginLeft: "5px", color: "white" }}>
                   Placeholder
                 </Text>
               }
@@ -297,7 +297,7 @@ const LeaveApplicationWorkerPDF = ({ selectedApplication, applicationData, ceoCo
                   <Image source={"http://localhost:3000/fetch/signature?code=" + applicationData.project_manager} style={{width: 100,height: 17}}/>
                 </View>
                 :
-                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
+                <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 17, width: 100, marginLeft: "5px", color: "white" }}>
                   Placeholder
                 </Text>
               }
@@ -391,7 +391,7 @@ const LeaveApplicationWorkerPDF = ({ selectedApplication, applicationData, ceoCo
                     <Image source={"http://localhost:3000/fetch/signature?code=" + hraManagerCode} style={{width: 100,height: 17}}/>
                   </View>
                   :
-                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 20, width: 180, marginLeft: "5px", color: "white" }}>
+                  <Text style={{ textAlign: "center", borderBottom: 1, fontSize: 17, width: 100, marginLeft: "5px", color: "white" }}>
                     Placeholder
                   </Text>
                 }

@@ -106,13 +106,13 @@ const IncrementRequestApprovalForm = React.memo(({
                   <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.supervisor_notesL1 || selectedApplicationData.supervisor_notesL2 || selectedApplicationData.supervisor_notesL3 ?
                       <Button color="secondary" onClick={handleEditSupervisorNotes}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT SUPERVISOR NOTES
                         </Button>
                       :
                       <Button color="secondary" onClick={handleShowSupervisorNotes}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >ADD SUPERVISOR NOTES</Button>
                     }
                   </div>
@@ -147,13 +147,13 @@ const IncrementRequestApprovalForm = React.memo(({
                   <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.project_manager_notesL1 || selectedApplicationData.project_manager_notesL2 || selectedApplicationData.project_manager_notesL3 ?
                       <Button color="secondary" onClick={handleEditProjectManagerNotes}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT NOTES
                         </Button>
                       :
                       <Button color="secondary" onClick={handleShowProjectManagerNotes}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >ADD NOTES</Button>
                     }
                   </div>
@@ -189,13 +189,13 @@ const IncrementRequestApprovalForm = React.memo(({
                     {selectedApplicationData.new_basic || selectedApplicationData.new_food_allowance || selectedApplicationData.new_general_allowance || selectedApplicationData.new_housing_allowance || 
                       selectedApplicationData.new_tel_allowance || selectedApplicationData.new_transportation_allowance ?
                       <Button color="secondary" onClick={handleEditManagementDesicion}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT MANAGEMENT DESICION
                         </Button>
                       :
                       <Button color="secondary" onClick={handleShowManagementDesicion}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >MANAGEMENT DESICION</Button>
                     }
                   </div>
@@ -296,13 +296,13 @@ const IncrementRequestApprovalForm = React.memo(({
                   <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.ceo_notes ?
                       <Button color="secondary" onClick={handleEditCEONotes}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT NOTES
                         </Button>
                       :
                       <Button color="secondary" onClick={handleShowCEONotes}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >ADD NOTES</Button>
                     }
                   </div>
@@ -335,7 +335,7 @@ const IncrementRequestApprovalForm = React.memo(({
                   <div className="float-right mb-3 ml-2">
                     {selectedApplicationData.coo_notes ?
                       <Button color="secondary" onClick={handleEditCOONotes}
-                        disabled={selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
+                        disabled={ !isReady || selectedApplication.status === "APPROVED" || selectedApplication.status === "DENIED" || selectedApproval.status === "DENIED" || selectedApproval.status === "APPROVED"}
                       >
                         EDIT NOTES
                         </Button>

@@ -28,6 +28,7 @@ const LeaveApplications = React.memo(() => {
   const [noOfDaysApplied, setNoOfDaysApplied] = useState(0)
   const [leaveDateValid, setLeaveDateValid] = useState(false)
   const [selectedApplication, setSelectedApplication] = useState({})
+  const [hraManager, setHraManager] = useState({})
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -71,6 +72,26 @@ const LeaveApplications = React.memo(() => {
             setIsLoading(false)
           }
         })
+
+    // Approvers Data
+    fetch('http://localhost:3000/applicationform')
+    .then(res => res.json())
+    .then(data => {
+      let approverCode = data[0].data.approvers
+      let hraManager = [] 
+      fetch('http://localhost:3000/employee')
+        .then(res => res.json())
+        .then(data => {
+          data.map(indivData => {
+            if(indivData.code === approverCode.hra_manager){
+              return hraManager.push(indivData)
+            }
+          })
+        })
+        .then(() => {
+          setHraManager(hraManager[0])
+        })
+    })
   }
 
   const handleRefresh = () => {
@@ -401,6 +422,7 @@ const LeaveApplications = React.memo(() => {
                         data={applications}
                         refetch={refetch}
                         handleEdit={handleEdit}
+                        hraManager={hraManager}
                       />
                     </CardBody>
                   </Card>

@@ -124,7 +124,9 @@ const LeaveApplicationApproval = React.memo(() => {
   const handleRefresh = () => {
     setIsReady(false)
     setShowForm(false)
-
+    setHideSupervisorComments(true)
+    setHideProjectManagerComments(true)
+    setHideHraRemarks(true)
   }
 
   const handleShowForm = (data) => {
@@ -155,6 +157,8 @@ const LeaveApplicationApproval = React.memo(() => {
 
   const handleShowSupervisorComments = () => {
     setHideSupervisorComments(!hideSupervisorComments)
+    setHideProjectManagerComments(true)
+    setHideHraRemarks(true)
   }
 
   const handleEditSupervisorComments = () => {
@@ -166,6 +170,7 @@ const LeaveApplicationApproval = React.memo(() => {
     setSupervisorCommentsL2(selectedApplicationData.supervisor_commentL2)
     setHideSupervisorComments(!hideSupervisorComments)
     setHideProjectManagerComments(true)
+    setHideHraRemarks(true)
   }
 
   const handleSupervisorCommentsChange = (e) => {
@@ -189,10 +194,13 @@ const LeaveApplicationApproval = React.memo(() => {
     setProjectManagerComments(selectedApplicationData.project_manager_comment)
     setHideProjectManagerComments(!hideProjectManagerComments)
     setHideSupervisorComments(true)
+    setHideHraRemarks(true)
   }
 
   const handleShowProjectManagerComments = () => {
     setHideProjectManagerComments(!hideProjectManagerComments)
+    setHideSupervisorComments(true)
+    setHideHraRemarks(true)
   }
 
   const handleProjectManagerCommentsChange = (e) => {
@@ -217,6 +225,8 @@ const LeaveApplicationApproval = React.memo(() => {
 
   const handleShowHraRemarks = () => {
     setHideHraRemarks(!hideHraRemarks)
+    setHideSupervisorComments(true)
+    setHideProjectManagerComments(true)
   }
   
   const handlePreviousLeaveDateChange = (e) => {
@@ -585,7 +595,7 @@ const LeaveApplicationApproval = React.memo(() => {
       projSign = projectManager.signature
     }
 
-    if(selectedApplicationData.hra_remarksL1 === "" && empCode === hraManager.code) {
+    if(selectedApplication.application_data.hra_remarksL1 === "" && empCode === hraManager.code) {
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -593,7 +603,7 @@ const LeaveApplicationApproval = React.memo(() => {
       })
     }
 
-    if(selectedApplicationData.supervisor_commentL1 === "" && empCode === immediateSuperior.code){
+    if(selectedApplication.application_data.supervisor_commentL1 === "" && empCode === immediateSuperior.code){
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -601,7 +611,7 @@ const LeaveApplicationApproval = React.memo(() => {
       })
     }
 
-    if(selectedApplicationData.project_manager_comment === "" && empCode === projectManager.code){
+    if(selectedApplication.application_data.project_manager_comment === "" && empCode === projectManager.code){
       return Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -688,9 +698,9 @@ const LeaveApplicationApproval = React.memo(() => {
                   updatedAt: moment(new Date()).format("MM/DD/YYYY")
                 },
                 status: (
-                    (selectedApplication.application_data.immidiate_supervisor_manager_signature || immSign) &&
-                    (selectedApplication.application_data.project_manager_signature || projSign) &&
-                    (selectedApplication.application_data.hra_manager_signature || hraSign)
+                    (data.data.status === "APPROVED" && data.data.approver_id === hraManager.code ) &&
+                    (selectedApplication.application_data.supervisor_signature || immSign) &&
+                    (selectedApplication.application_data.project_manager_signature || projSign)
                     ? "APPROVED"
                     : "PROCESSING"
                 ),
@@ -702,6 +712,8 @@ const LeaveApplicationApproval = React.memo(() => {
             })
               .then(res => res.json())
               .then(data => {
+                refetch()
+                handleRefresh()
               })
             refetch()
             handleRefresh()
