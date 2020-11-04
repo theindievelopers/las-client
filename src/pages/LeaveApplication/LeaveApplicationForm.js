@@ -9,13 +9,15 @@ import {
   Input,
   FormText
 } from 'reactstrap';
+import LeaveApplicationStaff from './LeaveApplicationStaff';
 import LeaveApplicationWorker from './LeaveApplicationWorker';
 
 const LeaveApplicationForm = React.memo(({
   showForm, handleShowForm, isEdit, handleFilterEmployee, handleHideListEmployees, hideListEmployees, selectEmployeeForLeaveApplication,
   selectedEmployee, handleCountryDestinationChange, handleContactCountryDestinationChange, handleLeaveTypeChange,
   handleLeaveStartDate, handleLeaveEndDate, handleActualTravelDate, handleNoOfDaysApplied, handleDestination, submitWorker, noOfDaysApplied,
-  selectedApplication,
+  selectedApplication, handleOthersLeave, disableOtherLeave, handleOtherLeaveChange, submitStaff, handleNoOfDaysToEncashed, handlePreferredAirlines,
+  handleWife, handleChildren, handleDatesFrom, handleDatesTo, handleFamilyPrferredAirlines, handleMobileNoQatarChange,
   ...props
 }) => {
   return(
@@ -77,27 +79,76 @@ const LeaveApplicationForm = React.memo(({
             />
             :
             isEdit && selectedApplication.application_form_code === "LEAVE_STAFF_APPLICATION" ?
-            ""
-            :
-            selectedEmployee && selectedEmployee.employee_type === "worker" ?
-            <LeaveApplicationWorker 
-              selectedEmployee={selectedEmployee}
-              handleCountryDestinationChange={handleCountryDestinationChange}
-              handleContactCountryDestinationChange={handleContactCountryDestinationChange}
-              handleLeaveTypeChange={handleLeaveTypeChange}
-              handleLeaveStartDate={handleLeaveStartDate}
-              handleLeaveEndDate={handleLeaveEndDate}
-              handleActualTravelDate={handleActualTravelDate}
-              handleNoOfDaysApplied={handleNoOfDaysApplied}
-              handleDestination={handleDestination}
-              submitWorker={submitWorker}
-              isEdit={isEdit}
-              noOfDaysApplied={noOfDaysApplied}
-            />
-            :
-            selectedEmployee && selectedEmployee.employee_type === "staff" ?
-            "Staff"
-            : ""
+              <LeaveApplicationStaff 
+                selectedEmployee={selectedEmployee}
+                handleCountryDestinationChange={handleCountryDestinationChange}
+                handleContactCountryDestinationChange={handleContactCountryDestinationChange}
+                handleLeaveTypeChange={handleLeaveTypeChange}
+                handleLeaveStartDate={handleLeaveStartDate}
+                handleLeaveEndDate={handleLeaveEndDate}
+                handleActualTravelDate={handleActualTravelDate}
+                handleNoOfDaysApplied={handleNoOfDaysApplied}
+                handleOthersLeave={handleOthersLeave}
+                disableOtherLeave={disableOtherLeave}
+                handleOtherLeaveChange={handleOtherLeaveChange}
+                handleDestination={handleDestination}
+                submitStaff={submitStaff}
+                isEdit={isEdit}
+                noOfDaysApplied={noOfDaysApplied}
+                handleNoOfDaysToEncashed={handleNoOfDaysToEncashed}
+                handlePreferredAirlines={handlePreferredAirlines}
+                handleWife={handleWife}
+                handleChildren={handleChildren}
+                handleDatesFrom={handleDatesFrom}
+                handleDatesTo={handleDatesTo}
+                handleFamilyPrferredAirlines={handleFamilyPrferredAirlines}
+                handleMobileNoQatarChange={handleMobileNoQatarChange}
+                selectedApplication={selectedApplication}
+              />
+              :
+              selectedEmployee && selectedEmployee.employee_type === "worker" ?
+              <LeaveApplicationWorker 
+                selectedEmployee={selectedEmployee}
+                handleCountryDestinationChange={handleCountryDestinationChange}
+                handleContactCountryDestinationChange={handleContactCountryDestinationChange}
+                handleLeaveTypeChange={handleLeaveTypeChange}
+                handleLeaveStartDate={handleLeaveStartDate}
+                handleLeaveEndDate={handleLeaveEndDate}
+                handleActualTravelDate={handleActualTravelDate}
+                handleNoOfDaysApplied={handleNoOfDaysApplied}
+                handleDestination={handleDestination}
+                submitWorker={submitWorker}
+                isEdit={isEdit}
+                noOfDaysApplied={noOfDaysApplied}
+              />
+              :
+              selectedEmployee && selectedEmployee.employee_type === "staff" ?
+                <LeaveApplicationStaff 
+                  selectedEmployee={selectedEmployee}
+                  handleCountryDestinationChange={handleCountryDestinationChange}
+                  handleContactCountryDestinationChange={handleContactCountryDestinationChange}
+                  handleLeaveTypeChange={handleLeaveTypeChange}
+                  handleLeaveStartDate={handleLeaveStartDate}
+                  handleLeaveEndDate={handleLeaveEndDate}
+                  handleActualTravelDate={handleActualTravelDate}
+                  handleNoOfDaysApplied={handleNoOfDaysApplied}
+                  handleOthersLeave={handleOthersLeave}
+                  disableOtherLeave={disableOtherLeave}
+                  handleOtherLeaveChange={handleOtherLeaveChange}
+                  handleDestination={handleDestination}
+                  submitStaff={submitStaff}
+                  isEdit={isEdit}
+                  noOfDaysApplied={noOfDaysApplied}
+                  handleNoOfDaysToEncashed={handleNoOfDaysToEncashed}
+                  handlePreferredAirlines={handlePreferredAirlines}
+                  handleWife={handleWife}
+                  handleChildren={handleChildren}
+                  handleDatesFrom={handleDatesFrom}
+                  handleDatesTo={handleDatesTo}
+                  handleFamilyPrferredAirlines={handleFamilyPrferredAirlines}
+                  handleMobileNoQatarChange={handleMobileNoQatarChange}
+                />
+              : ""
           }
         </ModalBody>
       </Modal>

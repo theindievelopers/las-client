@@ -428,7 +428,8 @@ const Resignation = React.memo(() => {
         <Sidebar />
         <div className='main-panel'>
           <Topbar />
-          <div className='container'>
+          {/* <div className='container'> */}
+          <div className="px-5">
             <div className="text-center">
               <h1 className='col-lg-10 text-primary mt-5 py-3 ml-5'>Resignation</h1>
             </div>

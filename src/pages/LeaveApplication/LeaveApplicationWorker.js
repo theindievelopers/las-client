@@ -78,7 +78,7 @@ const LeaveApplicationWorker = React.memo(({
           <Col md={4}>
             <FormGroup>
               <Label>No. of days Applied:</Label>
-              <Input bsSize="sm" type="number" id="noOfDaysApplied" disabled={true} readOnly={true} placeholder="Contact no. in Country of Destination" onBlur={props.handleNoOfDaysApplied}
+              <Input bsSize="sm" type="number" id="noOfDaysApplied" disabled={true} readOnly={true} placeholder="No. of days Applied" onBlur={props.handleNoOfDaysApplied}
                 defaultValue={isEdit ? selectedApplication.application_data.no_of_days_applied : noOfDaysApplied} value={noOfDaysApplied}
               />
             </FormGroup>
@@ -96,7 +96,7 @@ const LeaveApplicationWorker = React.memo(({
         // disabled={props.isLoading ? true : false}
         onClick={submitWorker}>
         {isEdit ? "Update" : "Submit" }
-      </Button>
+        </Button>
       </div>
     </React.Fragment>
   )

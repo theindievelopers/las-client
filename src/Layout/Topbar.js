@@ -1,14 +1,33 @@
 import React, { useContext } from 'react';
 import { Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 import { CredsContext } from '../context/Context';
+import Swal from 'sweetalert2';
 
 const Topbar = () => {
   const { name } = useContext(CredsContext)
 
   const handleLogout = () => {
-    sessionStorage.clear();
-    localStorage.clear();
-    window.location.replace('#/login');
+    Swal.fire({
+      title: 'Are you sure you want to Logout?',
+      // text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: `Yes, Log me out`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Success!',
+          'Your are succesfully logged out.',
+          'success'
+          )
+          sessionStorage.clear();
+          localStorage.clear();
+          window.location.reload();
+          window.location.replace('#/login');
+      }
+    })
   };
 
   return (

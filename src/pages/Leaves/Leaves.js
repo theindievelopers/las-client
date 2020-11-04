@@ -904,7 +904,8 @@ const Leaves = React.memo(props => {
         <Sidebar />
         <div className="main-panel">
           <Topbar />
-          <div className="container">
+          {/* <div className="container"> */}
+          <div className="px-5">
             <div className="row justify-content-center">
               <div className="col-md-12 ">
                 <div className="text-center">

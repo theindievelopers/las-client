@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
@@ -400,7 +401,8 @@ const StaffRequisition = () => {
         <Sidebar />
         <div className='main-panel'>
           <Topbar />
-          <div className='content'>
+          {/* <div className='content'> */}
+          <div className="px-5">
             <div className="text-center">
               <h1 className='col-lg-10 text-primary mt-5 py-3 ml-5'>Staff Requisition</h1>
             </div>

@@ -1577,7 +1577,8 @@ const IncrementRequestApproval = React.memo(() => {
       <Sidebar />
       <div className="main-panel">
         <Topbar />
-        <div className="container">
+        {/* <div className="container"> */}
+        <div className="px-5">
           <div className="row justify-content-center">
             <div className="col-md-12 ">
               <Row style={{ padding: "30px 0 15px 0" }}>
@@ -1609,17 +1610,17 @@ const IncrementRequestApproval = React.memo(() => {
                   </Card>
                 </div>
               </Row>
-              <div className='col-lg-12 justify-content-center'>
-                <Card>
-                  <CardBody>
-                    <IncrementRequestApprovalTable 
-                      data={approvals}
-                      handleShowForm={handleShowForm}
-                      refetch={fetchData}
-                    />
-                  </CardBody>
-                </Card>
-              </div>
+            </div>
+            <div className='col-lg-12 justify-content-center'>
+              <Card>
+                <CardBody>
+                  <IncrementRequestApprovalTable 
+                    data={approvals}
+                    handleShowForm={handleShowForm}
+                    refetch={fetchData}
+                  />
+                </CardBody>
+              </Card>
             </div>
           </div>
         </div>

@@ -82,15 +82,11 @@ const Login = () => {
           const token = Buffer.from(`${data.data.employeecode}:${data.data.accesslvl}:${data.data.fullname}:true:${username}`, 'utf8').toString('base64')
           saveCreds(data.data.employeecode, data.data.accesslvl, data.data.fullname, true, username)
           sessionStorage.token = token
-          // if (data.data.accesslvl === 1) {
-          //   return window.location.replace('#/');
-          // } else if (data.data.accesslvl === 2) {
-          //   return window.location.replace('#/approvals');
-          // } else {
-          //   return window.location.replace('#/leaves');
-          // }
-        })
-        .then(()=> {
+          Swal.fire(
+            'Success!',
+            'Logged in successfully!',
+            'success'
+          )
           window.location.replace('#/');
         })
     }

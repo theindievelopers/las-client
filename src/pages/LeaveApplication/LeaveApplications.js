@@ -31,6 +31,16 @@ const LeaveApplications = React.memo(() => {
   const [leaveDateValid, setLeaveDateValid] = useState(false)
   const [selectedApplication, setSelectedApplication] = useState({})
   const [hraManager, setHraManager] = useState({})
+  const [disableOtherLeave, setDisableOtherLeave] = useState(true)
+  const [otherLeave, setOtherLeave] = useState("")
+  const [noOfDaysToEncashed, setNoOfDaysToEncashed] = useState(0)
+  const [preferredAirlines, setPreferredAirlines] = useState("")
+  const [wife, setWife] = useState(false)
+  const [children, setChildren] = useState(false)
+  const [datesFrom, setDatesFrom] = useState("")
+  const [datesTo, setDatesTo] = useState("")
+  const [familyPreferredAirlines, setFamilyPreferredAirlines] = useState("")
+  const [mobileNoQatar, setMobileNoQatar] = useState("")
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -56,7 +66,7 @@ const LeaveApplications = React.memo(() => {
           let processing = []
           data.map(indivData => {
             if (accessLevel === 1 || accessLevel === 3 || empCode === indivData.employee_code) {
-              if(indivData.application_form_code === "LEAVE_WORKER_APPLICATION")
+              if(indivData.application_form_code === "LEAVE_WORKER_APPLICATION" || indivData.application_form_code === "LEAVE_STAFF_APPLICATION")
                 if (indivData.status === "APPROVED") {
                   approved.push(indivData)
                 } else if (indivData.status === "DENIED") {
@@ -121,7 +131,21 @@ const LeaveApplications = React.memo(() => {
     setLeaveType(application.application_data.leave_type)
     setActualTravelDate(application.application_data.actual_travel_date)
     setDestination(application.application_data.destination)
+    setMobileNoQatar(application.application_data.mobile_no_qatar)
+    setNoOfDaysToEncashed(application.application_data.no_of_days_to_encashed)
+    setPreferredAirlines(application.application_data.preferred_airlines)
+    setWife(application.application_data.with_wife)
+    setChildren(application.application_data.with_children)
+    setDatesFrom(application.application_data.dates_from)
+    setDatesTo(application.application_data.dates_to)
+    setFamilyPreferredAirlines(application.application_data.family_preferred_airlines)
+    setOtherLeave(application.application_data.other_leave)
     setLeaveDateValid(true)
+    if(application.application_data.leave_type === "Others") {
+      setDisableOtherLeave(false)
+    } else {
+      setDisableOtherLeave(true)
+    }
   }
 
   const handleHideListEmployees = () => {
@@ -172,6 +196,16 @@ const LeaveApplications = React.memo(() => {
 
   const handleLeaveTypeChange = e => {
     setLeaveType(e.target.value)
+    if(e.target.value === "Others") {
+      setDisableOtherLeave(false)
+    } else {
+      setDisableOtherLeave(true)
+      setOtherLeave("")
+    }
+  }
+
+  const handleOtherLeaveChange = (e) => {
+    setOtherLeave(e.target.value)
   }
 
   const handleLeaveStartDate = e => {
@@ -214,6 +248,234 @@ const LeaveApplications = React.memo(() => {
 
   const handleDestination = e => {
     setDestination(e.target.value)
+  }
+
+  const handleMobileNoQatarChange = e => {
+    setMobileNoQatar(e.target.value)
+  }
+
+  const handleNoOfDaysToEncashed = e => {
+    setNoOfDaysToEncashed(parseInt(e.target.value, 10))
+  }
+
+  const handlePreferredAirlines = e => {
+    setPreferredAirlines(e.target.value)
+  }
+
+  const handleWife = (e) => {
+    setWife(e.target.checked)
+  }
+  
+  const handleChildren = (e) => {
+    setChildren(e.target.checked)
+  }
+  
+  const handleDatesFrom = (e) => {
+    setDatesFrom(e.target.value)
+  }
+
+  const handleDatesTo = (e) => {
+    setDatesTo(e.target.value)
+  }
+
+  const handleFamilyPrferredAirlines = (e) => {
+    setFamilyPreferredAirlines(e.target.value)
+  }
+
+  const submitStaff = () => {
+    if(!leaveDateValid){
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please make sure the leave start date and end date is valid!",
+      });
+    }
+    const creds = Buffer.from(`${username}:`, 'utf8').toString('base64')
+    if(isEdit){
+      fetch(`${config.baseURL}/application?id=${selectedApplication.id}`, {
+        method: 'put',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
+        body: JSON.stringify({
+          application_form_code: selectedApplication.application_form_code,
+          employee_code: selectedApplication.code,
+          application_data: {
+            name: selectedApplication.application_data.name,
+            employee_code: selectedApplication.application_data.employee_code,
+            nationality: selectedApplication.application_data.nationality,
+            department: selectedApplication.application_data.department,
+            designation: selectedApplication.application_data.designation,
+            joining_date: selectedApplication.application_data.joining_date,
+            country_of_destination: countryDestination,
+            contact_country_destination: contactCountryDestination,
+            mobile_no_qatar: mobileNoQatar,
+            leave_type: leaveType,
+            other_leave: otherLeave,
+            leave_starting_date: leaveStartDate,
+            leave_ending_date: leaveEndDate,
+            actual_travel_date: actualTravelDate,
+            no_of_days_applied: noOfDaysApplied,
+            no_of_days_to_encashed: noOfDaysToEncashed,
+            preferred_airlines: preferredAirlines,
+            with_wife: wife,
+            with_children: children,
+            dates_from: datesFrom,
+            dates_to: datesTo,
+            family_preferred_airlines: familyPreferredAirlines,
+            employee_signature: selectedApplication.application_data.employee_signature,
+            employee_signature_date: selectedApplication.application_data.employee_signature_date,
+            immediate_supervisor: selectedApplication.application_data.immediate_supervisor,
+            immediate_supervisor_commentL1: selectedApplication.application_data.immediate_supervisor_commentL1,
+            immediate_supervisor_commentL2: selectedApplication.application_data.immediate_supervisor_commentL2,
+            immediate_supervisor_signature: selectedApplication.application_data.immediate_supervisor_signature,
+            immediate_supervisor_sign_date: selectedApplication.application_data.immediate_supervisor_sign_date,
+            project_manager: selectedApplication.application_data.project_manager,
+            project_manager_commentL1: selectedApplication.application_data.project_manager_commentL1, 
+            project_manager_commentL2: selectedApplication.application_data.project_manager_commentL2,
+            project_manager_signature: selectedApplication.application_data.project_manager_signature,
+            project_manager_sign_date: selectedApplication.application_data.project_manager_sign_date,
+            previous_leave_date: selectedApplication.application_data.previous_leave_date,
+            previous_leave_type: selectedApplication.application_data.previous_leave_type,
+            previous_annual_leave: selectedApplication.application_data.previous_annual_leave,
+            rp_expiry_date: selectedApplication.application_data.rp_expiry_date,
+            passport_expiry_date: selectedApplication.application_data.passport_expiry_date,
+            accrued_leave_days: selectedApplication.application_data.accrued_leave_days,
+            ticket_entitlement_route: selectedApplication.application_data.ticket_entitlement_route,
+            released: selectedApplication.application_data.released,
+            family_ticket_entitlement: selectedApplication.application_data.family_ticket_entitlement,
+            ticket_wife: selectedApplication.application_data.ticket_wife,
+            ticket_children: selectedApplication.application_data.ticket_children,
+            hra_approved: selectedApplication.application_data.hra_approved,
+            hra_remarks: selectedApplication.application_data.hra_remarks,
+            hra_signature: selectedApplication.application_data.hra_signature,
+            hra_sign_date: selectedApplication.application_data.hra_sign_date,
+            coo_approved: selectedApplication.application_data.coo_approved,
+            coo_remarks: selectedApplication.application_data.coo_remarks,
+            coo_signature: selectedApplication.application_data.coo_signature,
+            coo_sign_date: selectedApplication.application_data.coo_sign_date,
+            ceo_approved: selectedApplication.application_data.ceo_approved,
+            ceo_remarks: selectedApplication.application_data.ceo_remarks,
+            ceo_signature: selectedApplication.application_data.ceo_signature,
+            ceo_sign_date: selectedApplication.application_data.ceo_sign_date,
+            createdBy: selectedApplication.application_data.createdBy,
+            createdAt: selectedApplication.application_data.createdAt,
+            updatedBy: name,
+            updatedAt: moment(new Date()).format("MM/DD/YYYY")
+          },
+          status: "PENDING",
+          createdBy: selectedApplication.createdBy,
+          createdAt: selectedApplication.createdAt,
+          updatedBy: name,
+          updatedAt: moment(new Date()).format("MM/DD/YYYY")
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `${data.error}`,
+            })
+          } else {
+            let newApplications = [...applications]
+            newApplications.push(data)
+            setApplications(newApplications)
+            handleRefresh()
+          }
+        })
+    } else {
+      fetch(`${config.baseURL}/application`, {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Basic ${creds}` },
+          body: JSON.stringify({
+            application_form_code: "LEAVE_STAFF_APPLICATION",
+            employee_code: selectedEmployee.code,
+            application_data: {
+              name: selectedEmployee.fullname,
+              employee_code: selectedEmployee.code,
+              nationality: selectedEmployee.nationality,
+              department: selectedEmployee.cost_allocation_site,
+              designation: selectedEmployee.cost_allocation_actual_job_title,
+              joining_date: selectedEmployee.joining_date,
+              country_of_destination: countryDestination,
+              contact_country_destination: contactCountryDestination,
+              mobile_no_qatar: mobileNoQatar,
+              leave_type: leaveType,
+              other_leave: otherLeave,
+              leave_starting_date: leaveStartDate,
+              leave_ending_date: leaveEndDate,
+              actual_travel_date: actualTravelDate,
+              no_of_days_applied: noOfDaysApplied,
+              no_of_days_to_encashed: noOfDaysToEncashed,
+              preferred_airlines: preferredAirlines,
+              with_wife: wife,
+              with_children: children,
+              dates_from: datesFrom,
+              dates_to: datesTo,
+              family_preferred_airlines: familyPreferredAirlines,
+              employee_signature: selectedEmployee.signature,
+              employee_signature_date: moment(new Date()).format("MM/DD/YYYY"),
+              immediate_supervisor: selectedEmployee.immediate_superior,
+              immediate_supervisor_commentL1: "",
+              immediate_supervisor_commentL2: "",
+              immediate_supervisor_signature: "",
+              immediate_supervisor_sign_date: "",
+              project_manager: selectedEmployee.project_manager,
+              project_manager_commentL1: "", 
+              project_manager_commentL2: "",
+              project_manager_signature: "",
+              project_manager_sign_date: "",
+              previous_leave_date: "",
+              previous_leave_type: "",
+              previous_annual_leave: "",
+              rp_expiry_date: selectedEmployee.residence_permit_expiry_date,
+              passport_expiry_date: selectedEmployee.passport_expiry_date,
+              accrued_leave_days: "",
+              ticket_entitlement_route: "",
+              released: "",
+              family_ticket_entitlement: "",
+              ticket_wife: "",
+              ticket_children: "",
+              hra_approved: "",
+              hra_remarks: "",
+              hra_signature: "",
+              hra_sign_date: "",
+              coo_approved: "",
+              coo_remarks: "",
+              coo_signature: "",
+              coo_sign_date: "",
+              ceo_approved: "",
+              ceo_remarks: "",
+              ceo_signature: "",
+              ceo_sign_date: "",
+              createdBy: name,
+              createdAt: moment(new Date()).format("MM/DD/YYYY"),
+              updatedBy: name,
+              updatedAt: moment(new Date()).format("MM/DD/YYYY")
+            },
+            status: "PENDING",
+            createdBy: name,
+            createdAt: moment(new Date()).format("MM/DD/YYYY"),
+            updatedBy: name,
+            updatedAt: moment(new Date()).format("MM/DD/YYYY")
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.error) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `${data.error}`,
+              })
+            } else {
+              let newApplications = [...applications]
+              newApplications.push(data)
+              setApplications(newApplications)
+              handleRefresh()
+            }
+          })
+    }
   }
 
   const submitWorker = () => {
@@ -402,13 +664,25 @@ const LeaveApplications = React.memo(() => {
             leaveEndDate={leaveEndDate}
             actualTravelDate={actualTravelDate}
             destination={destination}
+            disableOtherLeave={disableOtherLeave}
+            handleOtherLeaveChange={handleOtherLeaveChange}
+            submitStaff={submitStaff}
+            handleNoOfDaysToEncashed={handleNoOfDaysToEncashed}
+            handlePreferredAirlines={handlePreferredAirlines}
+            handleWife={handleWife}
+            handleChildren={handleChildren}
+            handleDatesFrom={handleDatesFrom}
+            handleDatesTo={handleDatesTo}
+            handleFamilyPrferredAirlines={handleFamilyPrferredAirlines}
+            handleMobileNoQatarChange={handleMobileNoQatarChange}
           />
         </div>
       </div>
         <Sidebar />
         <div className="main-panel">
           <Topbar />
-          <div className="container">
+          {/* <div className="container"> */}
+          <div className="px-5">
             <div className="row justify-content-center">
               <div className="col-md-12 ">
                 <div className="text-center">

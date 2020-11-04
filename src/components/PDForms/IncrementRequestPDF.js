@@ -184,7 +184,7 @@ const IncrementRequestPDF = ({ selectedApplication, applicationData, ceoCode, co
                   {applicationData.immediate_supervisor_name ? applicationData.immediate_supervisor_name : " "}
                 </Input1>
               </Row>
-              <Label1>Supervisor/Manager Justification:</Label1>
+              <Label1>Supervisor/Manager Notes:</Label1>
               <View style={{ marginLeft: 10 }}>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 240, paddingLeft: 3, paddingTop: 10 }}>
                   {applicationData.supervisor_notesL1 ? applicationData.supervisor_notesL1 : " "}

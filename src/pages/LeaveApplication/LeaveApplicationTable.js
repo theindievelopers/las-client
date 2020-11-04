@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import MaterialTable from 'material-table';
 import { PDFViewer } from '@react-pdf/renderer';
-import StaffPDF from '../../components/PDForms/StaffPDF';
 import LeaveApplicationWorkerPDF from '../../components/PDForms/LeaveApplicationWorkerPDF';
+import LeaveApplicationStaffPDF from '../../components/PDForms/LeaveApplicationStaffPDF';
 
 class LeaveApplicationTable extends Component {
   state = {
@@ -59,7 +59,10 @@ class LeaveApplicationTable extends Component {
         data={this.props.data}
         detailPanel={[
           rowData => ({
-            icon: props => <i className="far fa-file-pdf"></i>,
+            icon: props => 
+            // <span class="material-icons">picture_as_pdf</span>
+            <i className="far fa-file-pdf"></i>
+            ,
             tooltip: 'Show PDF',
             disabled: rowData.status === "DENIED" || rowData.status === "PROCESSING" || rowData.status === "REVIEW",
             render: rowData => {
@@ -78,72 +81,19 @@ class LeaveApplicationTable extends Component {
                     />
                   </PDFViewer>
                 )
-              } else if (rowData.application_form_code === "LEAVE_STAFF") {
-              return (
-                <PDFViewer
-                  width="500px" height="850px"
-                >
-                  <StaffPDF
-                    applicationData={appData}
-                    name={appData.name}
-                    department={appData.project}
-                    employeeNum={appData.employee_code}
-                    position={appData.position}
-                    departureDate={appData.departure_date}
-                    returnDate={appData.return_date}
-                    contactNum={appData.contact_number}
-                    typeOfLeave={appData.leave_type}
-                    handOverSuccessor={appData.handover_briefing_to_successor}
-                    handOverSuccessorName={appData.handover_briefing_to_successor_employee_name}
-                    handOverSuccessorCode={appData.handover_briefing_to_successor_employee_code}
-                    handOverDocsCode={appData.handover_documents_employee_code}
-                    handOverDocsName={appData.handover_documents_employee_name}
-                    handOverDocs={appData.handover_documents}
-                    itemIssued={appData.items_issued}
-                    itemIssued2={appData.items_issued2}
-                    itemIssued3={appData.items_issued3}
-                    itemIssued4={appData.items_issued4}
-                    itemRemarks={appData.remarks}
-                    itemRemarks2={appData.remarks2}
-                    itemRemarks3={appData.remarks3}
-                    itemRemarks4={appData.remarks4}
-                    recievedTicket={appData.receive_ticket}
-                    recievedSettlement={appData.receive_settlement}
-                    recievedOthers={appData.receive_others}
-                    recievedOthersRemarks={appData.receive_others_remarks}
-                    leaveFrom={appData.leave_from}
-                    leaveTo={appData.leave_to}
-                    backOn={appData.be_back_on}
-                    employeeSignature={appData.employee_signature}
-                    employeeSignDate={appData.employee_signature_date}
-                    airportDepartureDate={appData.airport_transportation_departure_date}
-                    airportArrivalDate={appData.airport_transportation_arrival_date}
-                    airportAccommodation={appData.airport_transportation_accommodation}
-                    airportMobile={appData.airport_transportation_mobile_number}
-                    ceoSign={appData.ceo_signature_and_date}
-                    cooSign={appData.coo_signature_and_date}
-                    acctSign={appData.accounting_department_signature_and_date}
-                    hraSign={appData.hr_manager_signature_and_date}
-                    logisticsSign={appData.logistics_officer_signature_and_date}
-                    accountingCode={this.props.accounting.code}
-                    ceoCode={this.props.ceo.code}
-                    cooCode={this.props.coo.code}
-                    hraManagerCode={this.props.hraManager.code}
-                    logisticsOfficerCode={this.props.logisticsOfficer.code}
-                    projectManagerCode={appData.project_manager}
-                    immediateSuperiorCode={appData.immediate_supervisor}
-                    immidiateSupSign={appData.immidiate_supervisor_manager_signature_and_date}
-                    projectManagerSign={appData.project_manager_signature_and_date}
-                    ceoSignDate={appData.ceo_sign_date}
-                    cooSignDate={appData.coo_sign_date}
-                    acctSignDate={appData.accounting_dept_sign_date}
-                    hraSignDate={appData.hr_manager_sign_date}
-                    logisticsSignDate={appData.logistics_officer_sign_date}
-                    immidiateSupSignDate={appData.immidiate_supervisor_sign_date}
-                    projectManagerSignDate={appData.project_manager_sign_date}
-                  />
-                </PDFViewer>
-              )}
+              } else if (rowData.application_form_code === "LEAVE_STAFF_APPLICATION") {
+                return (
+                  <PDFViewer
+                    width="500px" height="850px"
+                  >
+                    <LeaveApplicationStaffPDF
+                      applicationData={appData}
+                      selectedApplication={rowData}
+
+                    />
+                  </PDFViewer>
+                )
+              }
             },
           }),
         ]}

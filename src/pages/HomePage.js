@@ -7,6 +7,8 @@ import { CredsContext } from '../context/Context'
 import { Card, CardBody, CardTitle, CardText, Badge } from "reactstrap";
 import { Link } from "react-router-dom";
 import { config } from '../config/config';
+import { PDFViewer } from '@react-pdf/renderer';
+import LeaveApplicationStaffPDF from '../components/PDForms/LeaveApplicationStaffPDF';
 
 const HomePage = (props) => {
 
@@ -20,7 +22,6 @@ const HomePage = (props) => {
     if (!isLoggedIn) {
       window.location.replace('#/login')
     }
-    console.log(config)
     fetch(`${config.baseURL}/approvals`)
       .then(res => res.json())
       .then(data => {
@@ -68,10 +69,10 @@ const HomePage = (props) => {
             if(indivData.application_type === "INCREMENT_REQUEST" && indivData.status === "REVIEW"){
               incrementRequestReview++
             }
-            if(indivData.application_type === "LEAVE_WORKER_APPLICATION" && indivData.status === "PENDING"){
+            if((indivData.application_type === "LEAVE_WORKER_APPLICATION" || indivData.application_type === "LEAVE_STAFF_APPLICATION") && indivData.status === "PENDING"){
               leaveApplicationPending++
             }
-            if(indivData.application_type === "LEAVE_WORKER_APPLICATION" && indivData.status === "REVIEW"){
+            if((indivData.application_type === "LEAVE_WORKER_APPLICATION" || indivData.application_type === "LEAVE_STAFF_APPLICATION") && indivData.status === "REVIEW"){
               leaveApplicationReview++
             }
           }
@@ -174,6 +175,14 @@ const HomePage = (props) => {
                   : ""
                 }
               </div>
+              {/* <div>
+                {isReady ?
+                  <PDFViewer width="500px" height="850px">
+                    <LeaveApplicationStaffPDF />
+                  </PDFViewer>
+                  : ""
+                }
+              </div> */}
             </div>
           </div>
         </div>

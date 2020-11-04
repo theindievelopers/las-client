@@ -804,3 +804,22 @@ remarks4: "qwe"
 return_date: "2020-09-02"
 updatedat: "08-26-2020"
 updatedby: "Roronoa Zoro"
+
+
+
+
+              {/* {selectedApplication.application_form_code === "LEAVE_STAFF_APPLICATION" ? 
+                <ApprovalformStaff 
+                  selectedApplicationData={selectedApplicationData}
+                  isReady={isReady}
+                  selectedApplication={selectedApplication}
+                  selectedApproval={selectedApproval}
+                  hideSupervisorComments={hideSupervisorComments}
+                  handleSupervisorCommentsChange={handleSupervisorCommentsChange}
+                  isEdit={isEdit}
+                  supervisorComments={supervisorComments}
+                  handleSaveSupervisorComments={handleSaveSupervisorComments}
+                  handleShowSupervisorComments={handleShowSupervisorComments}
+                />
+                :
+                selectedApplication.application_form_code === "LEAVE_WORKER_APPLICATION" ? */}
