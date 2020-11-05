@@ -1422,15 +1422,18 @@ const LeaveApplicationApproval = React.memo(() => {
                   }
                 ),
                 status: (
-                    // (data.data.status === "APPROVED" && data.data.approver_id === hraManager.code ) &&
-                    // (selectedApplication.application_data.supervisor_signature || immSign) &&
-                    // (selectedApplication.application_data.project_manager_signature || projSign)
-                    selectedApplication.application_data.project_manager && selectedApplication.application_data.immediate_supervisor &&
-                    (selectedApplication.application_data.immidiate_supervisor_manager_signature_and_date || immSign) &&
-                    (selectedApplication.application_data.project_manager_signature_and_date || projSign) &&
-                    (selectedApplication.application_data.hr_manager_signature_and_date || hraSign) &&
-                    (selectedApplication.application_data.coo_signature_and_date || cooSign) &&
-                    (selectedApplication.application_data.ceo_signature_and_date || ceoSign)
+                  (selectedApplication.application_form_code === "LEAVE_WORKER_APPLICATION" ?
+                      (data.data.status === "APPROVED" && data.data.approver_id === hraManager.code ) &&
+                      (selectedApplication.application_data.project_manager_signature || projSign) &&	                    
+                      (selectedApplication.application_data.supervisor_signature || immSign)
+                    :
+                      data.data.status === "APPROVED" &&
+                      (selectedApplication.application_data.immediate_supervisor_signature || immSign) &&
+                      (selectedApplication.application_data.project_manager_signature || projSign) &&
+                      (selectedApplication.application_data.hra_signature || hraSign) &&
+                      (selectedApplication.application_data.coo_signature || cooSign) &&
+                      (selectedApplication.application_data.ceo_signature || ceoSign)
+                  )
                     ? "APPROVED"
                     : "PROCESSING"
                 ),

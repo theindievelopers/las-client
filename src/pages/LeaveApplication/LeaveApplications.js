@@ -31,6 +31,8 @@ const LeaveApplications = React.memo(() => {
   const [leaveDateValid, setLeaveDateValid] = useState(false)
   const [selectedApplication, setSelectedApplication] = useState({})
   const [hraManager, setHraManager] = useState({})
+  const [ceo, setCeo] = useState({})
+  const [coo, setCoo] = useState({})
   const [disableOtherLeave, setDisableOtherLeave] = useState(true)
   const [otherLeave, setOtherLeave] = useState("")
   const [noOfDaysToEncashed, setNoOfDaysToEncashed] = useState(0)
@@ -91,6 +93,8 @@ const LeaveApplications = React.memo(() => {
     .then(data => {
       let approverCode = data[0].data.approvers
       let hraManager = [] 
+      let ceo = []
+      let coo = []
       fetch(`${config.baseURL}/employee`)
         .then(res => res.json())
         .then(data => {
@@ -98,10 +102,18 @@ const LeaveApplications = React.memo(() => {
             if(indivData.code === approverCode.hra_manager){
               return hraManager.push(indivData)
             }
+            if (indivData.code === approverCode.ceo) {
+              ceo.push(indivData)
+            }
+            if (indivData.code === approverCode.coo) {
+              coo.push(indivData)
+            }
           })
         })
         .then(() => {
           setHraManager(hraManager[0])
+          setCeo(ceo[0])
+          setCoo(coo[0])
         })
     })
   }
@@ -699,6 +711,8 @@ const LeaveApplications = React.memo(() => {
                         refetch={refetch}
                         handleEdit={handleEdit}
                         hraManager={hraManager}
+                        ceo={ceo}
+                        coo={coo}
                       />
                     </CardBody>
                   </Card>

@@ -89,7 +89,11 @@ class LeaveApplicationTable extends Component {
                     <LeaveApplicationStaffPDF
                       applicationData={appData}
                       selectedApplication={rowData}
-
+                      hraManagerCode={this.props.hraManager.code}
+                      projectManagerCode={appData.project_manager}
+                      immediateSuperiorCode={appData.immediate_supervisor}
+                      ceoCode={this.props.ceo.code}
+                      cooCode={this.props.coo.code}
                     />
                   </PDFViewer>
                 )

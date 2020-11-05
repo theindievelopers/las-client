@@ -550,7 +550,7 @@ const LeaveApplicationStaffPDF = ({ selectedApplication, applicationData, ceoCod
               <Row>
                 <Label1 style={{ marginLeft: 0, marginTop: 17 }}>Signature:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 121, paddingLeft: 3, marginLeft: 3 }}>
-                  {applicationData && applicationData.hra_signature ?
+                  {applicationData && applicationData.hra_signature && hraManagerCode ?
                     <Text style={{ textAlign: "center", fontSize: 9, width: 100, marginTop: 38 }}>
                       <Image source={`${config.baseURL}/fetch/signature?code=` + hraManagerCode} style={{width: 130, height: 20}}/>
                     </Text>
@@ -599,7 +599,7 @@ const LeaveApplicationStaffPDF = ({ selectedApplication, applicationData, ceoCod
               <Row>
                 <Label1 style={{ marginLeft: 0, marginTop: 17 }}>Signature:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 121, paddingLeft: 3, marginLeft: 3 }}>
-                  {applicationData && applicationData.coo_signature ?
+                  {applicationData && applicationData.coo_signature && cooCode ?
                     <Text style={{ textAlign: "center", fontSize: 9, width: 100, marginTop: 38 }}>
                       <Image source={`${config.baseURL}/fetch/signature?code=` + cooCode} style={{width: 130, height: 20}}/>
                     </Text>
@@ -648,7 +648,7 @@ const LeaveApplicationStaffPDF = ({ selectedApplication, applicationData, ceoCod
               <Row>
                 <Label1 style={{ marginLeft: 0, marginTop: 16 }}>Signature:</Label1>
                 <Input1 style={{ borderBottom: 1, alignContent: 'center', width: 121, paddingLeft: 3, marginLeft: 3 }}>
-                  {applicationData && applicationData.ceo_signature ?
+                  {applicationData && applicationData.ceo_signature && ceoCode ?
                     <Text style={{ textAlign: "center", fontSize: 9, width: 100, marginTop: 38 }}>
                       <Image source={`${config.baseURL}/fetch/signature?code=` + ceoCode} style={{width: 130, height: 20}}/>
                     </Text>
